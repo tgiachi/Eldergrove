@@ -100,25 +100,29 @@ public class DataLoaderService : IDataLoaderService
         _dataTypes.Add(name, typeof(T));
     }
 
-    public void SubscribeData<T>(Func<IEnumerable<T>, Task> action) where T : class
+    public void SubscribeData<T>(Func<T, Task> action) where T : class
     {
         if (_subscribers.ContainsKey(typeof(T)))
         {
-            _subscribers[typeof(T)].Add(async data => await action((IEnumerable<T>)data));
+            _subscribers[typeof(T)].Add(async data => await action((T)data));
         }
         else
         {
-            _subscribers.Add(typeof(T), [async data => await action((IEnumerable<T>)data)]);
+            _subscribers.Add(typeof(T), [async data => await action((T)data)]);
         }
     }
 
     private async Task NotifySubscribers<T>(IEnumerable<T> data)
     {
-        if (_subscribers.ContainsKey(typeof(T)))
+        var type = data.ToArray()[0].GetType();
+        if (_subscribers.TryGetValue(type, out var subscriber1))
         {
-            foreach (var subscriber in _subscribers[typeof(T)])
+            foreach (var subscriber in subscriber1)
             {
-                await subscriber(data);
+                foreach (var item in data)
+                {
+                    await subscriber(item);
+                }
             }
         }
     }

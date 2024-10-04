@@ -30,6 +30,14 @@ public class DataLoaderTests
     [Test]
     public async Task LoadTests()
     {
+        _dataLoaderService.SubscribeData<TileSetObject>(
+            objects =>
+            {
+                Assert.That(objects.Id, Is.Not.Null);
+                return Task.CompletedTask;
+            }
+        );
+
         await _dataLoaderService.StartAsync();
 
         Assert.Pass();
@@ -43,7 +51,7 @@ public class DataLoaderTests
     }
 
 
-    private void CopyDataFiles(string destination)
+    private static void CopyDataFiles(string destination)
     {
         var source = Path.Join(Directory.GetCurrentDirectory(), "Data");
 
