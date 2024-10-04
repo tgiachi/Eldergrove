@@ -13,6 +13,8 @@ public class DataLoaderService : IDataLoaderService
 
     private readonly Dictionary<string, List<object>> _loadedData = new();
 
+    private readonly Dictionary<Type, List<Func<object, Task>>> _subscribers = new();
+
     private readonly Dictionary<string, Type> _dataTypes = new();
 
     private readonly string _typeToken = "$type";
@@ -34,6 +36,11 @@ public class DataLoaderService : IDataLoaderService
         {
             _logger.Debug("Loading file {File}", file);
             await LoadJsonDataFileAsync(file);
+        }
+
+        foreach (var data in _loadedData)
+        {
+            await NotifySubscribers(data.Value);
         }
     }
 
@@ -91,5 +98,28 @@ public class DataLoaderService : IDataLoaderService
     public void AddDataType<T>(string name) where T : class
     {
         _dataTypes.Add(name, typeof(T));
+    }
+
+    public void SubscribeData<T>(Func<IEnumerable<T>, Task> action) where T : class
+    {
+        if (_subscribers.ContainsKey(typeof(T)))
+        {
+            _subscribers[typeof(T)].Add(async data => await action((IEnumerable<T>)data));
+        }
+        else
+        {
+            _subscribers.Add(typeof(T), [async data => await action((IEnumerable<T>)data)]);
+        }
+    }
+
+    private async Task NotifySubscribers<T>(IEnumerable<T> data)
+    {
+        if (_subscribers.ContainsKey(typeof(T)))
+        {
+            foreach (var subscriber in _subscribers[typeof(T)])
+            {
+                await subscriber(data);
+            }
+        }
     }
 }

@@ -60,7 +60,7 @@ public class DataLoaderTests
             }
             catch (Exception e)
             {
-                Log.Error(e, "Failed to copy file {File}", file);
+                //   Log.Error(e, "Failed to copy file {File}", file);
             }
         }
     }
