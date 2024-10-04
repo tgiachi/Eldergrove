@@ -10,6 +10,27 @@ public class DirectoryConfig
     public DirectoryConfig(string rootDirectory)
     {
         RootDirectory = rootDirectory;
+
+        CheckDirectories();
+    }
+
+
+    private void CheckDirectories()
+    {
+        if (!Directory.Exists(RootDirectory))
+        {
+            Directory.CreateDirectory(RootDirectory);
+        }
+
+        foreach (var directoryType in Enum.GetValues<DirectoryType>())
+        {
+            var directory = GetDirectory(directoryType);
+
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+        }
     }
 
     public string GetDirectory(DirectoryType directoryType) =>
