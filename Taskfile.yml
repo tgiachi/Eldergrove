@@ -1,0 +1,19 @@
+version: 3
+
+tasks:
+  default:
+    cmds:
+      - echo "Hello, World!"
+    deps:
+      - build
+      - test
+      - deploy
+  build:
+    cmds:
+      - echo "Building..."
+  test:
+    cmds:
+      - echo "Testing..."
+  deploy:
+    cmds:
+      - echo "Deploying..."
