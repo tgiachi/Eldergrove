@@ -33,6 +33,9 @@ public class DirectoryConfig
         }
     }
 
+    public string this[DirectoryType directoryType] => GetDirectory(directoryType);
+
+
     public string GetDirectory(DirectoryType directoryType) =>
         Path.Join(RootDirectory, directoryType.ToString().ToSnakeCase());
 }
