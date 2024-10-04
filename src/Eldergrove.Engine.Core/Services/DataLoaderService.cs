@@ -27,7 +27,7 @@ public class DataLoaderService : IDataLoaderService
 
     public async Task StartAsync()
     {
-        var files = DirectoriesUtils.ScanDirectory(_directoryConfig[DirectoryType.Scripts], "*.json").ToArray();
+        var files = DirectoriesUtils.ScanDirectory(_directoryConfig[DirectoryType.Data], "*.json").ToArray();
         _logger.Information("Found {FileCount} files to load", files.Length);
 
         foreach (var file in files)
@@ -40,6 +40,7 @@ public class DataLoaderService : IDataLoaderService
 
     private async Task LoadJsonDataFileAsync(string fileName)
     {
+        _logger.Information("Loading file {FileName}", fileName);
         var fileStream = File.OpenRead(fileName);
         var json = (await JsonDocument.ParseAsync(fileStream));
 

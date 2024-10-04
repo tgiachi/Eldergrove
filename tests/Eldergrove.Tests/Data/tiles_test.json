@@ -1,2 +1,10 @@
-{
-}
+[
+  {
+    "$type": "tileset",
+    "id": "tileset1"
+  },
+  {
+    "$type": "tileset",
+    "id": "tileset2"
+  }
+]

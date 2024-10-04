@@ -26,4 +26,10 @@
       <ProjectReference Include="..\..\src\Eldergrove.Engine.Core\Eldergrove.Engine.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Data\**\*">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
