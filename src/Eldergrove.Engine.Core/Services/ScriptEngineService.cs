@@ -5,10 +5,9 @@ using Eldergrove.Engine.Core.Data.Internal;
 using Eldergrove.Engine.Core.Data.Scripts;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Types;
-using Eldergrove.Engine.Core.Utils;
 using Jint;
 using Serilog;
-using Serilog.Core;
+
 
 namespace Eldergrove.Engine.Core.Services;
 
@@ -19,11 +18,10 @@ public class ScriptEngineService : IScriptEngineService
     private readonly Jint.Engine _engine;
     private readonly Dictionary<string, object> _scriptConstants = new();
 
-    private readonly List<ScriptClassData> _scriptModules = new();
-
+    private readonly List<ScriptClassData> _scriptModules;
     private readonly DirectoryConfig _directoryConfig;
 
-    //private readonly IServiceProvider _container;
+    private readonly IServiceProvider _container;
 
     private readonly string _fileExtension = "*.js";
 
@@ -33,17 +31,20 @@ public class ScriptEngineService : IScriptEngineService
     public Task<string> GenerateTypeDefinitionsAsync() => throw new NotImplementedException();
 
 
-    public ScriptEngineService(DirectoryConfig directoryConfig)
+    public ScriptEngineService(
+        DirectoryConfig directoryConfig, List<ScriptClassData> scriptModules, IServiceProvider container
+    )
     {
         _directoryConfig = directoryConfig;
+        _scriptModules = scriptModules;
+        _container = container;
         _engine = new Jint.Engine(
             options =>
             {
                 options.DebugMode(true);
-                //options.TimeoutInterval(TimeSpan.FromSeconds(4));
+                options.TimeoutInterval(TimeSpan.FromSeconds(10));
                 // Limit the memory to 4Gb
                 options.LimitMemory(4_000_000_000);
-
 
                 options.EnableModules(_directoryConfig[DirectoryType.ScriptsModules]);
                 options.StringCompilationAllowed = true;
@@ -74,7 +75,7 @@ public class ScriptEngineService : IScriptEngineService
 
             try
             {
-                var obj = Activator.CreateInstance(module.ClassType);
+                var obj = _container.GetService(module.ClassType);
 
                 foreach (var scriptMethod in module.ClassType.GetMethods())
                 {
@@ -124,7 +125,7 @@ public class ScriptEngineService : IScriptEngineService
         {
             FunctionName = attribute.Alias ?? methodInfo.Name,
             Help = attribute.Help,
-            Parameters = new List<ScriptFunctionParameterDescriptor>(),
+            Parameters = [],
             ReturnType = methodInfo.ReturnType.Name,
             RawReturnType = methodInfo.ReturnType
         };

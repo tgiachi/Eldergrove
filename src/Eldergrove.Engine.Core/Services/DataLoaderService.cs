@@ -21,9 +21,14 @@ public class DataLoaderService : IDataLoaderService
 
     private readonly DirectoryConfig _directoryConfig;
 
-    public DataLoaderService(DirectoryConfig directoryConfig)
+    public DataLoaderService(DirectoryConfig directoryConfig, List<DataLoaderType> dataTypes)
     {
         _directoryConfig = directoryConfig;
+
+        foreach (var dataType in dataTypes)
+        {
+            _dataTypes.Add(dataType.Name, dataType.ClassType);
+        }
     }
 
 
@@ -97,6 +102,7 @@ public class DataLoaderService : IDataLoaderService
 
     public void AddDataType<T>(string name) where T : class
     {
+        _logger.Debug("Adding data type {Name}", name);
         _dataTypes.Add(name, typeof(T));
     }
 

@@ -11,6 +11,11 @@ public class DirectoryConfig
     {
         RootDirectory = rootDirectory;
 
+        if (string.IsNullOrWhiteSpace(RootDirectory))
+        {
+            RootDirectory = Path.Join(Directory.GetCurrentDirectory(), "Eldergrove");
+        }
+
         CheckDirectories();
     }
 
