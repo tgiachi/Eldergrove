@@ -23,7 +23,7 @@ public class ScriptEngineService : IScriptEngineService
 
     private readonly IServiceProvider _container;
 
-    private readonly string _fileExtension = "*.js";
+    private const string _fileExtension = "*.js";
 
     public List<ScriptFunctionDescriptor> Functions { get; } = new();
 

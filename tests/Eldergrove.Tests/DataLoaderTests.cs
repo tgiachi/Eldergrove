@@ -22,7 +22,7 @@ public class DataLoaderTests
 
         CopyDataFiles(directoryConfig[DirectoryType.Data]);
 
-        _dataLoaderService = new DataLoaderService(directoryConfig);
+        _dataLoaderService = new DataLoaderService(directoryConfig, new());
 
         _dataLoaderService.AddDataType<TileSetObject>("tileset");
     }
