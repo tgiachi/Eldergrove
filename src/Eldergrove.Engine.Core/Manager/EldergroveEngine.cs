@@ -2,6 +2,7 @@ using Eldergrove.Engine.Core.Data.Internal;
 using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.Interfaces.Manager;
 using Eldergrove.Engine.Core.Interfaces.Services;
+using Eldergrove.Engine.Core.Interfaces.Services.Base;
 using Eldergrove.Engine.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -40,8 +41,6 @@ public class EldergroveEngine : IEldergroveEngine
 
     private void RegisterServices()
     {
-
-
         _serviceCollection
             .AddDefaultJsonSettings()
             .AddSingleton(_directoryConfig)
@@ -51,9 +50,14 @@ public class EldergroveEngine : IEldergroveEngine
     }
 
 
-    public Task InitializeAsync()
+    public async Task InitializeAsync()
     {
-        return Task.CompletedTask;
+        var services = _serviceProvider.GetServices<IEldergroveService>();
+
+        foreach (var service in services)
+        {
+            await service.StartAsync();
+        }
     }
 
     public Task StartAsync()

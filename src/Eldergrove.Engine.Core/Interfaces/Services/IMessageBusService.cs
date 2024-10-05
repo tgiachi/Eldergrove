@@ -1,8 +1,9 @@
+using Eldergrove.Engine.Core.Interfaces.Services.Base;
 using GoRogue.Messaging;
 
 namespace Eldergrove.Engine.Core.Interfaces.Services;
 
-public interface IMessageBusService
+public interface IMessageBusService : IEldergroveService
 {
     void Subscribe<T>(ISubscriber<T> action) where T : class;
 

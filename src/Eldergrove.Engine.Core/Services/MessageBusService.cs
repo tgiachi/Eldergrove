@@ -17,6 +17,7 @@ public class MessageBusService : IMessageBusService
         {
             throw new ArgumentNullException(nameof(message));
         }
+
         _logger.Debug("Publishing message {Message}", message.GetType());
         _messageBus.Send(message);
     }
@@ -27,8 +28,12 @@ public class MessageBusService : IMessageBusService
         {
             throw new ArgumentNullException(nameof(action));
         }
+
         _logger.Debug("Subscribing to message {Message}", typeof(T));
         _messageBus.RegisterSubscriber<T>(action);
     }
 
+    public Task StartAsync() => Task.CompletedTask;
+
+    public Task StopAsync() => Task.CompletedTask;
 }
