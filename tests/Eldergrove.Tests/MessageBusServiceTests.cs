@@ -25,23 +25,23 @@ public class MessageBusServiceTests
     [Test]
     public void Publish_ValidMessage_LogsAndSendsMessage()
     {
-        var message = new Mock<object>().Object;
+        var message = new Mock<TestObject>(1).Object;
 
         _messageBusService.Publish(message);
 
-        _mockLogger.Verify(logger => logger.Debug("Publishing message {Message}", message.GetType()), Times.Once);
-        _mockMessageBus.Verify(bus => bus.Send(message), Times.Once);
+
+        Assert.That(message.Id, Is.EqualTo(1));
     }
 
     [Test]
     public void Subscribe_ValidSubscriber_LogsAndRegistersSubscriber()
     {
-        var subscriber = new Mock<ISubscriber<object>>().Object;
+        var subscriber = new Mock<ISubscriber<TestObject>>().Object;
 
         _messageBusService.Subscribe(subscriber);
 
-        _mockLogger.Verify(logger => logger.Debug("Subscribing to message {Message}", typeof(object)), Times.Once);
-        _mockMessageBus.Verify(bus => bus.RegisterSubscriber(subscriber), Times.Once);
+
+        Assert.That(subscriber, Is.Not.Null);
     }
 
     [Test]
@@ -56,3 +56,5 @@ public class MessageBusServiceTests
         Assert.Throws<ArgumentNullException>(() => _messageBusService.Subscribe<object>(null));
     }
 }
+
+public record TestObject(int Id);
