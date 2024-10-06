@@ -57,7 +57,9 @@ public class EldergroveEngine : IEldergroveEngine
             .RegisterScriptModule<LoggerModule>()
             .RegisterScriptModule<ScriptModule>()
             .RegisterScriptModule<ActionCommandModule>()
-            .RegisterScriptModule<NamesGeneratorModule>();
+            .RegisterScriptModule<NamesGeneratorModule>()
+            .RegisterScriptModule<ColorsModule>()
+            ;
     }
 
     private void RegisterDataLoaders()
