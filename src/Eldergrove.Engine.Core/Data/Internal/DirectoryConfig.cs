@@ -16,6 +16,8 @@ public class DirectoryConfig
             RootDirectory = Path.Join(Directory.GetCurrentDirectory(), "Eldergrove");
         }
 
+
+
         CheckDirectories();
     }
 

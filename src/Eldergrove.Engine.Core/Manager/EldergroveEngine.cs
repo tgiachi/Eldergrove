@@ -25,8 +25,12 @@ public class EldergroveEngine : IEldergroveEngine
     public EldergroveEngine(EldergroveOptions options)
     {
         _options = options;
-        _directoryConfig = new DirectoryConfig(_options.RootDirectory);
+
         ConfigureLogger();
+        _directoryConfig = new DirectoryConfig(_options.RootDirectory);
+
+        _logger.Debug("Root directory set to {RootDirectory}", _options.RootDirectory);
+
         RegisterServices();
         RegisterScriptModules();
         RegisterDataLoaders();
@@ -80,7 +84,7 @@ public class EldergroveEngine : IEldergroveEngine
             }
 
 
-            Log.Logger.Information("Starting service {ServiceType}", s.ServiceType);
+            Log.Logger.Information("Starting service {ServiceType}", s.ServiceType.Name);
             await service.StartAsync();
         }
     }
