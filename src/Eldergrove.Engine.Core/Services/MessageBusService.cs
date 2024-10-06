@@ -1,9 +1,12 @@
+using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using GoRogue.Messaging;
 using Serilog;
 
 namespace Eldergrove.Engine.Core.Services;
 
+
+[AutostartService(0)]
 public class MessageBusService : IMessageBusService
 {
     private readonly MessageBus _messageBus = new();

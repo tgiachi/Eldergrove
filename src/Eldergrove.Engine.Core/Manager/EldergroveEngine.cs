@@ -1,8 +1,10 @@
 using Eldergrove.Engine.Core.Data.Internal;
+using Eldergrove.Engine.Core.Data.Json.TileSet;
 using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.Interfaces.Manager;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Interfaces.Services.Base;
+using Eldergrove.Engine.Core.ScriptsModules;
 using Eldergrove.Engine.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -26,6 +28,8 @@ public class EldergroveEngine : IEldergroveEngine
         _directoryConfig = new DirectoryConfig(_options.RootDirectory);
         ConfigureLogger();
         RegisterServices();
+        RegisterScriptModules();
+        RegisterDataLoaders();
     }
 
     private void ConfigureLogger()
@@ -39,23 +43,44 @@ public class EldergroveEngine : IEldergroveEngine
         _serviceCollection.AddLogging(builder => builder.ClearProviders().AddSerilog());
     }
 
+
+    private void RegisterScriptModules()
+    {
+        _serviceCollection.RegisterScriptModule<LoggerModule>();
+    }
+
+    private void RegisterDataLoaders()
+    {
+        _serviceCollection.AddDataLoaderType<TileSetObject>();
+    }
+
     private void RegisterServices()
     {
         _serviceCollection
             .AddDefaultJsonSettings()
             .AddSingleton(_directoryConfig)
-            .AddSingleton<IScriptEngineService, ScriptEngineService>()
-            .AddSingleton<IMessageBusService, MessageBusService>()
-            .AddSingleton<IDataLoaderService, DataLoaderService>();
+            .AddEldergroveService<IScriptEngineService, ScriptEngineService>()
+            .AddEldergroveService<IMessageBusService, MessageBusService>()
+            .AddEldergroveService<IDataLoaderService, DataLoaderService>();
     }
 
 
     public async Task InitializeAsync()
     {
-        var services = _serviceProvider.GetServices<IEldergroveService>();
+        var serviceToLoad = _serviceProvider.GetService<List<AutostartServiceData>>();
 
-        foreach (var service in services)
+        foreach (var s in serviceToLoad)
         {
+            var service = _serviceProvider.GetService(s.ServiceType) as IEldergroveService;
+
+            if (service == null)
+            {
+                _logger.Error("Failed to load service {ServiceType}", s.ServiceType);
+                continue;
+            }
+
+
+            Log.Logger.Information("Starting service {ServiceType}", s.ServiceType);
             await service.StartAsync();
         }
     }

@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Data.Internal;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Types;
@@ -7,6 +8,7 @@ using Serilog;
 
 namespace Eldergrove.Engine.Core.Services;
 
+[AutostartService(100)]
 public class DataLoaderService : IDataLoaderService
 {
     private readonly ILogger _logger = Log.ForContext<DataLoaderService>();

@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 using Eldergrove.Engine.Core.Attributes.Scripts;
+using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Data.Internal;
 using Eldergrove.Engine.Core.Data.Scripts;
 using Eldergrove.Engine.Core.Interfaces.Services;
@@ -11,6 +12,7 @@ using Serilog;
 
 namespace Eldergrove.Engine.Core.Services;
 
+[AutostartService(1)]
 public class ScriptEngineService : IScriptEngineService
 
 {
