@@ -2,7 +2,9 @@ namespace Eldergrove.Engine.Core.Interfaces.Manager;
 
 public interface IEldergroveEngine
 {
-    public Task InitializeAsync();
+    Task InitializeAsync();
 
-    public Task StartAsync();
+    Task StartAsync();
+
+    TService GetService<TService>() where TService : class;
 }

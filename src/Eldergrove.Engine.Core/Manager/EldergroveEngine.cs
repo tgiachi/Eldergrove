@@ -104,4 +104,6 @@ public class EldergroveEngine : IEldergroveEngine
 
         return Task.CompletedTask;
     }
+
+    public TService GetService<TService>() where TService : class => _serviceProvider.GetService<TService>();
 }
