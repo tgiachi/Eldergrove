@@ -18,4 +18,23 @@ public class LoggerModule
     {
         _logger.LogInformation(message, args);
     }
+
+
+    [ScriptFunction("log_debug")]
+    public void LogDebug(string message, params string[] args)
+    {
+        _logger.LogDebug(message, args);
+    }
+
+    [ScriptFunction("log_warn")]
+    public void LogWarning(string message, params string[] args)
+    {
+        _logger.LogWarning(message, args);
+    }
+
+    [ScriptFunction("log_error")]
+    public void LogError(string message, params string[] args)
+    {
+        _logger.LogError(message, args);
+    }
 }

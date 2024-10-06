@@ -16,7 +16,7 @@ namespace Eldergrove.Engine.Core.Manager;
 public class EldergroveEngine : IEldergroveEngine
 {
     private readonly IServiceCollection _serviceCollection = new ServiceCollection();
-    private IServiceProvider _serviceProvider;
+    private ServiceProvider _serviceProvider;
     private readonly EldergroveOptions _options;
     private readonly DirectoryConfig _directoryConfig;
 
