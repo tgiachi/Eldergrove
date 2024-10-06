@@ -43,7 +43,7 @@ public class ScriptEngineService : IScriptEngineService
         _engine = new Jint.Engine(
             options =>
             {
-                options.DebugMode(true);
+                options.DebugMode();
                 options.TimeoutInterval(TimeSpan.FromSeconds(10));
                 // Limit the memory to 4Gb
                 options.LimitMemory(4_000_000_000);
