@@ -1,5 +1,7 @@
 using Eldergrove.Engine.Core.Data.Internal;
+using Eldergrove.Engine.Core.Data.Json.Colors;
 using Eldergrove.Engine.Core.Data.Json.Keybinding;
+using Eldergrove.Engine.Core.Data.Json.Props;
 using Eldergrove.Engine.Core.Data.Json.TileSet;
 using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.Interfaces.Manager;
@@ -62,7 +64,10 @@ public class EldergroveEngine : IEldergroveEngine
     {
         _serviceCollection
             .AddDataLoaderType<TileSetObject>()
-            .AddDataLoaderType<KeybindingObject>();
+            .AddDataLoaderType<KeybindingObject>()
+            .AddDataLoaderType<ColorObject>()
+            .AddDataLoaderType<PropObject>()
+            ;
     }
 
     private void RegisterServices()
@@ -74,7 +79,9 @@ public class EldergroveEngine : IEldergroveEngine
             .AddEldergroveService<IMessageBusService, MessageBusService>()
             .AddEldergroveService<IDataLoaderService, DataLoaderService>()
             .AddEldergroveService<IActionCommandService, ActionCommandService>()
-            .AddEldergroveService<INameGeneratorService, NameGeneratorService>();
+            .AddEldergroveService<INameGeneratorService, NameGeneratorService>()
+            .AddEldergroveService<IColorService, ColorService>()
+            ;
     }
 
 

@@ -20,6 +20,7 @@ public class ServicesTests
         await _engine.InitializeAsync();
     }
 
+
     [Test]
     public async Task TestRandomNameGenerator()
     {
@@ -44,5 +45,18 @@ public class ServicesTests
 
 
         actionCommandService.ExecuteCommand("test");
+    }
+
+
+    [Test]
+    public void Test_ColorService()
+    {
+        var colorService = _engine.GetService<IColorService>();
+
+        colorService.AddColor("test", 255, 255, 255);
+
+        var color = colorService.GetColor("test");
+
+        Assert.That(color.A, Is.EqualTo(255));
     }
 }

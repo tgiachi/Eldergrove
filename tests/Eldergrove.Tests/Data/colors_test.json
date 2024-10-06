@@ -1,0 +1,47 @@
+[
+  {
+    "$type": "color",
+    "id": "white",
+    "value": [
+      255,
+      255,
+      255
+    ]
+  },
+  {
+    "$type": "color",
+    "id": "black",
+    "value": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "$type": "color",
+    "id": "red",
+    "value": [
+      255,
+      0,
+      0
+    ]
+  },
+  {
+    "$type": "color",
+    "id": "green",
+    "value": [
+      0,
+      255,
+      0
+    ]
+  },
+  {
+    "$type": "color",
+    "id": "blue",
+    "value": [
+      0,
+      0,
+      255
+    ]
+  }
+]

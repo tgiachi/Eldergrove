@@ -1,6 +1,8 @@
 using Eldergrove.Engine.Core.Data.Internal;
 using Eldergrove.Engine.Core.Data.Json.TileSet;
+using Eldergrove.Engine.Core.Interfaces.Manager;
 using Eldergrove.Engine.Core.Interfaces.Services;
+using Eldergrove.Engine.Core.Manager;
 using Eldergrove.Engine.Core.Services;
 using Eldergrove.Engine.Core.Types;
 using Serilog;
@@ -9,27 +11,28 @@ namespace Eldergrove.Tests;
 
 public class DataLoaderTests
 {
-    private IDataLoaderService _dataLoaderService;
+    private IEldergroveEngine _eldergroveEngine;
+
+
+    private IEldergroveEngine _engine;
 
     [SetUp]
-    public void Setup()
+    public async Task Setup()
     {
-        Log.Logger = new LoggerConfiguration()
-            .WriteTo.Console()
-            .CreateLogger();
+        _engine = new EldergroveEngine(
+            new EldergroveOptions() { RootDirectory = Path.Join(Path.GetTempPath(), "Eldergrove") }
+        );
 
-        var directoryConfig = new DirectoryConfig(Path.Join(Path.GetTempPath(), "Eldergrove"));
+        CopyDataFiles(Path.Join(Path.GetTempPath(), "Eldergrove"));
 
-        CopyDataFiles(directoryConfig[DirectoryType.Data]);
-
-        _dataLoaderService = new DataLoaderService(directoryConfig, new());
-
-        _dataLoaderService.AddDataType<TileSetObject>("tileset");
+        await _engine.StartAsync();
+        await _engine.InitializeAsync();
     }
 
     [Test]
     public async Task LoadTests()
     {
+        var _dataLoaderService = _engine.GetService<IDataLoaderService>();
         _dataLoaderService.SubscribeData<TileSetObject>(
             objects =>
             {
@@ -41,13 +44,6 @@ public class DataLoaderTests
         await _dataLoaderService.StartAsync();
 
         Assert.Pass();
-    }
-
-
-    [TearDown]
-    public async Task TearDown()
-    {
-        await _dataLoaderService.StopAsync();
     }
 
 
