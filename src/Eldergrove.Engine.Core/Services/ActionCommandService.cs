@@ -14,9 +14,9 @@ public class ActionCommandService : IActionCommandService
         _logger = logger;
     }
 
-    public Task StartAsync() => throw new NotImplementedException();
+    public Task StartAsync() => Task.CompletedTask;
 
-    public Task StopAsync() => throw new NotImplementedException();
+    public Task StopAsync() => Task.CompletedTask;
 
     public void RegisterCommand(string command, Action action)
     {

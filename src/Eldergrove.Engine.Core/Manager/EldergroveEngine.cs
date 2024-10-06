@@ -54,7 +54,8 @@ public class EldergroveEngine : IEldergroveEngine
         _serviceCollection
             .RegisterScriptModule<LoggerModule>()
             .RegisterScriptModule<ScriptModule>()
-            .RegisterScriptModule<ActionCommandModule>();
+            .RegisterScriptModule<ActionCommandModule>()
+            .RegisterScriptModule<NamesGeneratorModule>();
     }
 
     private void RegisterDataLoaders()
@@ -72,7 +73,8 @@ public class EldergroveEngine : IEldergroveEngine
             .AddEldergroveService<IScriptEngineService, ScriptEngineService>()
             .AddEldergroveService<IMessageBusService, MessageBusService>()
             .AddEldergroveService<IDataLoaderService, DataLoaderService>()
-            .AddEldergroveService<IActionCommandService, ActionCommandService>();
+            .AddEldergroveService<IActionCommandService, ActionCommandService>()
+            .AddEldergroveService<INameGeneratorService, NameGeneratorService>();
     }
 
 
