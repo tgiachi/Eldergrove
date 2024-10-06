@@ -11,9 +11,6 @@ namespace Eldergrove.Tests;
 
 public class DataLoaderTests
 {
-    private IEldergroveEngine _eldergroveEngine;
-
-
     private IEldergroveEngine _engine;
 
     [SetUp]

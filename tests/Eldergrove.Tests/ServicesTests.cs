@@ -22,7 +22,7 @@ public class ServicesTests
 
 
     [Test]
-    public async Task TestRandomNameGenerator()
+    public async Task Test_RandomNameGenerator()
     {
         var nameGenerator = _engine.GetService<INameGeneratorService>();
 
@@ -37,7 +37,7 @@ public class ServicesTests
     }
 
     [Test]
-    public async Task Test_ActionCommandTests()
+    public async Task Test_ActionCommandService()
     {
         var actionCommandService = _engine.GetService<IActionCommandService>();
 
