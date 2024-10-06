@@ -1,4 +1,5 @@
 using Eldergrove.Engine.Core.Data.Internal;
+using Eldergrove.Engine.Core.Data.Json.Keybinding;
 using Eldergrove.Engine.Core.Data.Json.TileSet;
 using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.Interfaces.Manager;
@@ -52,12 +53,15 @@ public class EldergroveEngine : IEldergroveEngine
     {
         _serviceCollection
             .RegisterScriptModule<LoggerModule>()
-            .RegisterScriptModule<ScriptModule>();
+            .RegisterScriptModule<ScriptModule>()
+            .RegisterScriptModule<ActionCommandModule>();
     }
 
     private void RegisterDataLoaders()
     {
-        _serviceCollection.AddDataLoaderType<TileSetObject>();
+        _serviceCollection
+            .AddDataLoaderType<TileSetObject>()
+            .AddDataLoaderType<KeybindingObject>();
     }
 
     private void RegisterServices()
@@ -67,7 +71,8 @@ public class EldergroveEngine : IEldergroveEngine
             .AddSingleton(_directoryConfig)
             .AddEldergroveService<IScriptEngineService, ScriptEngineService>()
             .AddEldergroveService<IMessageBusService, MessageBusService>()
-            .AddEldergroveService<IDataLoaderService, DataLoaderService>();
+            .AddEldergroveService<IDataLoaderService, DataLoaderService>()
+            .AddEldergroveService<IActionCommandService, ActionCommandService>();
     }
 
 
