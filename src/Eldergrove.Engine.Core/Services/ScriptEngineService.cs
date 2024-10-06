@@ -157,8 +157,9 @@ public class ScriptEngineService : IScriptEngineService
     }
 
 
-    private void AddContextVariable(string name, object value)
+    public void AddContextVariable(string name, object value)
     {
+        _logger.Information("Adding context variable {Name} with value {Value}", name, value);
         _engine.SetValue(name, value);
         ContextVariables[name] = value;
     }

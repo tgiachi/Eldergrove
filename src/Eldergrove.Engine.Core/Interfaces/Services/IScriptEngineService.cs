@@ -14,4 +14,6 @@ public interface IScriptEngineService : IEldergroveService
     Dictionary<string, object> ContextVariables { get; }
 
     Task<string> GenerateTypeDefinitionsAsync();
+
+    void AddContextVariable(string name, object value);
 }

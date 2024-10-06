@@ -54,7 +54,6 @@ public class DataLoaderService : IDataLoaderService
 
     private async Task LoadJsonDataFileAsync(string fileName)
     {
-        _logger.Information("Loading file {FileName}", fileName);
         var fileStream = File.OpenRead(fileName);
         var json = (await JsonDocument.ParseAsync(fileStream));
 

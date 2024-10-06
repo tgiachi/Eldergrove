@@ -50,7 +50,9 @@ public class EldergroveEngine : IEldergroveEngine
 
     private void RegisterScriptModules()
     {
-        _serviceCollection.RegisterScriptModule<LoggerModule>();
+        _serviceCollection
+            .RegisterScriptModule<LoggerModule>()
+            .RegisterScriptModule<ScriptModule>();
     }
 
     private void RegisterDataLoaders()
