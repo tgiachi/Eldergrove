@@ -3,6 +3,8 @@ using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.State;
 using GoRogue.Messaging;
 using SadConsole;
+using SadRogue.Primitives;
+using Serilog.Events;
 using Console = SadConsole.Console;
 
 namespace Eldergrove.Ui.Core.Surfaces;
@@ -17,6 +19,14 @@ public class LoggerPanel : Console, ISubscriber<LoggerEvent>
     public LoggerPanel(int width, int height) : base(width, height)
     {
         EldergroveState.Engine.GetService<IMessageBusService>().Subscribe(this);
+
+        ParentChanged += (s, e) =>
+        {
+            if (Parent != null)
+            {
+                PrintMessages();
+            }
+        };
     }
 
     protected override void Dispose(bool disposing)
@@ -30,15 +40,32 @@ public class LoggerPanel : Console, ISubscriber<LoggerEvent>
         _lock.Wait();
         _events.Add(message);
         _lock.Release();
+
+        PrintMessages();
     }
 
     private void PrintMessages()
     {
-        _lock.Wait();
+        //  _lock.Wait();
+        this.Clear();
         for (var i = 0; i < _events.Count; i++)
         {
-            this.Print(0, i, _events[i].Message);
+            var @event = _events[i];
+            this.Print(0, i, $"{DateTime.Now:T} -- {@event.Level} - {@event.Message}", GetColor(@event.Level));
         }
-        _lock.Release();
+
+        // _lock.Release();
+    }
+
+    private Color GetColor(LogEventLevel level)
+    {
+        return level switch
+        {
+            LogEventLevel.Debug       => Color.Gray,
+            LogEventLevel.Information => Color.White,
+            LogEventLevel.Warning     => Color.Yellow,
+            LogEventLevel.Error       => Color.Red,
+            _                         => Color.White
+        };
     }
 }

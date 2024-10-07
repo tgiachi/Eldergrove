@@ -22,7 +22,7 @@ public class MessageBusService : IMessageBusService
             throw new ArgumentNullException(nameof(message));
         }
 
-        _logger.Debug("Publishing message {Message}", message.GetType());
+        //_logger.Debug("Publishing message {Message}", message.GetType());
         _messageBus.Send(message);
 
 
@@ -35,7 +35,7 @@ public class MessageBusService : IMessageBusService
             throw new ArgumentNullException(nameof(action));
         }
 
-        _logger.Debug("Unsubscribing from message {Message}", typeof(T));
+        //_logger.Debug("Unsubscribing from message {Message}", typeof(T));
         _messageBus.UnregisterSubscriber<T>(action);
     }
 
@@ -46,7 +46,7 @@ public class MessageBusService : IMessageBusService
             throw new ArgumentNullException(nameof(action));
         }
 
-        _logger.Debug("Subscribing to message {Message}", typeof(T));
+        //_logger.Debug("Subscribing to message {Message}", typeof(T));
         _messageBus.RegisterSubscriber<T>(action);
     }
 

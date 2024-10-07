@@ -1,9 +1,19 @@
-﻿using SadConsole;
+﻿using Eldergrove.Engine.Core.Data.Internal;
+using Eldergrove.Engine.Core.Manager;
+using Eldergrove.Engine.Core.State;
+using Eldergrove.Ui.Core.Surfaces;
+using SadConsole;
 using SadConsole.Configuration;
 using SadRogue.Primitives;
 
 Settings.WindowTitle = "SadConsole Examples";
 
+
+var engine = new EldergroveEngine(new EldergroveOptions() { RootDirectory = Path.Join(Path.GetTempPath(), "Eldergrove") });
+
+EldergroveState.Engine = engine;
+
+await engine.StartAsync();
 
 // Configure how SadConsole starts up
 Builder startup = new Builder()
@@ -19,12 +29,13 @@ Game.Create(startup);
 Game.Instance.Run();
 Game.Instance.Dispose();
 
-void Game_Started(object? sender, GameHost host)
+async void Game_Started(object? sender, GameHost host)
 {
-    ColoredGlyph boxBorder = new(Color.White, Color.Black, 178);
-    ColoredGlyph boxFill = new(Color.White, Color.Black);
+    Game.Instance.StartingConsole.Clear();
 
-    Game.Instance.StartingConsole.FillWithRandomGarbage(255);
-    Game.Instance.StartingConsole.DrawBox(new Rectangle(2, 2, 26, 5), ShapeParameters.CreateFilled(boxBorder, boxFill));
-    Game.Instance.StartingConsole.Print(5, 4, "Welcome to SadConsole!");
+    Game.Instance.StartingConsole.Children.Add(new LoggerPanel(host.ScreenCellsX, host.ScreenCellsY));
+
+    await Task.Delay(1000);
+
+    await engine.InitializeAsync();
 }
