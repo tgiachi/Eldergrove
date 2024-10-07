@@ -7,7 +7,7 @@ Settings.WindowTitle = "SadConsole Examples";
 
 // Configure how SadConsole starts up
 Builder startup = new Builder()
-        .SetScreenSize(90, 30)
+        .SetScreenSize(90 * 2, 30 * 2)
         .UseDefaultConsole()
         .OnStart(Game_Started)
         .IsStartingScreenFocused(true)

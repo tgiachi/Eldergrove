@@ -47,6 +47,7 @@ public class EldergroveEngine : IEldergroveEngine
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Debug()
             .WriteTo.Console()
+            .WriteTo.EventBus()
             .CreateLogger();
 
         _logger = Log.Logger.ForContext<IEldergroveEngine>();

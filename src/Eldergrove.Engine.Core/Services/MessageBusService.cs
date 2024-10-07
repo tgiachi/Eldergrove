@@ -9,6 +9,7 @@ namespace Eldergrove.Engine.Core.Services;
 [AutostartService(0)]
 public class MessageBusService : IMessageBusService
 {
+
     private readonly MessageBus _messageBus = new();
 
     private readonly ILogger _logger = Log.ForContext<MessageBusService>();
