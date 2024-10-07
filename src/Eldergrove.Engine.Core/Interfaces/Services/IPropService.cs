@@ -8,6 +8,4 @@ public interface IPropService : IEldergroveService
     void AddProp(PropObject prop);
 
     PropObject GetProp(string id);
-
-
 }

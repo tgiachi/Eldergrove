@@ -198,6 +198,11 @@ public class ScriptEngineService : IScriptEngineService
 
         foreach (var function in Functions)
         {
+            if (!string.IsNullOrEmpty(function.Help))
+            {
+                typeScriptDefinitions.AppendLine($"/** {function.Help} */");
+            }
+
             typeScriptDefinitions.Append($"declare function {function.FunctionName}(");
 
             for (int i = 0; i < function.Parameters.Count; i++)

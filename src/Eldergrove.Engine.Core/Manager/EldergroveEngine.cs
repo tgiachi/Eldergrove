@@ -1,5 +1,6 @@
 using Eldergrove.Engine.Core.Data.Internal;
 using Eldergrove.Engine.Core.Data.Json.Colors;
+using Eldergrove.Engine.Core.Data.Json.Items;
 using Eldergrove.Engine.Core.Data.Json.Keybinding;
 using Eldergrove.Engine.Core.Data.Json.Names;
 using Eldergrove.Engine.Core.Data.Json.Props;
@@ -74,6 +75,7 @@ public class EldergroveEngine : IEldergroveEngine
             .AddDataLoaderType<ColorObject>()
             .AddDataLoaderType<PropObject>()
             .AddDataLoaderType<NamesObject>()
+            .AddDataLoaderType<ItemObject>()
             ;
     }
 
