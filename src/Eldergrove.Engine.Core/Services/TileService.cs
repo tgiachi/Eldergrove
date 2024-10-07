@@ -26,6 +26,17 @@ public class TileService : ITileService
 
     public Task StopAsync() => Task.CompletedTask;
 
+    public ColoredGlyph GetTile(string tileId)
+    {
+        if (_tiles.TryGetValue(tileId, out var tile))
+        {
+            return GetTile(tile);
+        }
+
+        _logger.LogWarning("Tile {TileId} not found", tileId);
+        throw new KeyNotFoundException($"Tile {tileId} not found");
+    }
+
     public ColoredGlyph GetTile(IJsonSymbolDataObject tileData)
     {
         Color foreground = Color.White;

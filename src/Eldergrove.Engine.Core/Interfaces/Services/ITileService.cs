@@ -8,6 +8,9 @@ namespace Eldergrove.Engine.Core.Interfaces.Services;
 public interface ITileService : IEldergroveService
 {
 
+
+    ColoredGlyph GetTile(string tileId);
+
     ColoredGlyph GetTile(IJsonSymbolDataObject tileData);
 
     void AddTile(TileEntry tileEntry);
