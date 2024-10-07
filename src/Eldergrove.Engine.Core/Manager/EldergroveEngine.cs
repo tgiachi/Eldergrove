@@ -95,6 +95,7 @@ public class EldergroveEngine : IEldergroveEngine
             .AddEldergroveService<IColorService, ColorService>()
             .AddEldergroveService<IPropService, PropService>()
             .AddEldergroveService<ITileService, TileService>()
+            .AddEldergroveService<IItemService, ItemService>()
             .AddEldergroveService<IVersionService, VersionService>()
             ;
     }
@@ -125,16 +126,17 @@ public class EldergroveEngine : IEldergroveEngine
             Log.Logger.Information("Starting service {ServiceType}", s.ServiceType.Name);
             await service.StartAsync();
         }
+
+        foreach (var action in _onEngineStart)
+        {
+            action();
+        }
     }
 
     public Task StartAsync()
     {
         _serviceProvider = _serviceCollection.BuildServiceProvider();
 
-        foreach (var action in _onEngineStart)
-        {
-            action();
-        }
 
         return Task.CompletedTask;
     }

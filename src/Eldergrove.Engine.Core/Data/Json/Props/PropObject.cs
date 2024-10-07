@@ -1,4 +1,5 @@
 using Eldergrove.Engine.Core.Attributes.DataLoader;
+using Eldergrove.Engine.Core.Data.Json.Random;
 using Eldergrove.Engine.Core.Interfaces.Json;
 
 namespace Eldergrove.Engine.Core.Data.Json.Props;
@@ -23,4 +24,6 @@ public class PropObject : IJsonDataObject, IJsonSymbolDataObject, IJsonCategoryO
     public bool IsTransparent { get; set; }
 
     public bool IsDestructible { get; set; }
+
+    public JsonRandomObject? OnDestroy { get; set; }
 }

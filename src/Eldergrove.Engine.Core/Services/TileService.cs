@@ -1,4 +1,5 @@
 using System.Globalization;
+using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Data.Json.TileSet;
 using Eldergrove.Engine.Core.Interfaces.Json;
 using Eldergrove.Engine.Core.Interfaces.Services;
@@ -8,6 +9,8 @@ using SadRogue.Primitives;
 
 namespace Eldergrove.Engine.Core.Services;
 
+
+[AutostartService(1)]
 public class TileService : ITileService
 {
     private readonly ILogger _logger;

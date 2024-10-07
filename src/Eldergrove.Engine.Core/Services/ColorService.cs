@@ -1,9 +1,11 @@
+using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Data.Json.Colors;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using SadRogue.Primitives;
 
 namespace Eldergrove.Engine.Core.Services;
 
+[AutostartService(1)]
 public class ColorService : IColorService
 {
     private readonly Dictionary<string, Color> _colors = new();
