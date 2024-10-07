@@ -26,5 +26,5 @@ void Game_Started(object? sender, GameHost host)
 
     Game.Instance.StartingConsole.FillWithRandomGarbage(255);
     Game.Instance.StartingConsole.DrawBox(new Rectangle(2, 2, 26, 5), ShapeParameters.CreateFilled(boxBorder, boxFill));
-    Game.Instance.StartingConsole.Print(4, 4, "Welcome to SadConsole!");
+    Game.Instance.StartingConsole.Print(5, 4, "Welcome to SadConsole!");
 }

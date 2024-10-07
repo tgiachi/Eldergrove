@@ -24,6 +24,19 @@ public class MessageBusService : IMessageBusService
 
         _logger.Debug("Publishing message {Message}", message.GetType());
         _messageBus.Send(message);
+
+
+    }
+
+    public void Unsubscribe<T>(ISubscriber<T> action) where T : class
+    {
+        if (action == null)
+        {
+            throw new ArgumentNullException(nameof(action));
+        }
+
+        _logger.Debug("Unsubscribing from message {Message}", typeof(T));
+        _messageBus.UnregisterSubscriber<T>(action);
     }
 
     public void Subscribe<T>(ISubscriber<T> action) where T : class

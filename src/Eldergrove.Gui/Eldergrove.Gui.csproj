@@ -18,4 +18,9 @@
         <PackageReference Include="TheSadRogue.Integration" Version="1.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Eldergrove.Engine.Core\Eldergrove.Engine.Core.csproj" />
+      <ProjectReference Include="..\Eldergrove.Ui.Core\Eldergrove.Ui.Core.csproj" />
+    </ItemGroup>
+
 </Project>
