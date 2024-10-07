@@ -70,10 +70,10 @@ public class TileService : ITileService
     {
         if (colorName.StartsWith("#"))
         {
-            byte r = byte.Parse(colorName.Substring(1, 2), NumberStyles.HexNumber);
-            byte g = byte.Parse(colorName.Substring(3, 2), NumberStyles.HexNumber);
-            byte b = byte.Parse(colorName.Substring(5, 2), NumberStyles.HexNumber);
-            byte a = 255;
+            var r = byte.Parse(colorName.Substring(1, 2), NumberStyles.HexNumber);
+            var g = byte.Parse(colorName.Substring(3, 2), NumberStyles.HexNumber);
+            var b = byte.Parse(colorName.Substring(5, 2), NumberStyles.HexNumber);
+            var a = 255;
             if (colorName.Length == 9)
             {
                 a = byte.Parse(colorName.Substring(7, 2), NumberStyles.HexNumber);
