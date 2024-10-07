@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eldergrove.Engine.Core", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eldergrove.Tests", "tests\Eldergrove.Tests\Eldergrove.Tests.csproj", "{67A2B9F0-89AA-4FEF-9DB4-F88BAD7EAFD3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eldergrove.Gui", "src\Eldergrove.Gui\Eldergrove.Gui.csproj", "{4E58D916-4E2E-4B2A-94BB-C00436DD23DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{67A2B9F0-89AA-4FEF-9DB4-F88BAD7EAFD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67A2B9F0-89AA-4FEF-9DB4-F88BAD7EAFD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67A2B9F0-89AA-4FEF-9DB4-F88BAD7EAFD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E58D916-4E2E-4B2A-94BB-C00436DD23DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E58D916-4E2E-4B2A-94BB-C00436DD23DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E58D916-4E2E-4B2A-94BB-C00436DD23DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E58D916-4E2E-4B2A-94BB-C00436DD23DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
