@@ -57,7 +57,7 @@ public class LoggerPanel : Console, ISubscriber<LoggerEvent>
         // _lock.Release();
     }
 
-    private Color GetColor(LogEventLevel level)
+    private static Color GetColor(LogEventLevel level)
     {
         return level switch
         {
