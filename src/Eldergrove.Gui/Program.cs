@@ -4,7 +4,6 @@ using Eldergrove.Engine.Core.State;
 using Eldergrove.Ui.Core.Surfaces;
 using SadConsole;
 using SadConsole.Configuration;
-using SadRogue.Primitives;
 
 Settings.WindowTitle = "SadConsole Examples";
 
@@ -20,6 +19,9 @@ Builder startup = new Builder()
         .SetScreenSize(90 * 2, 30 * 2)
         .UseDefaultConsole()
         .OnStart(Game_Started)
+        .ConfigureFonts(
+            (f, g) => { f.AddExtraFonts("Fonts/Cheepicus12.font"); }
+        )
         .IsStartingScreenFocused(true)
         .ConfigureFonts(true)
     ;
@@ -32,6 +34,7 @@ Game.Instance.Dispose();
 async void Game_Started(object? sender, GameHost host)
 {
     Game.Instance.StartingConsole.Clear();
+    Game.Instance.StartingConsole.Font = host.Fonts["Cheepicus12"];
 
     Game.Instance.StartingConsole.Children.Add(new LoggerPanel(host.ScreenCellsX, host.ScreenCellsY));
 
