@@ -84,6 +84,7 @@ public class EldergroveEngine : IEldergroveEngine
             .AddEldergroveService<INameGeneratorService, NameGeneratorService>()
             .AddEldergroveService<IColorService, ColorService>()
             .AddEldergroveService<IPropService, PropService>()
+            .AddEldergroveService<ITileService, TileService>()
             ;
     }
 

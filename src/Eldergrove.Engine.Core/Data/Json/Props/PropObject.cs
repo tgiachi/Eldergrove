@@ -20,5 +20,5 @@ public class PropObject : IJsonDataObject, IJsonSymbolDataObject
 
     public bool IsTransparent { get; set; }
 
-    public bool IsDestroyable { get; set; }
+    public bool IsDestructible { get; set; }
 }

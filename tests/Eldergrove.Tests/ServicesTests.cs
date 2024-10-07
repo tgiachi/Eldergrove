@@ -1,5 +1,6 @@
 using Eldergrove.Engine.Core.Data.Internal;
 using Eldergrove.Engine.Core.Data.Json.Props;
+using Eldergrove.Engine.Core.Data.Json.TileSet;
 using Eldergrove.Engine.Core.Interfaces.Manager;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Manager;
@@ -71,5 +72,28 @@ public class ServicesTests
         var prop = propService.GetProp("test");
 
         Assert.That(prop, Is.Not.Null);
+    }
+
+
+    [Test]
+    public void Test_TileService()
+    {
+
+        var tileService = _engine.GetService<ITileService>();
+
+        var testTile = new TileEntry()
+        {
+            Symbol = "@",
+            Id = "t_test",
+            Background = "#000000",
+            Foreground = "#FFFFFF"
+        };
+
+        tileService.AddTile(testTile);
+
+        var tile = tileService.GetTile(testTile);
+
+        Assert.That(tile, Is.Not.Null);
+
     }
 }

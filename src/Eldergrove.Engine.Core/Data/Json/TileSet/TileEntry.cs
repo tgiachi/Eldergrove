@@ -2,7 +2,7 @@ using Eldergrove.Engine.Core.Interfaces.Json;
 
 namespace Eldergrove.Engine.Core.Data.Json.TileSet;
 
-public class TileEntry : IJsonDataObject, IJsonTagsDataObject
+public class TileEntry : IJsonDataObject, IJsonTagsDataObject, IJsonSymbolDataObject
 {
     public string Id { get; set; }
 
@@ -12,4 +12,10 @@ public class TileEntry : IJsonDataObject, IJsonTagsDataObject
     // id of a sprite in a sprite sheet starting with #
     // or animation like @id-id
     public string Symbol { get; set; }
+    public string? Foreground { get; set; }
+    public string? Background { get; set; }
+
+    public bool IsBlocking { get; set; }
+
+    public bool IsTransparent { get; set; }
 }

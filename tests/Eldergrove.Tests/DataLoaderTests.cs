@@ -20,7 +20,7 @@ public class DataLoaderTests
             new EldergroveOptions() { RootDirectory = Path.Join(Path.GetTempPath(), "Eldergrove") }
         );
 
-        CopyDataFiles(Path.Join(Path.GetTempPath(), "Eldergrove"));
+        CopyDataFiles(Path.Join(Path.GetTempPath(), "Eldergrove", "data"));
 
         await _engine.StartAsync();
         await _engine.InitializeAsync();
@@ -65,4 +65,6 @@ public class DataLoaderTests
             }
         }
     }
+
+
 }

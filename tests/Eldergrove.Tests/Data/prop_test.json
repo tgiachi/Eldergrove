@@ -1,4 +1,11 @@
 [
   {
+    "$type": "prop",
+    "id": "rock_wall",
+    "category": "walls",
+    "symbol": "#",
+    "is_blocking": true,
+    "is_transparent": false,
+    "is_destructible": true
   }
 ]
