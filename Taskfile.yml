@@ -5,15 +5,24 @@ tasks:
     cmds:
       - echo "Hello, World!"
     deps:
+      - clean
+      - restore
       - build
       - test
       - deploy
+  clean:
+    cmds:
+      - dotnet clean
+
+  restore:
+    cmds:
+      - dotnet restore
   build:
     cmds:
-      - echo "Building..."
+      - dotnet build --no-restore
   test:
     cmds:
       - dotnet test
-  deploy:
+  run:
     cmds:
-      - echo "Deploying..."
+      - dotnet run --project src/Eldergrove.Gui/Eldergrove.Gui.csproj
