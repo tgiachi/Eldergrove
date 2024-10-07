@@ -7,4 +7,7 @@ public interface IEldergroveEngine
     Task StartAsync();
 
     TService GetService<TService>() where TService : class;
+
+
+    void AddOnEngineStart(Action action);
 }

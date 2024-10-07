@@ -14,12 +14,25 @@ public class TileService : ITileService
 
     private readonly IColorService _colorService;
 
+    private readonly IDataLoaderService _dataLoaderService;
+
     private readonly Dictionary<string, TileEntry> _tiles = new();
 
-    public TileService(ILogger<TileService> logger, IColorService colorService)
+    public TileService(ILogger<TileService> logger, IColorService colorService, IDataLoaderService dataLoaderService)
     {
         _logger = logger;
         _colorService = colorService;
+        _dataLoaderService = dataLoaderService;
+
+        _dataLoaderService.SubscribeData<TileSetObject>(
+            async (tileSet) =>
+            {
+                foreach (var tile in tileSet.Tiles)
+                {
+                    AddTile(tile);
+                }
+            }
+        );
     }
 
     public Task StartAsync() => Task.CompletedTask;

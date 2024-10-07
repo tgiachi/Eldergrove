@@ -1,11 +1,13 @@
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Text;
 using Eldergrove.Engine.Core.Attributes.Scripts;
 using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Data.Internal;
 using Eldergrove.Engine.Core.Data.Scripts;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Types;
+using Eldergrove.Engine.Core.Utils;
 using Jint;
 using Serilog;
 
@@ -30,7 +32,6 @@ public class ScriptEngineService : IScriptEngineService
     public List<ScriptFunctionDescriptor> Functions { get; } = new();
 
     public Dictionary<string, object> ContextVariables { get; } = new();
-    public Task<string> GenerateTypeDefinitionsAsync() => throw new NotImplementedException();
 
 
     public ScriptEngineService(
@@ -175,6 +176,52 @@ public class ScriptEngineService : IScriptEngineService
             obj
         );
     }
+
+
+    public async Task<string> GenerateTypeDefinitionsAsync()
+    {
+        var typeScriptDefinitions = new StringBuilder();
+
+        typeScriptDefinitions.AppendLine("// TypeScript type definitions generated from Eldergrove Engine");
+
+        foreach (var constant in _scriptConstants)
+        {
+            string typeScriptType = CSharpJsConverterUtils.ConvertCSharpTypeToTypeScript(constant.Value.GetType().Name);
+            typeScriptDefinitions.AppendLine($"declare const {constant.Key}: {typeScriptType};");
+        }
+
+        foreach (var constant in ContextVariables)
+        {
+            string typeScriptType = CSharpJsConverterUtils.ConvertCSharpTypeToTypeScript(constant.Value.GetType().Name);
+            typeScriptDefinitions.AppendLine($"declare const {constant.Key}: {typeScriptType};");
+        }
+
+        foreach (var function in Functions)
+        {
+            typeScriptDefinitions.Append($"declare function {function.FunctionName}(");
+
+            for (int i = 0; i < function.Parameters.Count; i++)
+            {
+                var param = function.Parameters[i];
+                typeScriptDefinitions.Append(
+                    $"{param.ParameterName}: {CSharpJsConverterUtils.ConvertCSharpTypeToTypeScript(param.ParameterType)}"
+                );
+
+                if (i < function.Parameters.Count - 1)
+                {
+                    typeScriptDefinitions.Append(", ");
+                }
+            }
+
+
+            typeScriptDefinitions.AppendLine(
+                $"): {CSharpJsConverterUtils.ConvertCSharpTypeToTypeScript(function.ReturnType)};"
+            );
+        }
+
+        return typeScriptDefinitions.ToString();
+    }
+
 
     public Task StopAsync()
     {

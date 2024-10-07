@@ -1,6 +1,7 @@
 using Eldergrove.Engine.Core.Data.Internal;
 using Eldergrove.Engine.Core.Data.Json.Colors;
 using Eldergrove.Engine.Core.Data.Json.Keybinding;
+using Eldergrove.Engine.Core.Data.Json.Names;
 using Eldergrove.Engine.Core.Data.Json.Props;
 using Eldergrove.Engine.Core.Data.Json.TileSet;
 using Eldergrove.Engine.Core.Extensions;
@@ -18,6 +19,7 @@ namespace Eldergrove.Engine.Core.Manager;
 
 public class EldergroveEngine : IEldergroveEngine
 {
+    private readonly List<Action> _onEngineStart = new();
     private readonly IServiceCollection _serviceCollection = new ServiceCollection();
     private ServiceProvider _serviceProvider;
     private readonly EldergroveOptions _options;
@@ -59,6 +61,8 @@ public class EldergroveEngine : IEldergroveEngine
             .RegisterScriptModule<ActionCommandModule>()
             .RegisterScriptModule<NamesGeneratorModule>()
             .RegisterScriptModule<ColorsModule>()
+            .RegisterScriptModule<RandomModule>()
+            .RegisterScriptModule<EngineEventModule>()
             ;
     }
 
@@ -69,6 +73,7 @@ public class EldergroveEngine : IEldergroveEngine
             .AddDataLoaderType<KeybindingObject>()
             .AddDataLoaderType<ColorObject>()
             .AddDataLoaderType<PropObject>()
+            .AddDataLoaderType<NamesObject>()
             ;
     }
 
@@ -77,6 +82,7 @@ public class EldergroveEngine : IEldergroveEngine
         _serviceCollection
             .AddDefaultJsonSettings()
             .AddSingleton(_directoryConfig)
+            .AddSingleton<IEldergroveEngine>(this)
             .AddEldergroveService<IScriptEngineService, ScriptEngineService>()
             .AddEldergroveService<IMessageBusService, MessageBusService>()
             .AddEldergroveService<IDataLoaderService, DataLoaderService>()
@@ -113,8 +119,18 @@ public class EldergroveEngine : IEldergroveEngine
     {
         _serviceProvider = _serviceCollection.BuildServiceProvider();
 
+        foreach (var action in _onEngineStart)
+        {
+            action();
+        }
+
         return Task.CompletedTask;
     }
 
     public TService GetService<TService>() where TService : class => _serviceProvider.GetService<TService>();
+
+    public void AddOnEngineStart(Action action)
+    {
+        _onEngineStart.Add(action);
+    }
 }

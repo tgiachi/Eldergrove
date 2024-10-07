@@ -67,7 +67,7 @@ public class ServicesTests
     {
         var propService = _engine.GetService<IPropService>();
 
-        propService.AddProp(new PropObject() { Id = "test", Symbol = "@"});
+        propService.AddProp(new PropObject() { Id = "test", Symbol = "@" });
 
         var prop = propService.GetProp("test");
 
@@ -78,7 +78,6 @@ public class ServicesTests
     [Test]
     public void Test_TileService()
     {
-
         var tileService = _engine.GetService<ITileService>();
 
         var testTile = new TileEntry()
@@ -94,6 +93,16 @@ public class ServicesTests
         var tile = tileService.GetTile(testTile);
 
         Assert.That(tile, Is.Not.Null);
+    }
 
+
+    [Test]
+    public async Task Test_GenerateTypeScript()
+    {
+        var scriptEngineService = _engine.GetService<IScriptEngineService>();
+
+        var typeScript = await scriptEngineService.GenerateTypeDefinitionsAsync();
+
+        Assert.That(typeScript, Is.Not.Null);
     }
 }
