@@ -11,6 +11,7 @@ using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Interfaces.Services.Base;
 using Eldergrove.Engine.Core.ScriptsModules;
 using Eldergrove.Engine.Core.Services;
+using Eldergrove.Engine.Core.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -94,12 +95,20 @@ public class EldergroveEngine : IEldergroveEngine
             .AddEldergroveService<IColorService, ColorService>()
             .AddEldergroveService<IPropService, PropService>()
             .AddEldergroveService<ITileService, TileService>()
+            .AddEldergroveService<IVersionService, VersionService>()
             ;
     }
 
 
     public async Task InitializeAsync()
     {
+        foreach (var line in HeaderUtils.EldergroveHeader)
+        {
+            _logger.Information(line);
+        }
+
+        _logger.Information("Version: {Version}", _serviceProvider.GetService<IVersionService>().GetVersion());
+
         var serviceToLoad = _serviceProvider.GetService<List<AutostartServiceData>>();
 
         foreach (var s in serviceToLoad)

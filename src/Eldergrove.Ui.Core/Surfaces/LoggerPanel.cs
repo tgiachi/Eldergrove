@@ -47,11 +47,16 @@ public class LoggerPanel : Console, ISubscriber<LoggerEvent>
     private void PrintMessages()
     {
         //  _lock.Wait();
-        this.Clear();
+        //this.Clear();
         for (var i = 0; i < _events.Count; i++)
         {
             var @event = _events[i];
-            this.Print(0, i, $"{DateTime.Now:T} -- {@event.Level} - {@event.Message}", GetColor(@event.Level));
+            this.Print(
+                0,
+                i,
+                $"{DateTime.Now:T} -- {@event.Source ?? ""}  -- {@event.Level} - {@event.Message}",
+                GetColor(@event.Level)
+            );
         }
 
         // _lock.Release();

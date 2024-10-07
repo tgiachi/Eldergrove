@@ -15,7 +15,7 @@ EldergroveState.Engine = engine;
 await engine.StartAsync();
 
 // Configure how SadConsole starts up
-Builder startup = new Builder()
+var startup = new Builder()
         .SetScreenSize(90 * 2, 30 * 2)
         .UseDefaultConsole()
         .OnStart(Game_Started)
@@ -26,15 +26,15 @@ Builder startup = new Builder()
         .ConfigureFonts(true)
     ;
 
-// Setup the engine and start the game
 Game.Create(startup);
 Game.Instance.Run();
 Game.Instance.Dispose();
 
 async void Game_Started(object? sender, GameHost host)
 {
-    Game.Instance.StartingConsole.Clear();
     Game.Instance.StartingConsole.Font = host.Fonts["Cheepicus12"];
+
+    Game.Instance.StartingConsole.Clear();
 
     Game.Instance.StartingConsole.Children.Add(new LoggerPanel(host.ScreenCellsX, host.ScreenCellsY));
 
