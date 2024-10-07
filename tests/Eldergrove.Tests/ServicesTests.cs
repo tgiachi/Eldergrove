@@ -1,4 +1,5 @@
 using Eldergrove.Engine.Core.Data.Internal;
+using Eldergrove.Engine.Core.Data.Json.Props;
 using Eldergrove.Engine.Core.Interfaces.Manager;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Manager;
@@ -58,5 +59,17 @@ public class ServicesTests
         var color = colorService.GetColor("test");
 
         Assert.That(color.A, Is.EqualTo(255));
+    }
+
+    [Test]
+    public void Test_PropService()
+    {
+        var propService = _engine.GetService<IPropService>();
+
+        propService.AddProp(new PropObject() { Id = "test", Symbol = "@"});
+
+        var prop = propService.GetProp("test");
+
+        Assert.That(prop, Is.Not.Null);
     }
 }

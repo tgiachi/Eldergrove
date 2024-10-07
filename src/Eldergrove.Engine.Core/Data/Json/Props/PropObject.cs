@@ -19,4 +19,6 @@ public class PropObject : IJsonDataObject, IJsonSymbolDataObject
     public bool IsBlocking { get; set; }
 
     public bool IsTransparent { get; set; }
+
+    public bool IsDestroyable { get; set; }
 }
