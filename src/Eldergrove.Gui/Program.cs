@@ -1,4 +1,5 @@
 ﻿using Eldergrove.Engine.Core.Data.Internal;
+using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.Manager;
 using Eldergrove.Engine.Core.State;
 using Eldergrove.Ui.Core.Surfaces;
@@ -32,7 +33,7 @@ Game.Instance.Dispose();
 
 async void Game_Started(object? sender, GameHost host)
 {
-    Game.Instance.StartingConsole.Font = host.Fonts["Cheepicus12"];
+    Game.Instance.StartingConsole.Font = host.Fonts.RandomElement().Value;
 
     Game.Instance.StartingConsole.Clear();
 
