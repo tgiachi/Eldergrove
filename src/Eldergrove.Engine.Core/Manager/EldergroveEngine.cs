@@ -118,7 +118,7 @@ public class EldergroveEngine : IEldergroveEngine
 
             if (service == null)
             {
-                _logger.Error("Failed to load service {ServiceType}", s.ServiceType);
+                //_logger.Error("Failed to load service {ServiceType}", s.ServiceType);
                 continue;
             }
 
