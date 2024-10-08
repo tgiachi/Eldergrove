@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.1.0-alpha.0"></a>
+## [0.1.0-alpha.0](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.1.0-alpha.0) (2024-10-08)
+
+### Features
+
+* replace Jint with NLua for scripting support in Eldergrove engine to enhance performance and flexibility ([a7a7bfe](https://www.github.com/tgiachi/Eldergrove/commit/a7a7bfe71eeee9c956cc5e6dd805d7fd31dbd8e8))
+
 <a name="0.0.1"></a>
 ## [0.0.1](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.0.1) (2024-10-08)
 
