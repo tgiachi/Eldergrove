@@ -66,6 +66,7 @@ public class EldergroveEngine : IEldergroveEngine
             .RegisterScriptModule<ColorsModule>()
             .RegisterScriptModule<RandomModule>()
             .RegisterScriptModule<EngineEventModule>()
+            .RegisterScriptModule<EventsModule>()
             ;
     }
 
