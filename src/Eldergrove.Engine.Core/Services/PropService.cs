@@ -70,6 +70,9 @@ public class PropService : IPropService, IGameObjectFactory<PropGameObject>
         gameObject = new PropGameObject(position, glyph, !tile.IsBlocking, tile.IsTransparent);
 
 
+        gameObject.CanDestroy = prop.IsDestructible;
+
+
         return gameObject;
     }
 }
