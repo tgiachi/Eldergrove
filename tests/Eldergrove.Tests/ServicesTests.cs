@@ -69,7 +69,7 @@ public class ServicesTests
 
         propService.AddProp(new PropObject() { Id = "test", Symbol = "@" });
 
-        var prop = propService.GetProp("test");
+        var prop = propService.GetPropById("test");
 
         Assert.That(prop, Is.Not.Null);
     }

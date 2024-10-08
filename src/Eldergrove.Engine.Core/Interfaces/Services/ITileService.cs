@@ -11,5 +11,7 @@ public interface ITileService : IEldergroveService
 
     ColoredGlyph GetTile(IJsonSymbolDataObject tileData);
 
+    (ColoredGlyph glyph, TileEntry tile) GetTileWithEntry(IJsonSymbolDataObject tileData);
+
     void AddTile(TileEntry tileEntry);
 }

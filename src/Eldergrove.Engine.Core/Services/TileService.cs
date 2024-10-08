@@ -74,6 +74,17 @@ public class TileService : ITileService
         return new ColoredGlyph(foreground, background, tileData.Symbol[0]);
     }
 
+    public (ColoredGlyph glyph, TileEntry tile) GetTileWithEntry(IJsonSymbolDataObject tileData)
+    {
+        if (_tiles.TryGetValue(tileData.Id, out var tile))
+        {
+            return (GetTile(tileData), tile);
+        }
+
+        _logger.LogWarning("Tile {TileId} not found", tileData.Id);
+        throw new KeyNotFoundException($"Tile {tileData.Id} not found");
+    }
+
     public void AddTile(TileEntry tileEntry)
     {
         _logger.LogDebug("Adding tile {TileId}", tileEntry.Id);

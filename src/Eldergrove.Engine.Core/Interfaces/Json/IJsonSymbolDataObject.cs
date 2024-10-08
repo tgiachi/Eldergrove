@@ -2,6 +2,8 @@ namespace Eldergrove.Engine.Core.Interfaces.Json;
 
 public interface IJsonSymbolDataObject
 {
+    string Id { get; set; }
+
     string Symbol { get; set; }
 
     string? Foreground { get; set; }
