@@ -1,10 +1,19 @@
 [
   {
     "$type": "tileset",
-    "id": "tileset1"
-  },
-  {
-    "$type": "tileset",
-    "id": "tileset2"
+    "id": "tileset1",
+    "tiles": [
+      {
+        "id": "wall",
+        "tags": [
+          "wall"
+        ],
+        "symbol": "#",
+        "foreground": "red",
+        "background": "black",
+        "is_blocking": true,
+        "is_transparent": false
+      }
+    ]
   }
 ]

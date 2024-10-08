@@ -7,5 +7,13 @@
     "is_blocking": true,
     "is_transparent": false,
     "is_destructible": true
+  },
+  {
+    "$type": "prop",
+    "id": "floor",
+    "category": "floors",
+    "symbol": ".",
+    "is_blocking": false,
+    "is_transparent": false
   }
 ]

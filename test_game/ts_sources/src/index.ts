@@ -1,5 +1,4 @@
 
-
 const titles = () => {
   log_info("Adding tiles");
 

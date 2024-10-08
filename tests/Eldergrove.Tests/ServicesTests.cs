@@ -4,6 +4,7 @@ using Eldergrove.Engine.Core.Data.Json.TileSet;
 using Eldergrove.Engine.Core.Interfaces.Manager;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Manager;
+using SadRogue.Primitives;
 
 namespace Eldergrove.Tests;
 
@@ -104,5 +105,25 @@ public class ServicesTests
         var typeScript = await scriptEngineService.GenerateTypeDefinitionsAsync();
 
         Assert.That(typeScript, Is.Not.Null);
+    }
+
+    //[Test]
+    public void Test_GeneratePropGameObjectById()
+    {
+        var propService = _engine.GetService<IPropService>();
+
+        var propGameObject = propService.BuildGameObject("rock_wall", new Point(0, 0));
+
+        Assert.That(propGameObject, Is.Not.Null);
+    }
+
+    //[Test]
+    public void Test_GeneratePropGameObjectByCategory()
+    {
+        var propService = _engine.GetService<IPropService>();
+
+        var propGameObject = propService.BuildGameObject("walls", new Point(0, 0));
+
+        Assert.That(propGameObject, Is.Not.Null);
     }
 }

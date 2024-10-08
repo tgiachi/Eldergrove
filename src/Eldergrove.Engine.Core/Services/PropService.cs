@@ -1,14 +1,13 @@
 using Eldergrove.Engine.Core.Data.Json.Props;
 using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.GameObject;
-using Eldergrove.Engine.Core.Interfaces.GameObjects;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Microsoft.Extensions.Logging;
 using SadRogue.Primitives;
 
 namespace Eldergrove.Engine.Core.Services;
 
-public class PropService : IPropService, IGameObjectFactory<PropGameObject>
+public class PropService : IPropService
 {
     private readonly ILogger _logger;
 
