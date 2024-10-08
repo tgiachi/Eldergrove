@@ -97,6 +97,7 @@ public class EldergroveEngine : IEldergroveEngine
             .AddEldergroveService<ITileService, TileService>()
             .AddEldergroveService<IItemService, ItemService>()
             .AddEldergroveService<IVersionService, VersionService>()
+            .AddEldergroveService<IEventDispatcherService, EventDispatcherService>()
             ;
     }
 
