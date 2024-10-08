@@ -9,7 +9,6 @@ using SadRogue.Primitives;
 
 namespace Eldergrove.Engine.Core.Services;
 
-
 [AutostartService(1)]
 public class TileService : ITileService
 {
@@ -77,7 +76,7 @@ public class TileService : ITileService
 
     public void AddTile(TileEntry tileEntry)
     {
-        _logger.LogInformation("Adding tile {TileId}", tileEntry.Id);
+        _logger.LogDebug("Adding tile {TileId}", tileEntry.Id);
         _tiles.Add(tileEntry.Id, tileEntry);
     }
 

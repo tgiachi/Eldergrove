@@ -22,9 +22,9 @@ public class TileServiceModule
 
 
     [ScriptFunction("add_tile")]
-    public void AddTile(JsValue tileData)
+    public void AddTile(object tileData)
     {
-        var json = tileData.ToString();
+        var json = JsonSerializer.Serialize(tileData, _serializerOptions);
 
         var obj = JsonSerializer.Deserialize<TileEntry>(json, _serializerOptions);
 

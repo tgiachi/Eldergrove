@@ -1,6 +1,6 @@
 // TypeScript type definitions generated from Eldergrove Engine
 declare const exports: any;
-declare function log_info(message: string, args: any): void;
+declare function log_info(message: string, args: any = null): void;
 declare function log_debug(message: string, args: any): void;
 declare function log_warn(message: string, args: any): void;
 declare function log_error(message: string, args: any): void;
@@ -11,7 +11,7 @@ declare function action_execute_cmd(command: string): void;
 declare function name_add(type: string, name: string): void;
 declare function name_add_from_file(type: string, path: string): void;
 declare function name_generate(type: string): string;
-declare function add_color(colorName: string, value: any): void;
+declare function add_color(colorName: string,  ...value: any): void;
 /** Returns a random integer value. */
 declare function random_int(min: number, max: number): number;
 /** Rolls a dice expression. */

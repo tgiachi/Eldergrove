@@ -1,23 +1,20 @@
 {
   "compilerOptions": {
     "target": "ES6",
-    "module": "Node16",
+    "module": "Preserve",
     "baseUrl": ".",
     "paths": {
       "@/*": [
         "src/*"
       ]
     },
-    "moduleResolution": "Node16",
     "outDir": "../scripts",
     "importsNotUsedAsValues": "remove",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "types": [
-      "types"
-    ]
+    
   },
   "include": [
     "src/**/*",

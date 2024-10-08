@@ -1,5 +1,5 @@
+"use strict";
 log_info("Adding tiles");
-
 add_tile({
     id: "floor",
     tags: ["floor"],
@@ -8,8 +8,7 @@ add_tile({
     background: "black",
     is_blocking: false,
     is_transparent: true
-})
-
+});
 add_tile({
     id: "wall",
     tags: ["wall"],
@@ -18,4 +17,4 @@ add_tile({
     background: "black",
     is_blocking: true,
     is_transparent: false
-})
+});
