@@ -9,7 +9,10 @@ using SadConsole.Configuration;
 Settings.WindowTitle = "SadConsole Examples";
 
 
-var engine = new EldergroveEngine(new EldergroveOptions() { RootDirectory = Path.Join(Path.GetTempPath(), "Eldergrove") });
+var rootDirectory = Environment.GetEnvironmentVariable("ELDERGROVE_ROOT_DIRECTORY") ??
+                    Path.Join(Directory.GetCurrentDirectory(), "Eldergrove");
+
+var engine = new EldergroveEngine(new EldergroveOptions() { RootDirectory = rootDirectory });
 
 EldergroveState.Engine = engine;
 

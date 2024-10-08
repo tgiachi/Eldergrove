@@ -53,6 +53,8 @@ public class ScriptEngineService : IScriptEngineService
                 options.StringCompilationAllowed = true;
             }
         );
+
+        AddContextVariable("exports", new Dictionary<string, object>());
     }
 
     public async Task StartAsync()
@@ -66,7 +68,12 @@ public class ScriptEngineService : IScriptEngineService
 
         foreach (var script in scriptsToLoad)
         {
-            ExecuteFileAsync(script);
+            var fileName = Path.GetFileName(script);
+
+            if (!fileName.StartsWith("_"))
+            {
+                await ExecuteFileAsync(script);
+            }
         }
     }
 
