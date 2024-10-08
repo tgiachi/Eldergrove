@@ -2,7 +2,7 @@
 
 ![Eldergrove Logo](./imgs/Eldergrove_logo.png)
 
-**Eldergrove** is a fantasy roguelike engine built in C# using GoRogue, SadConsole, and Jint for scripting. It allows players to explore a procedurally generated world filled with creatures, magic, and limitless adventure. The game engine is designed to provide an immersive experience that serves as an escape into a fantastical realm, where players can shape and evolve the world around them.
+**Eldergrove** is a fantasy roguelike engine built in C# using GoRogue, SadConsole, and NLua for scripting. It allows players to explore a procedurally generated world filled with creatures, magic, and limitless adventure. The game engine is designed to provide an immersive experience that serves as an escape into a fantastical realm, where players can shape and evolve the world around them.
 
 ## Features
 - Procedurally generated maps and worlds.

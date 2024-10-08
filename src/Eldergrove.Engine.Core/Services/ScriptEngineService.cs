@@ -8,7 +8,7 @@ using Eldergrove.Engine.Core.Data.Scripts;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Types;
 using Eldergrove.Engine.Core.Utils;
-using Jint;
+using NLua;
 using Serilog;
 
 
@@ -16,23 +16,16 @@ namespace Eldergrove.Engine.Core.Services;
 
 [AutostartService(1)]
 public class ScriptEngineService : IScriptEngineService
-
 {
     private readonly ILogger _logger = Log.ForContext<ScriptEngineService>();
-    private readonly Jint.Engine _engine;
+    private readonly Lua _luaEngine;
     private readonly Dictionary<string, object> _scriptConstants = new();
-
     private readonly List<ScriptClassData> _scriptModules;
     private readonly DirectoryConfig _directoryConfig;
-
     private readonly IServiceProvider _container;
-
-    private const string _fileExtension = "*.js";
-
+    private const string _fileExtension = "*.lua";
     public List<ScriptFunctionDescriptor> Functions { get; } = new();
-
     public Dictionary<string, object> ContextVariables { get; } = new();
-
 
     public ScriptEngineService(
         DirectoryConfig directoryConfig, List<ScriptClassData> scriptModules, IServiceProvider container
@@ -41,20 +34,7 @@ public class ScriptEngineService : IScriptEngineService
         _directoryConfig = directoryConfig;
         _scriptModules = scriptModules;
         _container = container;
-        _engine = new Jint.Engine(
-            options =>
-            {
-                options.DebugMode();
-                options.TimeoutInterval(TimeSpan.FromSeconds(10));
-                // Limit the memory to 4Gb
-                options.LimitMemory(4_000_000_000);
-
-                options.EnableModules(_directoryConfig[DirectoryType.ScriptsModules]);
-                options.StringCompilationAllowed = true;
-            }
-        );
-
-        AddContextVariable("exports", new Dictionary<string, object>());
+        _luaEngine = new Lua();
     }
 
     public async Task StartAsync()
@@ -100,10 +80,7 @@ public class ScriptEngineService : IScriptEngineService
 
                     _logger.Debug("Adding script method {M}", sMethodAttr.Alias ?? scriptMethod.Name);
 
-                    _engine.SetValue(
-                        sMethodAttr.Alias ?? scriptMethod.Name,
-                        CreateJsEngineDelegate(obj, scriptMethod)
-                    );
+                    _luaEngine[sMethodAttr.Alias ?? scriptMethod.Name] = CreateLuaEngineDelegate(obj, scriptMethod);
                 }
             }
             catch (Exception ex)
@@ -121,7 +98,7 @@ public class ScriptEngineService : IScriptEngineService
         try
         {
             var script = await File.ReadAllTextAsync(file);
-            _engine.Execute(script);
+            _luaEngine.DoString(script);
         }
         catch (Exception ex)
         {
@@ -135,7 +112,7 @@ public class ScriptEngineService : IScriptEngineService
         {
             FunctionName = attribute.Alias ?? methodInfo.Name,
             Help = attribute.Help,
-            Parameters = [],
+            Parameters = new(),
             ReturnType = methodInfo.ReturnType.Name,
             RawReturnType = methodInfo.ReturnType
         };
@@ -143,7 +120,11 @@ public class ScriptEngineService : IScriptEngineService
         foreach (var parameter in methodInfo.GetParameters())
         {
             descriptor.Parameters.Add(
-                new ScriptFunctionParameterDescriptor(parameter.Name, parameter.ParameterType.Name, parameter.ParameterType)
+                new ScriptFunctionParameterDescriptor(
+                    parameter.Name,
+                    parameter.ParameterType.Name,
+                    parameter.ParameterType
+                )
             );
         }
 
@@ -154,7 +135,10 @@ public class ScriptEngineService : IScriptEngineService
     {
         try
         {
-            var result = new ScriptEngineExecutionResult { Result = _engine.Evaluate(command) };
+            var result = new ScriptEngineExecutionResult
+            {
+                Result = _luaEngine.DoString(command)
+            };
 
             return result;
         }
@@ -164,15 +148,14 @@ public class ScriptEngineService : IScriptEngineService
         }
     }
 
-
     public void AddContextVariable(string name, object value)
     {
         _logger.Information("Adding context variable {Name} with value {Value}", name, value);
-        _engine.SetValue(name, value);
+        _luaEngine[name] = value;
         ContextVariables[name] = value;
     }
 
-    private static Delegate CreateJsEngineDelegate(object obj, MethodInfo method)
+    private static Delegate CreateLuaEngineDelegate(object obj, MethodInfo method)
     {
         return method.CreateDelegate(
             Expression.GetDelegateType(
@@ -183,7 +166,6 @@ public class ScriptEngineService : IScriptEngineService
             obj
         );
     }
-
 
     public async Task<string> GenerateTypeDefinitionsAsync()
     {
@@ -225,19 +207,17 @@ public class ScriptEngineService : IScriptEngineService
                 }
             }
 
-
             typeScriptDefinitions.AppendLine(
                 $"): {CSharpJsConverterUtils.ConvertCSharpTypeToTypeScript(function.ReturnType)};"
             );
         }
 
-        return typeScriptDefinitions.ToString();
+        return await Task.FromResult(typeScriptDefinitions.ToString());
     }
-
 
     public Task StopAsync()
     {
-        _engine.Dispose();
+        _luaEngine.Dispose();
 
         return Task.CompletedTask;
     }

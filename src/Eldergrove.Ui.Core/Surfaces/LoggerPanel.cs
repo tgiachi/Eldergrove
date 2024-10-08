@@ -16,8 +16,6 @@ public class LoggerPanel : Console, ISubscriber<LoggerEvent>
     private readonly List<LoggerEvent> _events = new();
 
 
-    private int _startLine = 0;
-
     public LoggerPanel(int width, int height) : base(width, height)
     {
         EldergroveState.Engine.GetService<IMessageBusService>().Subscribe(this);
@@ -46,6 +44,7 @@ public class LoggerPanel : Console, ISubscriber<LoggerEvent>
         {
             _events.RemoveAt(0);
         }
+
         _lock.Release();
 
         PrintMessages();
