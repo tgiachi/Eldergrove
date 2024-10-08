@@ -98,7 +98,7 @@ public class ScriptEngineService : IScriptEngineService
 
                     ExtractFunctionDescriptor(sMethodAttr, scriptMethod);
 
-                    _logger.Information("Adding script method {M}", sMethodAttr.Alias ?? scriptMethod.Name);
+                    _logger.Debug("Adding script method {M}", sMethodAttr.Alias ?? scriptMethod.Name);
 
                     _engine.SetValue(
                         sMethodAttr.Alias ?? scriptMethod.Name,

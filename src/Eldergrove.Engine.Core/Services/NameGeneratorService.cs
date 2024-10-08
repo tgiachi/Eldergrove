@@ -20,7 +20,7 @@ public class NameGeneratorService : INameGeneratorService
 
     public void AddName(string type, string name)
     {
-        _logger.LogDebug("Adding name '{Name}' to type '{Type}'.", name, type);
+        _logger.LogTrace("Adding name '{Name}' to type '{Type}'.", name, type);
         if (!_names.TryGetValue(type, out var names))
         {
             names = new List<string>();

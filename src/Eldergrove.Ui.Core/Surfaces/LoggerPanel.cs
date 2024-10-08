@@ -16,6 +16,8 @@ public class LoggerPanel : Console, ISubscriber<LoggerEvent>
     private readonly List<LoggerEvent> _events = new();
 
 
+    private int _startLine = 0;
+
     public LoggerPanel(int width, int height) : base(width, height)
     {
         EldergroveState.Engine.GetService<IMessageBusService>().Subscribe(this);
@@ -39,6 +41,11 @@ public class LoggerPanel : Console, ISubscriber<LoggerEvent>
     {
         _lock.Wait();
         _events.Add(message);
+
+        if (_events.Count > Height)
+        {
+            _events.RemoveAt(0);
+        }
         _lock.Release();
 
         PrintMessages();
@@ -47,7 +54,7 @@ public class LoggerPanel : Console, ISubscriber<LoggerEvent>
     private void PrintMessages()
     {
         //  _lock.Wait();
-        //this.Clear();
+        this.Clear();
         for (var i = 0; i < _events.Count; i++)
         {
             var @event = _events[i];
