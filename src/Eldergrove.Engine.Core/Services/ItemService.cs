@@ -95,4 +95,10 @@ public class ItemService : IItemService
 
         return items;
     }
+
+    public void AddItem(ItemObject item)
+    {
+        _logger.LogDebug("Adding item {ItemId}", item.Id);
+        _items.Add(item.Id, item);
+    }
 }

@@ -15,4 +15,7 @@ public class ItemGameObject : RogueLikeCell
     ) : base(appearance, (int)MapLayerType.Items, walkable, transparent)
     {
     }
+
+
+    public override string ToString() => $"Item: {ItemId}";
 }

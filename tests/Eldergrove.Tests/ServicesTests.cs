@@ -1,5 +1,7 @@
 using Eldergrove.Engine.Core.Data.Internal;
+using Eldergrove.Engine.Core.Data.Json.Items;
 using Eldergrove.Engine.Core.Data.Json.Props;
+using Eldergrove.Engine.Core.Data.Json.Random;
 using Eldergrove.Engine.Core.Data.Json.TileSet;
 using Eldergrove.Engine.Core.Interfaces.Manager;
 using Eldergrove.Engine.Core.Interfaces.Services;
@@ -21,8 +23,66 @@ public class ServicesTests
 
         await _engine.StartAsync();
         await _engine.InitializeAsync();
+
+        LoadData();
     }
 
+
+    private void LoadData()
+    {
+        _engine.GetService<IColorService>().AddColor("black", 0, 0, 0);
+        _engine.GetService<IColorService>().AddColor("white", 255, 255, 255);
+
+        _engine.GetService<IItemService>()
+            .AddItem(
+                new ItemObject()
+                {
+                    Id = "i_test",
+                    Symbol = "t_test",
+                    Category = "test",
+                }
+            );
+
+        _engine.GetService<ITileService>()
+            .AddTile(
+                new TileEntry()
+                {
+                    Id = "t_test",
+                    Symbol = "@",
+                    Background = "black",
+                    Foreground = "white"
+                }
+            );
+
+        _engine.GetService<IPropService>()
+            .AddProp(
+                new PropObject()
+                {
+                    Id = "rock_wall",
+                    Symbol = "t_test",
+                    Category = "walls",
+                }
+            );
+
+        _engine.GetService<IPropService>()
+            .AddProp(
+                new PropObject()
+                {
+                    Id = "closet",
+                    Symbol = "t_test",
+                    Category = "walls",
+                    Container = new List<JsonRandomObject>()
+                    {
+                        new()
+                        {
+                            Id = "i_test",
+                            Min = 1,
+                            Max = 10
+                        }
+                    }
+                }
+            );
+    }
 
     [Test]
     public async Task Test_RandomNameGenerator()
@@ -84,7 +144,7 @@ public class ServicesTests
         var testTile = new TileEntry()
         {
             Symbol = "@",
-            Id = "t_test",
+            Id = "t_test2",
             Background = "#000000",
             Foreground = "#FFFFFF"
         };
@@ -107,7 +167,7 @@ public class ServicesTests
         Assert.That(typeScript, Is.Not.Null);
     }
 
-    //[Test]
+    [Test]
     public void Test_GeneratePropGameObjectById()
     {
         var propService = _engine.GetService<IPropService>();
@@ -117,7 +177,7 @@ public class ServicesTests
         Assert.That(propGameObject, Is.Not.Null);
     }
 
-    //[Test]
+    [Test]
     public void Test_GeneratePropGameObjectByCategory()
     {
         var propService = _engine.GetService<IPropService>();
@@ -125,5 +185,15 @@ public class ServicesTests
         var propGameObject = propService.BuildGameObject("walls", new Point(0, 0));
 
         Assert.That(propGameObject, Is.Not.Null);
+    }
+
+    [Test]
+    public void Test_GeneratePropWithContainer()
+    {
+        var propService = _engine.GetService<IPropService>();
+
+        var propGameObject = propService.BuildGameObject("closet", new Point(0, 0));
+
+        Assert.That(propGameObject.ContainerItems.Count > 0, Is.True);
     }
 }

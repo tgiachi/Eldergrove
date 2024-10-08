@@ -1,3 +1,4 @@
+using Eldergrove.Engine.Core.Data.Json.Items;
 using Eldergrove.Engine.Core.GameObject;
 using Eldergrove.Engine.Core.Interfaces.GameObjects;
 using Eldergrove.Engine.Core.Interfaces.Json;
@@ -9,5 +10,8 @@ public interface IItemService : IGameObjectFactory<ItemGameObject>
 {
 
     IEnumerable<ItemGameObject> GetRandomItems(IEnumerable<IJsonRandomObject> randomBag);
+
+
+    void AddItem(ItemObject item);
 
 }
