@@ -26,3 +26,7 @@ tasks:
   run:
     cmds:
       - dotnet run --project src/Eldergrove.Gui/Eldergrove.Gui.csproj
+  bump:
+    cmds:
+      - versionize --pre-release alpha
+      - git push --follow-tags origin main
