@@ -67,6 +67,7 @@ public class EldergroveEngine : IEldergroveEngine
             .RegisterScriptModule<RandomModule>()
             .RegisterScriptModule<EngineEventModule>()
             .RegisterScriptModule<EventsModule>()
+            .RegisterScriptModule<TileServiceModule>()
             ;
     }
 
