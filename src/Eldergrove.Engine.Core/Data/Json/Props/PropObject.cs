@@ -9,7 +9,6 @@ namespace Eldergrove.Engine.Core.Data.Json.Props;
 public class PropObject : IJsonDataObject, IJsonSymbolDataObject, IJsonCategoryObject
 {
     public string Id { get; set; }
-
     public string Category { get; set; }
 
     public string? SubCategory { get; set; }
@@ -20,10 +19,10 @@ public class PropObject : IJsonDataObject, IJsonSymbolDataObject, IJsonCategoryO
     public bool IsBlocking { get; set; }
 
     public bool IsTransparent { get; set; }
-
     public bool IsDestructible { get; set; }
 
     public JsonRandomObject? OnDestroy { get; set; }
-
     public JsonStateObject? Door { get; set; }
+
+    public List<JsonRandomObject>? Container { get; set; }
 }

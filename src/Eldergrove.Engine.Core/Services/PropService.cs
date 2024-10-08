@@ -16,10 +16,13 @@ public class PropService : IPropService, IGameObjectFactory<PropGameObject>
 
     private readonly ITileService _tileService;
 
-    public PropService(ILogger<PropService> logger, ITileService tileService)
+    private readonly IItemService _itemService;
+
+    public PropService(ILogger<PropService> logger, ITileService tileService, IItemService itemService)
     {
         _logger = logger;
         _tileService = tileService;
+        _itemService = itemService;
     }
 
     public Task StartAsync() => Task.CompletedTask;
@@ -67,10 +70,23 @@ public class PropService : IPropService, IGameObjectFactory<PropGameObject>
         var (glyph, tile) = _tileService.GetTileWithEntry(prop);
 
 
-        gameObject = new PropGameObject(position, glyph, !tile.IsBlocking, tile.IsTransparent);
+        gameObject = new PropGameObject(position, glyph, !tile.IsBlocking, tile.IsTransparent)
+        {
+            CanDestroy = prop.IsDestructible
+        };
 
 
-        gameObject.CanDestroy = prop.IsDestructible;
+        if (prop.Door != null)
+        {
+            // Build door
+        }
+
+        if (prop.Container != null)
+        {
+            var items = _itemService.GetRandomItems(prop.Container);
+
+            gameObject.ContainerItems = items.ToList();
+        }
 
 
         return gameObject;
