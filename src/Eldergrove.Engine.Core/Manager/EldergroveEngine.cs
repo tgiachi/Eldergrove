@@ -71,6 +71,7 @@ public class EldergroveEngine : IEldergroveEngine
             .RegisterScriptModule<EventsModule>()
             .RegisterScriptModule<TileServiceModule>()
             .RegisterScriptModule<NpcModule>()
+            .RegisterScriptModule<MapModule>()
             ;
     }
 
@@ -141,6 +142,9 @@ public class EldergroveEngine : IEldergroveEngine
         {
             action();
         }
+
+        _logger.Information("Engine started");
+        GetService<IEventDispatcherService>().DispatchEvent("engine_ready");
     }
 
     public Task StartAsync()
