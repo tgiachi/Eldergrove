@@ -9,6 +9,7 @@ function npc_seed.seed()
         background = "white",
         category = "animals",
         sub_category = "cats",
+        brain_ai = "dummy",
         skills = {
             health = {
                 min = 10,

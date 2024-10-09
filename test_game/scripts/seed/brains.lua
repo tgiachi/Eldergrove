@@ -4,6 +4,7 @@ local brains = {}
 
 local function dummy_brain() 
 
+    log_info("Dummy brain called")
 end
 
 

@@ -31,6 +31,9 @@ public class NpcObject : IJsonDataObject,
 
     public string? SubCategory { get; set; }
 
+
+    public string AiBrain { get; set; }
+
     public JsonSkillsObject Skills { get; set; }
 
     public List<JsonRandomObject>? Container { get; set; }

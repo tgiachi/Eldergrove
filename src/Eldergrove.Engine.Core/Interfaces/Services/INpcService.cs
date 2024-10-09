@@ -11,4 +11,6 @@ public interface INpcService : IGameObjectFactory<NpcGameObject>
     void AddNpc(NpcObject npc);
 
     void AddBrain(string id, Action<AiContext> brain);
+
+    void InvokeBrain(string id, AiContext context);
 }

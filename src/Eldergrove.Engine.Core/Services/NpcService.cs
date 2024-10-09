@@ -96,6 +96,11 @@ public class NpcService : INpcService
 
         gameObject.GoRogueComponents.Add(skills);
 
+        gameObject.GoRogueComponents.Add(new AiComponent(this)
+        {
+            BrainId = npc.BrainAi
+        });
+
 
         return gameObject;
     }
@@ -109,6 +114,17 @@ public class NpcService : INpcService
 
     public void AddBrain(string id, Action<AiContext> brain)
     {
+        _logger.LogDebug("Adding brain {BrainId}", id);
         _brains.Add(id, brain);
+    }
+
+    public void InvokeBrain(string id, AiContext context)
+    {
+        if (!_brains.TryGetValue(id, out var brain))
+        {
+            throw new InvalidOperationException($"No brain found with id {id}");
+        }
+
+        brain(context);
     }
 }
