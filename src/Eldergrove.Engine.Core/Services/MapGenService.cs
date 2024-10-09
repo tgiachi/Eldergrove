@@ -27,12 +27,11 @@ public class MapGenService : IMapGenService
 
     public void AddFabric(MapFabricObject fabric)
     {
-        if (_mapFabrics.ContainsKey(fabric.Id))
+        if (!_mapFabrics.TryAdd(fabric.Id, fabric))
         {
             _logger.LogWarning($"Map fabric with id {fabric.Id} already exists");
             return;
         }
-
-        _mapFabrics.Add(fabric.Id, fabric);
+        _logger.LogDebug($"Map fabric {fabric.Name} added");
     }
 }

@@ -122,7 +122,7 @@ public class EldergroveEngine : IEldergroveEngine
 
         var serviceToLoad = _serviceProvider.GetService<List<AutostartServiceData>>();
 
-        foreach (var s in serviceToLoad)
+        foreach (var s in serviceToLoad.OrderBy(s => s.Order))
         {
             var service = _serviceProvider.GetService(s.ServiceType) as IEldergroveService;
 

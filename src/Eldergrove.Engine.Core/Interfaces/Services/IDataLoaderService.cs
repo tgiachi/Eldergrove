@@ -7,4 +7,6 @@ public interface IDataLoaderService : IEldergroveService
     void AddDataType<T>(string name) where T : class;
 
     void SubscribeData<T>(Func<T,Task> action) where T : class;
+
+    void LoadData(string content);
 }

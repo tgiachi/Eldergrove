@@ -119,6 +119,25 @@ public class DataLoaderService : IDataLoaderService
         }
     }
 
+    public void LoadData(string content)
+    {
+        var json = JsonDocument.Parse(content);
+        if (json.RootElement.ValueKind == JsonValueKind.Object)
+        {
+            ProcessElement(json.RootElement);
+        }
+
+        if (json.RootElement.ValueKind == JsonValueKind.Array)
+        {
+            foreach (var element in json.RootElement.EnumerateArray())
+            {
+                ProcessElement(element);
+            }
+        }
+
+        json.Dispose();
+    }
+
     private async Task NotifySubscribers<T>(IEnumerable<T> data)
     {
         var type = data.ToArray()[0].GetType();
