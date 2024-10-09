@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.1.0-alpha.2"></a>
+## [0.1.0-alpha.2](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.1.0-alpha.2) (2024-10-09)
+
+### Features
+
+* **AutostartServiceAttribute:** set default order value to 5 for better usability ([cc7a5ae](https://www.github.com/tgiachi/Eldergrove/commit/cc7a5aed74c5f70e3ff6297f2235baccbc6ce469))
+* **DoorComponent:** add isOpen parameter to constructor for better door state management ([132d4db](https://www.github.com/tgiachi/Eldergrove/commit/132d4db7743b054b5f648ee09b2b246467bcacf9))
+* **ItemsContainer:** implement ItemsContainerComponent to manage items in game objects ([531253a](https://www.github.com/tgiachi/Eldergrove/commit/531253a5c3e5b2932f912e7c0e65d6f4f4b5fb57))
+
 <a name="0.1.0-alpha.1"></a>
 ## [0.1.0-alpha.1](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.1.0-alpha.1) (2024-10-09)
 
