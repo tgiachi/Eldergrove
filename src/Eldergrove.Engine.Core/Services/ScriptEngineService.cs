@@ -9,6 +9,7 @@ using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Types;
 using Eldergrove.Engine.Core.Utils;
 using NLua;
+using NLua.Exceptions;
 using Serilog;
 
 
@@ -102,7 +103,7 @@ public class ScriptEngineService : IScriptEngineService
             var script = await File.ReadAllTextAsync(file);
             _luaEngine.DoString(script);
         }
-        catch (Exception ex)
+        catch (LuaException ex)
         {
             _logger.Error(ex, "Error executing script: {File}", Path.GetFileName(file));
         }
@@ -144,7 +145,7 @@ public class ScriptEngineService : IScriptEngineService
 
             return result;
         }
-        catch (Exception ex)
+        catch (LuaException ex)
         {
             return new ScriptEngineExecutionResult() { Exception = ex };
         }
@@ -236,6 +237,12 @@ public class ScriptEngineService : IScriptEngineService
 			package.path = module_folder .. '?.lua;' .. package.path
             package.path = module_script_folder .. '?.lua;' .. package.path"
         );
+    }
+
+    private string FormatException(LuaException e)
+    {
+        var source = (string.IsNullOrEmpty(e.Source)) ? "<no source>" : e.Source.Substring(0, e.Source.Length - 2);
+        return string.Format("{0}\nLua (at {2})", e.Message, string.Empty, source);
     }
 
     public Task StopAsync()
