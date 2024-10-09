@@ -14,7 +14,7 @@ public class ColorsModule
     }
 
     [ScriptFunction("add_color")]
-    public void AddColor(string colorName, int[] value)
+    public void AddColor(string colorName, params int[] value)
     {
         if (value.Length == 3)
         {

@@ -1,15 +1,10 @@
-local my_module = require "test_mod.index"
-
-
+local color_seed = require "seed.colors"
+local tile_seed = require "seed.tiles"
 local function bootstrap()
-    log_info("bootstrap")
 
-    my_module.test_func()
+    color_seed.colors()
+    -- tile_seed.seed()
 
-    add_tile({
-        id = "t_tile",
-        symbol = "T",
-    })
 end
 
 

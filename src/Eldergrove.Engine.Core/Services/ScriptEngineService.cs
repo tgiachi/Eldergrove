@@ -176,7 +176,7 @@ public class ScriptEngineService : IScriptEngineService
 
         luaDefinitions.AppendLine("-- Eldergrove Engine Lua Definitions");
         luaDefinitions.AppendLine();
-        
+
         foreach (var constant in _scriptConstants)
         {
             luaDefinitions.AppendLine(
