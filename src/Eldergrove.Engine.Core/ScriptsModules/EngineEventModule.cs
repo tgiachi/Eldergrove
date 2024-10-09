@@ -1,22 +1,35 @@
 using Eldergrove.Engine.Core.Attributes.Scripts;
 using Eldergrove.Engine.Core.Interfaces.Manager;
+using Microsoft.Extensions.Logging;
 
 namespace Eldergrove.Engine.Core.ScriptsModules;
 
 [ScriptModule]
 public class EngineEventModule
 {
-    private readonly IEldergroveEngine _engine;
+    private readonly ILogger _logger;
 
-    public EngineEventModule(IEldergroveEngine engine)
+    public EngineEventModule(ILogger<EngineEventModule> logger)
     {
-        _engine = engine;
+        _logger = logger;
     }
 
 
-    [ScriptFunction("on_engine_start")]
-    public void OnEngineStart(Action action)
+    [ScriptFunction("task")]
+    public void ExecuteTask(Action action)
     {
-        _engine.AddOnEngineStart(action);
+        Task.Run(
+            () =>
+            {
+                try
+                {
+                    action();
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e, "Error executing task {Task}", action.Method.Name);
+                }
+            }
+        );
     }
 }

@@ -162,9 +162,9 @@ public class ServicesTests
     {
         var scriptEngineService = _engine.GetService<IScriptEngineService>();
 
-        var typeScript = await scriptEngineService.GenerateTypeDefinitionsAsync();
+        var lua = await scriptEngineService.GenerateDefinitionsAsync();
 
-        Assert.That(typeScript, Is.Not.Null);
+        Assert.That(lua, Is.Not.Null);
     }
 
     [Test]

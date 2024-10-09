@@ -169,52 +169,57 @@ public class ScriptEngineService : IScriptEngineService
         );
     }
 
-    public async Task<string> GenerateTypeDefinitionsAsync()
+    public async Task<string> GenerateDefinitionsAsync()
     {
-        var typeScriptDefinitions = new StringBuilder();
+        var luaDefinitions = new StringBuilder();
 
-        typeScriptDefinitions.AppendLine("// TypeScript type definitions generated from Eldergrove Engine");
+        luaDefinitions.AppendLine("-- Eldergrove Engine Lua Definitions");
+        luaDefinitions.AppendLine();
 
+        // Aggiungi le costanti di contesto
         foreach (var constant in _scriptConstants)
         {
-            string typeScriptType = CSharpJsConverterUtils.ConvertCSharpTypeToTypeScript(constant.Value.GetType().Name);
-            typeScriptDefinitions.AppendLine($"declare const {constant.Key}: {typeScriptType};");
+            luaDefinitions.AppendLine(
+                $"-- {constant.Key}: {CSharpJsConverterUtils.ConvertCSharpTypeToTypeScript(constant.Value.GetType().Name)}"
+            );
         }
 
         foreach (var constant in ContextVariables)
         {
-            string typeScriptType = CSharpJsConverterUtils.ConvertCSharpTypeToTypeScript(constant.Value.GetType().Name);
-            typeScriptDefinitions.AppendLine($"declare const {constant.Key}: {typeScriptType};");
+            luaDefinitions.AppendLine(
+                $"-- {constant.Key}: {CSharpJsConverterUtils.ConvertCSharpTypeToTypeScript(constant.Value.GetType().Name)}"
+            );
         }
+
+        luaDefinitions.AppendLine();
+
+
 
         foreach (var function in Functions)
         {
             if (!string.IsNullOrEmpty(function.Help))
             {
-                typeScriptDefinitions.AppendLine($"/** {function.Help} */");
+                luaDefinitions.AppendLine($"-- {function.Help}");
             }
 
-            typeScriptDefinitions.Append($"declare function {function.FunctionName}(");
+            luaDefinitions.Append($"function {function.FunctionName}(");
 
             for (int i = 0; i < function.Parameters.Count; i++)
             {
                 var param = function.Parameters[i];
-                typeScriptDefinitions.Append(
-                    $"{param.ParameterName}: {CSharpJsConverterUtils.ConvertCSharpTypeToTypeScript(param.ParameterType)}"
-                );
+                luaDefinitions.Append($"{param.ParameterName}");
 
                 if (i < function.Parameters.Count - 1)
                 {
-                    typeScriptDefinitions.Append(", ");
+                    luaDefinitions.Append(", ");
                 }
             }
 
-            typeScriptDefinitions.AppendLine(
-                $"): {CSharpJsConverterUtils.ConvertCSharpTypeToTypeScript(function.ReturnType)};"
-            );
+            luaDefinitions.AppendLine(") end");
+            luaDefinitions.AppendLine();
         }
 
-        return await Task.FromResult(typeScriptDefinitions.ToString());
+        return luaDefinitions.ToString();
     }
 
 
