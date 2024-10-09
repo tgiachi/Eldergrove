@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.1.0"></a>
+## [0.1.0](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.1.0) (2024-10-09)
+
+### Features
+
+* **SchedulerService:** add ISchedulerService interface and its implementation ([233a20e](https://www.github.com/tgiachi/Eldergrove/commit/233a20e3b388e9675b091e9faa6c5dd6c27ada77))
+
 <a name="0.1.0-alpha.5"></a>
 ## [0.1.0-alpha.5](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.1.0-alpha.5) (2024-10-09)
 
