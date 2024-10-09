@@ -1,3 +1,4 @@
+using Eldergrove.Engine.Core.Components;
 using Eldergrove.Engine.Core.Data.Json.Props;
 using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.GameObject;
@@ -77,7 +78,10 @@ public class PropService : IPropService
 
         if (prop.Door != null)
         {
-            // Build door
+            var openedTile = _tileService.GetTile(prop.Door.On);
+            var closedTile = _tileService.GetTile(prop.Door.Off);
+
+            gameObject.GoRogueComponents.Add(new DoorComponent(closedTile, openedTile));
         }
 
         if (prop.Container != null)

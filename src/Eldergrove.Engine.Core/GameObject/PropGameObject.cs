@@ -11,6 +11,8 @@ public class PropGameObject : RogueLikeCell
 
     public bool IsContainer { get; set; }
 
+    public bool IsDoor { get; set; }
+
     public List<ItemGameObject> ContainerItems { get; set; } = new();
 
     public PropGameObject(
