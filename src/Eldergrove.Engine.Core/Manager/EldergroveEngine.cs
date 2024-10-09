@@ -3,6 +3,7 @@ using Eldergrove.Engine.Core.Data.Json.Colors;
 using Eldergrove.Engine.Core.Data.Json.Items;
 using Eldergrove.Engine.Core.Data.Json.Keybinding;
 using Eldergrove.Engine.Core.Data.Json.Names;
+using Eldergrove.Engine.Core.Data.Json.Npcs;
 using Eldergrove.Engine.Core.Data.Json.Props;
 using Eldergrove.Engine.Core.Data.Json.TileSet;
 using Eldergrove.Engine.Core.Extensions;
@@ -80,6 +81,7 @@ public class EldergroveEngine : IEldergroveEngine
             .AddDataLoaderType<PropObject>()
             .AddDataLoaderType<NamesObject>()
             .AddDataLoaderType<ItemObject>()
+            .AddDataLoaderType<NpcObject>()
             ;
     }
 
@@ -100,6 +102,7 @@ public class EldergroveEngine : IEldergroveEngine
             .AddEldergroveService<IItemService, ItemService>()
             .AddEldergroveService<IVersionService, VersionService>()
             .AddEldergroveService<IEventDispatcherService, EventDispatcherService>()
+            .AddEldergroveService<INpcService, NpcService>()
             ;
     }
 

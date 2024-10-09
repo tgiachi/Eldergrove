@@ -68,7 +68,8 @@ public class ItemService : IItemService
 
         itemGameObject = new ItemGameObject(position, glyph, item.IsBlocking, item.IsTransparent)
         {
-            ItemId = item.Id
+            ItemId = item.Id,
+            Name = item.Name
         };
 
 

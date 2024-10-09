@@ -76,6 +76,12 @@ public class PropService : IPropService
         };
 
 
+        if (prop.Name != null)
+        {
+            gameObject.Name = prop.Name;
+        }
+
+
         if (prop.Door != null)
         {
             var openedTile = _tileService.GetTile(prop.Door.On);
@@ -87,10 +93,8 @@ public class PropService : IPropService
         if (prop.Container != null)
         {
             var items = _itemService.GetRandomItems(prop.Container);
-
-            gameObject.ContainerItems = items.ToList();
+            gameObject.GoRogueComponents.Add(new ItemsContainerComponent(items.ToList()));
         }
-
 
         return gameObject;
     }

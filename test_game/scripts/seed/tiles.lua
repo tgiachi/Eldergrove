@@ -1,6 +1,6 @@
 local seed_tile = {}
 
-function seed_tile.seed()
+function seed_tile.seed() 
     add_tile({
         id = "t_tile",
         symbol = "T",

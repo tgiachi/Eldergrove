@@ -1,6 +1,6 @@
 namespace Eldergrove.Engine.Core.Interfaces.Components;
 
-public class INamedComponent
+public interface INamedComponent
 {
-    
+    string Name { get; set; }
 }

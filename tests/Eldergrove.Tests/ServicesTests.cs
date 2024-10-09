@@ -194,6 +194,6 @@ public class ServicesTests
 
         var propGameObject = propService.BuildGameObject("closet", new Point(0, 0));
 
-        Assert.That(propGameObject.ContainerItems.Count > 0, Is.True);
+        Assert.That(propGameObject.ItemsContainer.Items.Count > 0, Is.True);
     }
 }

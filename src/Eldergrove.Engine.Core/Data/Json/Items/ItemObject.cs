@@ -5,7 +5,7 @@ namespace Eldergrove.Engine.Core.Data.Json.Items;
 
 
 [DataLoaderType("item")]
-public class ItemObject : IJsonDataObject, IJsonSymbolDataObject, IJsonTagsDataObject, IJsonCategoryObject
+public class ItemObject : IJsonDataObject, IJsonSymbolDataObject, IJsonTagsDataObject, IJsonCategoryObject, IJsonNamedObject
 {
     public string Id { get; set; }
     public string Symbol { get; set; }
@@ -21,4 +21,6 @@ public class ItemObject : IJsonDataObject, IJsonSymbolDataObject, IJsonTagsDataO
     public string Category { get; set; }
 
     public string? SubCategory { get; set; }
+
+    public string Name { get; set; }
 }

@@ -1,6 +1,7 @@
 using Eldergrove.Engine.Core.Attributes.Scripts;
 using Eldergrove.Engine.Core.Data.Internal;
 using Eldergrove.Engine.Core.Interfaces.Services;
+using Microsoft.Extensions.Logging;
 
 namespace Eldergrove.Engine.Core.ScriptsModules;
 
@@ -10,10 +11,15 @@ public class NamesGeneratorModule
     private readonly INameGeneratorService _nameGeneratorService;
     private readonly DirectoryConfig _directoryConfig;
 
-    public NamesGeneratorModule(INameGeneratorService nameGeneratorService, DirectoryConfig directoryConfig)
+    private readonly ILogger _logger;
+
+    public NamesGeneratorModule(
+        INameGeneratorService nameGeneratorService, DirectoryConfig directoryConfig, ILogger<NamesGeneratorModule> logger
+    )
     {
         _nameGeneratorService = nameGeneratorService;
         _directoryConfig = directoryConfig;
+        _logger = logger;
     }
 
     [ScriptFunction("name_add")]
@@ -31,6 +37,8 @@ public class NamesGeneratorModule
         {
             _nameGeneratorService.AddName(type, name);
         }
+
+        _logger.LogInformation("Added {Count} names of type {Type} from file {Path}", names.Length, type, path);
     }
 
     [ScriptFunction("name_generate")]
