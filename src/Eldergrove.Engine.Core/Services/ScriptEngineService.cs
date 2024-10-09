@@ -35,6 +35,8 @@ public class ScriptEngineService : IScriptEngineService
         _scriptModules = scriptModules;
         _container = container;
         _luaEngine = new Lua();
+
+        AddModulesDirectory();
     }
 
     public async Task StartAsync()
@@ -213,6 +215,22 @@ public class ScriptEngineService : IScriptEngineService
         }
 
         return await Task.FromResult(typeScriptDefinitions.ToString());
+    }
+
+
+    private void AddModulesDirectory()
+    {
+        var modulesPath = Path.Combine(_directoryConfig[DirectoryType.Scripts]) + Path.DirectorySeparatorChar;
+        var scriptModulePath = Path.Combine(_directoryConfig[DirectoryType.ScriptsModules]) + Path.DirectorySeparatorChar;
+
+        _luaEngine.DoString(
+            $@"
+			-- Update the search path
+			local module_folder = '{modulesPath}'
+            local module_script_folder = '{scriptModulePath}'
+			package.path = module_folder .. '?.lua;' .. package.path
+            package.path = module_script_folder .. '?.lua;' .. package.path"
+        );
     }
 
     public Task StopAsync()
