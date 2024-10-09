@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.1.0-alpha.1"></a>
+## [0.1.0-alpha.1](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.1.0-alpha.1) (2024-10-09)
+
+### Features
+
+* **ColorsModule:** change AddColor method to accept variable arguments for color values to enhance flexibility ([a00dd50](https://www.github.com/tgiachi/Eldergrove/commit/a00dd50ef9bc31d151192813694f7f3ef4a827f9))
+* **door-component:** implement DoorComponent to manage door states in the game ([bd7901a](https://www.github.com/tgiachi/Eldergrove/commit/bd7901a0932d5c26ae0452ba2183bcd78e40d222))
+* **ScriptEngineService:** add AddModulesDirectory method to configure Lua module search paths for better script management ([7a0d8ac](https://www.github.com/tgiachi/Eldergrove/commit/7a0d8acabd7b74e96ac8b655c0dcad1a7fd9c5f1))
+* **Taskfile:** add bump task to automate versioning and pushing tags to main branch ([050ac03](https://www.github.com/tgiachi/Eldergrove/commit/050ac0362e15d3f3f1fb3c78c70578076d1e84a3))
+* **TileServiceModule:** change AddTile method to accept LuaTable for better integration with Lua scripts ([4473729](https://www.github.com/tgiachi/Eldergrove/commit/4473729ab0feaafd3fb76de2ed7d4569a17e5472))
+
+### Bug Fixes
+
+* **ScriptEngineService:** catch specific LuaException instead of general Exception to improve error handling ([2ee13d7](https://www.github.com/tgiachi/Eldergrove/commit/2ee13d7d1dfaf80f379fc7989d4a96f97aadfff3))
+* **ScriptEngineService:** enhance error logging to include formatted exception details for better debugging ([51ed8ef](https://www.github.com/tgiachi/Eldergrove/commit/51ed8efa7f6186c25ae817b91afff55c07438bc0))
+
 <a name="0.1.0-alpha.0"></a>
 ## [0.1.0-alpha.0](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.1.0-alpha.0) (2024-10-08)
 
