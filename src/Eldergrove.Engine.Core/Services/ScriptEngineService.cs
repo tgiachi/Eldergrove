@@ -58,6 +58,13 @@ public class ScriptEngineService : IScriptEngineService
                 await ExecuteFileAsync(script);
             }
         }
+
+
+        if (ContextVariables.TryGetValue("bootstrap", out object? value) && value is LuaFunction bootstrap)
+        {
+            bootstrap.Call();
+        }
+
     }
 
     private Task ScanScriptModulesAsync()

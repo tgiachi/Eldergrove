@@ -1,5 +1,6 @@
 using Eldergrove.Engine.Core.Attributes.Scripts;
 using Eldergrove.Engine.Core.Interfaces.Services;
+using NLua;
 
 
 namespace Eldergrove.Engine.Core.ScriptsModules;
@@ -14,9 +15,16 @@ public class ScriptModule
         _scriptEngineService = scriptEngineService;
     }
 
-    [ScriptFunction("add_ctx_var")]
+    [ScriptFunction("add_ctx")]
     public void AddContextVariable(string name, object value)
     {
         _scriptEngineService.AddContextVariable(name, value);
+    }
+
+
+    [ScriptFunction("on_start")]
+    public void RegisterBootstrap(LuaFunction function)
+    {
+        _scriptEngineService.AddContextVariable("bootstrap", function);
     }
 }
