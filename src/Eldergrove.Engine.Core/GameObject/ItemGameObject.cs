@@ -16,6 +16,5 @@ public class ItemGameObject : RogueLikeCell
     {
     }
 
-
     public override string ToString() => $"Item: {ItemId}";
 }

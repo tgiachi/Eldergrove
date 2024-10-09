@@ -12,10 +12,16 @@ public class DoorComponent : RogueLikeComponentBase<PropGameObject>, IActionable
 
     public bool IsOpen { get; private set; }
 
-    public  DoorComponent(ColoredGlyph openDoor, ColoredGlyph coloredGlyph) : base(false, false, false, false)
+    public DoorComponent(ColoredGlyph openDoor, ColoredGlyph coloredGlyph, bool isOpen = false) : base(
+        false,
+        false,
+        false,
+        false
+    )
     {
         _openDoor = openDoor;
         _closedDoor = coloredGlyph;
+        IsOpen = isOpen;
     }
 
     public void Action()
