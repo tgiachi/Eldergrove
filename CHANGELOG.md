@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.1.0-alpha.3"></a>
+## [0.1.0-alpha.3](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.1.0-alpha.3) (2024-10-09)
+
+### Features
+
+* **NpcModule:** add NpcModule to register NPC-related functionalities and build NPC game objects ([c1ecc92](https://www.github.com/tgiachi/Eldergrove/commit/c1ecc92de7a2611f4eb7d734c278502e515bb9a4))
+* **ScriptModule:** rename script function to "add_ctx" for clarity and add "on_start" function to register bootstrap ([4a5065c](https://www.github.com/tgiachi/Eldergrove/commit/4a5065c8217486c7e08328357efa661ce17f3b92))
+* **SkillsComponent:** add SkillsComponent to manage NPC skills and health ([d86e050](https://www.github.com/tgiachi/Eldergrove/commit/d86e0500c09c3714dc424cce8f30827cb4b240d3))
+
 <a name="0.1.0-alpha.2"></a>
 ## [0.1.0-alpha.2](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.1.0-alpha.2) (2024-10-09)
 
