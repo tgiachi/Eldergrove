@@ -105,7 +105,7 @@ public class ScriptEngineService : IScriptEngineService
         }
         catch (LuaException ex)
         {
-            _logger.Error(ex, "Error executing script: {File}", Path.GetFileName(file));
+            _logger.Error(ex, "Error executing script: {File}: {Formatted}", Path.GetFileName(file), FormatException(ex));
         }
     }
 
@@ -176,8 +176,7 @@ public class ScriptEngineService : IScriptEngineService
 
         luaDefinitions.AppendLine("-- Eldergrove Engine Lua Definitions");
         luaDefinitions.AppendLine();
-
-        // Aggiungi le costanti di contesto
+        
         foreach (var constant in _scriptConstants)
         {
             luaDefinitions.AppendLine(
