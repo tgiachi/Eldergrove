@@ -20,6 +20,8 @@ public class MapGenService : IMapGenService
 
     private readonly Dictionary<string, MapFabricObject> _mapFabrics = new();
 
+    private readonly IEventDispatcherService _eventDispatcherService;
+
     private readonly JsonSerializerOptions _jsonSerializerOptions;
 
     private readonly IScriptEngineService _scriptEngineService;
@@ -28,12 +30,13 @@ public class MapGenService : IMapGenService
 
     public MapGenService(
         ILogger<MapGenService> logger, IDataLoaderService dataLoaderService, IScriptEngineService scriptEngineService,
-        JsonSerializerOptions jsonSerializerOptions
+        JsonSerializerOptions jsonSerializerOptions, IEventDispatcherService eventDispatcherService
     )
     {
         _logger = logger;
         _scriptEngineService = scriptEngineService;
         _jsonSerializerOptions = jsonSerializerOptions;
+        _eventDispatcherService = eventDispatcherService;
 
         dataLoaderService.SubscribeData<MapFabricObject>(OnMapFabric);
     }
@@ -49,7 +52,7 @@ public class MapGenService : IMapGenService
     {
         if (!_mapFabrics.TryAdd(fabric.Id, fabric))
         {
-            _logger.LogWarning($"Map fabric with id {fabric.Id} already exists");
+            _logger.LogWarning("Map fabric with id {fabricId} already exists", fabric.Id);
             return;
         }
 
@@ -68,8 +71,6 @@ public class MapGenService : IMapGenService
 
         _gameConfig = JsonSerializer.Deserialize<GameConfig>(json, _jsonSerializerOptions);
 
-
-        // Generate a dungeon maze map
         var generator = new Generator(_gameConfig.MapWidth, _gameConfig.MapHeight)
             .ConfigAndGenerateSafe(
                 gen =>
@@ -83,5 +84,7 @@ public class MapGenService : IMapGenService
         generator.Generate();
 
         CurrentMap = new GameMap(_gameConfig.MapWidth, _gameConfig.MapHeight, null);
+
+        _eventDispatcherService.DispatchEvent("map_generated", CurrentMap);
     }
 }

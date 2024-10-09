@@ -108,6 +108,7 @@ public class EldergroveEngine : IEldergroveEngine
             .AddEldergroveService<IEventDispatcherService, EventDispatcherService>()
             .AddEldergroveService<INpcService, NpcService>()
             .AddEldergroveService<IMapGenService, MapGenService>()
+            .AddEldergroveService<ISchedulerService, SchedulerService>()
             ;
     }
 
