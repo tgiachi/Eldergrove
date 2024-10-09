@@ -62,7 +62,7 @@ public class NpcService : INpcService
 
         if (name.StartsWith("@"))
         {
-            name = _nameGeneratorService.GenerateName(name.Substring(1));
+            name = _nameGeneratorService.GenerateName(name[1..]);
         }
 
         if (string.IsNullOrEmpty(name))

@@ -31,8 +31,7 @@ public class NpcModule
         _npcService.AddNpc(obj);
     }
 
-
-
     [ScriptFunction("build_npc", "Builds an npc game object")]
-    public NpcGameObject BuildGameObject(string idOrCategory, int x, int y) => _npcService.BuildGameObject(idOrCategory, new(x, y));
+    public NpcGameObject BuildGameObject(string idOrCategory, int x, int y) =>
+        _npcService.BuildGameObject(idOrCategory, new(x, y));
 }
