@@ -76,7 +76,7 @@ public class ItemService : IItemService
         return itemGameObject;
     }
 
-    public IEnumerable<ItemGameObject> GetRandomItems(IEnumerable<IJsonRandomObject> randomBag)
+    public List<ItemGameObject> GetRandomItems(IEnumerable<IJsonRandomObject> randomBag)
     {
         var items = new List<ItemGameObject>();
 

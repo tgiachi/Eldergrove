@@ -14,27 +14,55 @@ public class LoggerModule
     }
 
     [ScriptFunction("log_info")]
-    public void LogInfo(string message, params string[] args)
+    public void LogInfo(object message, params string[] args)
     {
-        _logger.LogInformation(message, args);
+        if (message is string msg)
+        {
+            _logger.LogInformation(msg, args);
+        }
+        else
+        {
+            _logger.LogInformation(message.ToString(), args);
+        }
     }
 
 
     [ScriptFunction("log_debug")]
-    public void LogDebug(string message, params string[] args)
+    public void LogDebug(object message, params string[] args)
     {
-        _logger.LogDebug(message, args);
+        if (message is string msg)
+        {
+            _logger.LogDebug(msg, args);
+        }
+        else
+        {
+            _logger.LogDebug(message.ToString(), args);
+        }
     }
 
     [ScriptFunction("log_warn")]
-    public void LogWarning(string message, params string[] args)
+    public void LogWarning(object message, params string[] args)
     {
-        _logger.LogWarning(message, args);
+        if (message is string msg)
+        {
+            _logger.LogWarning(msg, args);
+        }
+        else
+        {
+            _logger.LogWarning(message.ToString(), args);
+        }
     }
 
     [ScriptFunction("log_error")]
-    public void LogError(string message, params string[] args)
+    public void LogError(object message, params string[] args)
     {
-        _logger.LogError(message, args);
+        if (message is string msg)
+        {
+            _logger.LogError(msg, args);
+        }
+        else
+        {
+            _logger.LogError(message.ToString(), args);
+        }
     }
 }

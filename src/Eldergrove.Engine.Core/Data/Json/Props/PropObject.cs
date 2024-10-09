@@ -6,7 +6,7 @@ using Eldergrove.Engine.Core.Interfaces.Json;
 namespace Eldergrove.Engine.Core.Data.Json.Props;
 
 [DataLoaderType("prop")]
-public class PropObject : IJsonDataObject, IJsonSymbolDataObject, IJsonCategoryObject, IJsonNamedObject
+public class PropObject : IJsonDataObject, IJsonSymbolDataObject, IJsonCategoryObject, IJsonNamedObject, IJsonContainerObject
 {
     public string Id { get; set; }
     public string Category { get; set; }

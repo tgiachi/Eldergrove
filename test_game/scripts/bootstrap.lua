@@ -10,6 +10,8 @@ local function bootstrap()
     npc_seed.seed()
 end
 
+
+
 on_start(bootstrap)
 
 

@@ -12,6 +12,11 @@ public static class ScriptUtils
         foreach (var key in luaTable.Keys)
         {
             dict[key.ToString()] = luaTable[key];
+
+            if (luaTable[key] is LuaTable table)
+            {
+                dict[key.ToString()] = LuaTableToDictionary(table);
+            }
         }
 
         return dict;

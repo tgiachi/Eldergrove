@@ -1,3 +1,4 @@
+using Eldergrove.Engine.Core.Components;
 using Eldergrove.Engine.Core.Interfaces.Components;
 using Eldergrove.Engine.Core.Types;
 using SadConsole;
@@ -9,6 +10,10 @@ namespace Eldergrove.Engine.Core.GameObject;
 public class NpcGameObject : RogueLikeCell, INamedComponent
 {
     public string Name { get; set; }
+
+
+    public SkillsComponent Skills => GoRogueComponents.GetFirst<SkillsComponent>();
+
 
     public NpcGameObject(
         Point position, ColoredGlyph appearance

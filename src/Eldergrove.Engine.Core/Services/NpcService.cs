@@ -1,7 +1,9 @@
 using Eldergrove.Engine.Core.Attributes.Services;
+using Eldergrove.Engine.Core.Components;
 using Eldergrove.Engine.Core.Data.Json.Npcs;
 using Eldergrove.Engine.Core.GameObject;
 using Eldergrove.Engine.Core.Interfaces.Services;
+using Eldergrove.Engine.Core.Utils;
 using Microsoft.Extensions.Logging;
 using SadRogue.Primitives;
 
@@ -18,14 +20,17 @@ public class NpcService : INpcService
 
     private readonly INameGeneratorService _nameGeneratorService;
 
+    private readonly IItemService _itemService;
+
     public NpcService(
         IDataLoaderService dataLoaderService, ILogger<NpcService> logger, ITileService tileService,
-        INameGeneratorService nameGeneratorService
+        INameGeneratorService nameGeneratorService, IItemService itemService
     )
     {
         _logger = logger;
         _tileService = tileService;
         _nameGeneratorService = nameGeneratorService;
+        _itemService = itemService;
 
 
         dataLoaderService.SubscribeData<NpcObject>(OnNpcObject);
@@ -74,6 +79,20 @@ public class NpcService : INpcService
         {
             Name = name
         };
+
+        if (npc.Container != null)
+        {
+            gameObject.GoRogueComponents.Add(new ItemsContainerComponent(_itemService.GetRandomItems(npc.Container)));
+        }
+
+
+        var skills = new SkillsComponent
+        {
+            Health = npc.Skills.Health.GetRandomValue()
+        };
+
+        gameObject.GoRogueComponents.Add(skills);
+
 
         return gameObject;
     }

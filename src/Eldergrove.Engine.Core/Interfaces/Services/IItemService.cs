@@ -9,7 +9,7 @@ namespace Eldergrove.Engine.Core.Interfaces.Services;
 public interface IItemService : IGameObjectFactory<ItemGameObject>
 {
 
-    IEnumerable<ItemGameObject> GetRandomItems(IEnumerable<IJsonRandomObject> randomBag);
+    List<ItemGameObject> GetRandomItems(IEnumerable<IJsonRandomObject> randomBag);
 
 
     void AddItem(ItemObject item);
