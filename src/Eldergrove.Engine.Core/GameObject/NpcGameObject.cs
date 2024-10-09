@@ -27,5 +27,5 @@ public class NpcGameObject : RogueLikeCell, INamedComponent
         Position += direction;
     }
 
-    public override string ToString() => $"Npc: {Name}";
+    public override string ToString() => $"ID: {ID} Npc: {Name}";
 }

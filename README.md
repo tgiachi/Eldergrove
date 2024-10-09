@@ -7,7 +7,7 @@
 ## Features
 - Procedurally generated maps and worlds.
 - Tile-based rendering with **SadConsole**.
-- Dynamic scripting using **Jint** for customizing game logic.
+- Dynamic scripting using **NLua** for customizing game logic.
 - A rich, evolving world filled with creatures, NPCs, and adventure.
 
 

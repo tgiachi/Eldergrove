@@ -2,6 +2,7 @@ using Eldergrove.Engine.Core.Data.Internal;
 using Eldergrove.Engine.Core.Data.Json.Colors;
 using Eldergrove.Engine.Core.Data.Json.Items;
 using Eldergrove.Engine.Core.Data.Json.Keybinding;
+using Eldergrove.Engine.Core.Data.Json.Maps;
 using Eldergrove.Engine.Core.Data.Json.Names;
 using Eldergrove.Engine.Core.Data.Json.Npcs;
 using Eldergrove.Engine.Core.Data.Json.Props;
@@ -83,6 +84,7 @@ public class EldergroveEngine : IEldergroveEngine
             .AddDataLoaderType<NamesObject>()
             .AddDataLoaderType<ItemObject>()
             .AddDataLoaderType<NpcObject>()
+            .AddDataLoaderType<MapFabricObject>()
             ;
     }
 
@@ -104,6 +106,7 @@ public class EldergroveEngine : IEldergroveEngine
             .AddEldergroveService<IVersionService, VersionService>()
             .AddEldergroveService<IEventDispatcherService, EventDispatcherService>()
             .AddEldergroveService<INpcService, NpcService>()
+            .AddEldergroveService<IMapGenService, MapGenService>()
             ;
     }
 
