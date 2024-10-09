@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Eldergrove.Engine.Core.Attributes.Scripts;
 using Eldergrove.Engine.Core.Data.Json.Npcs;
+using Eldergrove.Engine.Core.GameObject;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Utils;
 using NLua;
@@ -29,4 +30,9 @@ public class NpcModule
         var obj = JsonSerializer.Deserialize<NpcObject>(json, _serializerOptions);
         _npcService.AddNpc(obj);
     }
+
+
+
+    [ScriptFunction("build_npc", "Builds an npc game object")]
+    public NpcGameObject BuildGameObject(string idOrCategory, int x, int y) => _npcService.BuildGameObject(idOrCategory, new(x, y));
 }

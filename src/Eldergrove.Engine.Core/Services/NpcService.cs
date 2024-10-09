@@ -18,7 +18,10 @@ public class NpcService : INpcService
 
     private readonly INameGeneratorService _nameGeneratorService;
 
-    public NpcService(IDataLoaderService dataLoaderService, ILogger<NpcService> logger, ITileService tileService, INameGeneratorService nameGeneratorService)
+    public NpcService(
+        IDataLoaderService dataLoaderService, ILogger<NpcService> logger, ITileService tileService,
+        INameGeneratorService nameGeneratorService
+    )
     {
         _logger = logger;
         _tileService = tileService;
@@ -28,7 +31,7 @@ public class NpcService : INpcService
         dataLoaderService.SubscribeData<NpcObject>(OnNpcObject);
     }
 
-    private NpcObject? GetById(string id) => _npcObjects.TryGetValue(id, out var npc) ? npc : null;
+    private NpcObject? GetById(string id) => _npcObjects.GetValueOrDefault(id);
 
     private NpcObject? GetByCategory(string category)
     {
@@ -55,7 +58,12 @@ public class NpcService : INpcService
 
         var tile = _tileService.GetTile(npc);
 
-        var name = _nameGeneratorService.GenerateName(npc.Name);
+        var name = npc.Name;
+
+        if (name.StartsWith("@"))
+        {
+            name = _nameGeneratorService.GenerateName(name.Substring(1));
+        }
 
         if (string.IsNullOrEmpty(name))
         {
@@ -73,5 +81,7 @@ public class NpcService : INpcService
     public void AddNpc(NpcObject npc)
     {
         _logger.LogDebug("Adding npc {NpcId}", npc.Id);
+
+        _npcObjects.Add(npc.Id, npc);
     }
 }

@@ -6,11 +6,11 @@ namespace Eldergrove.Engine.Core.ScriptsModules;
 [ScriptModule]
 public class RandomModule
 {
-    [ScriptFunction("random_int", "Returns a random integer value.")]
+    [ScriptFunction("rnd_int", "Returns a random integer value.")]
     public int RandomInt(int min, int max) => new Random().Next(min, max);
 
 
-    [ScriptFunction("random_dice", "Rolls a dice expression.")]
+    [ScriptFunction("rnd_dice", "Rolls a dice expression.")]
     public int RandomDice(string expression)
     {
         var diceExpression = Dice.DiceParser.Parse(expression);
@@ -18,6 +18,6 @@ public class RandomModule
     }
 
 
-    [ScriptFunction("random_bool", "Returns a random boolean value.")]
+    [ScriptFunction("rnd_bool", "Returns a random boolean value.")]
     public bool RandomBool() => new Random().Next(0, 2) == 1;
 }
