@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [versionize](https://github.com/versionize/versionize) for commit guidelines.
 
+<a name="0.1.0-alpha.4"></a>
+## [0.1.0-alpha.4](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.1.0-alpha.4) (2024-10-09)
+
+### Features
+
+* **Ai:** implement AiContext and GameMap classes to manage AI state and map representation ([558e0ed](https://www.github.com/tgiachi/Eldergrove/commit/558e0ed82044166dd2c9abd823f8ea7a04e191f1))
+* **AiComponent:** implement AI component for NPCs to manage behavior and actions ([f02a03d](https://www.github.com/tgiachi/Eldergrove/commit/f02a03dbde8e36e5aaec2aa2a5b3630f633325bf))
+* **MapFabricObject:** extend MapFabricObject to include Name and Category properties for better categorization ([301f658](https://www.github.com/tgiachi/Eldergrove/commit/301f658f587f51f73e23208c8ef1c6515deaeb44))
+* **readme:** update dynamic scripting engine from Jint to NLua for improved functionality ([ebefc40](https://www.github.com/tgiachi/Eldergrove/commit/ebefc401aeb4db85915d93ce04093bcf4efec632))
+
 <a name="0.1.0-alpha.3"></a>
 ## [0.1.0-alpha.3](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.1.0-alpha.3) (2024-10-09)
 
