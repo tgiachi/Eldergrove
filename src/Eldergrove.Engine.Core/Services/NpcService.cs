@@ -1,3 +1,4 @@
+using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Data.Json.Npcs;
 using Eldergrove.Engine.Core.GameObject;
 using Eldergrove.Engine.Core.Interfaces.Services;
@@ -6,15 +7,22 @@ using SadRogue.Primitives;
 
 namespace Eldergrove.Engine.Core.Services;
 
+[AutostartService]
 public class NpcService : INpcService
 {
     private readonly ILogger _logger;
 
     private readonly Dictionary<string, NpcObject> _npcObjects = new();
 
-    public NpcService(IDataLoaderService dataLoaderService, ILogger<NpcService> logger)
+    private readonly ITileService _tileService;
+
+    private readonly INameGeneratorService _nameGeneratorService;
+
+    public NpcService(IDataLoaderService dataLoaderService, ILogger<NpcService> logger, ITileService tileService, INameGeneratorService nameGeneratorService)
     {
         _logger = logger;
+        _tileService = tileService;
+        _nameGeneratorService = nameGeneratorService;
 
 
         dataLoaderService.SubscribeData<NpcObject>(OnNpcObject);
@@ -34,9 +42,32 @@ public class NpcService : INpcService
         return Task.CompletedTask;
     }
 
-    public NpcGameObject BuildGameObject(string id, Point position)
+    public NpcGameObject BuildGameObject(string idOrCategory, Point position)
     {
-        return null;
+        var npc = GetById(idOrCategory) ?? GetByCategory(idOrCategory);
+
+        NpcGameObject gameObject = null!;
+
+        if (npc == null)
+        {
+            throw new InvalidOperationException($"No npc found with id or category {idOrCategory}");
+        }
+
+        var tile = _tileService.GetTile(npc);
+
+        var name = _nameGeneratorService.GenerateName(npc.Name);
+
+        if (string.IsNullOrEmpty(name))
+        {
+            throw new InvalidOperationException($"No name found for npc {npc.Name}");
+        }
+
+        gameObject = new NpcGameObject(position, tile)
+        {
+            Name = name
+        };
+
+        return gameObject;
     }
 
     public void AddNpc(NpcObject npc)

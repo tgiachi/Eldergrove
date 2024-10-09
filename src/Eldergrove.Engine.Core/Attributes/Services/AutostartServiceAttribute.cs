@@ -5,7 +5,7 @@ public class AutostartServiceAttribute : Attribute
 {
     public int Order { get; }
 
-    public AutostartServiceAttribute(int order)
+    public AutostartServiceAttribute(int order = 5)
     {
         Order = order;
     }
