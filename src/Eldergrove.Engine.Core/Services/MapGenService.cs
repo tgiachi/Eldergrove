@@ -32,6 +32,7 @@ public class MapGenService : IMapGenService
             _logger.LogWarning($"Map fabric with id {fabric.Id} already exists");
             return;
         }
-        _logger.LogDebug($"Map fabric {fabric.Name} added");
+
+        _logger.LogDebug("Map fabric {Fabric} added", fabric.Id);
     }
 }

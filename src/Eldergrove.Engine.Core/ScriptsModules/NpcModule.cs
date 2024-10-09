@@ -34,4 +34,14 @@ public class NpcModule
     [ScriptFunction("build_npc", "Builds an npc game object")]
     public NpcGameObject BuildGameObject(string idOrCategory, int x, int y) =>
         _npcService.BuildGameObject(idOrCategory, new(x, y));
+
+
+    [ScriptFunction("add_brain", "Adds a brain to an npc")]
+    public void AddBrain(string id, LuaFunction brain)
+    {
+        _npcService.AddBrain(id, ctx =>
+        {
+            brain.Call(ctx);
+        });
+    }
 }

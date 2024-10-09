@@ -1,3 +1,4 @@
+using Eldergrove.Engine.Core.Ai;
 using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Components;
 using Eldergrove.Engine.Core.Data.Json.Npcs;
@@ -21,6 +22,8 @@ public class NpcService : INpcService
     private readonly INameGeneratorService _nameGeneratorService;
 
     private readonly IItemService _itemService;
+
+    private readonly Dictionary<string, Action<AiContext>> _brains = new();
 
     public NpcService(
         IDataLoaderService dataLoaderService, ILogger<NpcService> logger, ITileService tileService,
@@ -102,5 +105,10 @@ public class NpcService : INpcService
         _logger.LogDebug("Adding npc {NpcId}", npc.Id);
 
         _npcObjects.Add(npc.Id, npc);
+    }
+
+    public void AddBrain(string id, Action<AiContext> brain)
+    {
+        _brains.Add(id, brain);
     }
 }
