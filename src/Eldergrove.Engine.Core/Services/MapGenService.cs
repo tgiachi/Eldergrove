@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Eldergrove.Engine.Core.Attributes.Services;
+using Eldergrove.Engine.Core.Components;
 using Eldergrove.Engine.Core.Data.Events;
 using Eldergrove.Engine.Core.Data.Game;
 using Eldergrove.Engine.Core.Data.Json.Maps;
@@ -16,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using SadConsole;
 using SadRogue.Primitives;
 using SadRogue.Primitives.GridViews;
+using SadRogue.Primitives.SpatialMaps;
 
 namespace Eldergrove.Engine.Core.Services;
 
@@ -126,12 +128,14 @@ public class MapGenService : IMapGenService
         var (wallGlyph, wallTile) = _tileService.GetTileWithEntry(mapGenerator.Wall);
         var (floorGlyph, floorTile) = _tileService.GetTileWithEntry(mapGenerator.Floor);
 
-        //TODO: Add TerrainFOVVisibilityHandler
-
 
         CurrentMap = new GameMap(_gameConfig.Map.Width, _gameConfig.Map.Height, null);
 
+        CurrentMap.AllComponents.Add(new TerrainFOVVisibilityHandler());
+
         var generatedMap = generator.Context.GetFirst<ISettableGridView<bool>>("WallFloor");
+
+        CurrentMap.ObjectAdded += OnEntityAdded;
 
         CurrentMap.ApplyTerrainOverlay(
             generatedMap,
@@ -163,6 +167,11 @@ public class MapGenService : IMapGenService
         return CurrentMap;
     }
 
+    private void OnEntityAdded(object? sender, ItemEventArgs<IGameObject> e)
+    {
+        // Add npc to scheduler
+    }
+
     private MapFabricObject GetFabric(string idOrCategory)
     {
         MapFabricObject fabric = null;
@@ -184,6 +193,11 @@ public class MapGenService : IMapGenService
         {
             _logger.LogError("Fabric with idOrCategory {FabricId} not found", idOrCategory);
             throw new InvalidOperationException("Fabric not found named " + idOrCategory);
+        }
+
+        if (fabric.CanRotate)
+        {
+            fabric.Fabric = fabric.Fabric.RandomRotateFabric();
         }
 
 

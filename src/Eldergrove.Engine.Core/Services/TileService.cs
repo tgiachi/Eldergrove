@@ -71,7 +71,9 @@ public class TileService : ITileService
             return new ColoredGlyph(foreground, background, tileData.Symbol[2]);
         }
 
-        return new ColoredGlyph(foreground, background, tileData.Symbol[0]);
+        TileEntry tile = _tiles[tileData.Symbol];
+
+        return new ColoredGlyph(foreground, background, tile.Symbol[0]);
     }
 
     public (ColoredGlyph glyph, TileEntry tile) GetTileWithEntry(IJsonSymbolDataObject tileData)
