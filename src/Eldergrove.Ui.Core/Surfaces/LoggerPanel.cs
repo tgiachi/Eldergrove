@@ -18,6 +18,7 @@ public class LoggerPanel : Console, ISubscriber<LoggerEvent>
 
     public LoggerPanel(int width, int height) : base(width, height)
     {
+
         EldergroveState.Engine.GetService<IMessageBusService>().Subscribe(this);
 
         ParentChanged += (s, e) =>

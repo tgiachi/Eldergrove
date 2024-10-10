@@ -24,7 +24,11 @@ var startup = new Builder()
         .UseDefaultConsole()
         .OnStart(Game_Started)
         .ConfigureFonts(
-            (f, g) => { f.AddExtraFonts("Fonts/Cheepicus12.font"); }
+            (f, g) =>
+            {
+                f.AddExtraFonts("Fonts/Cheepicus12.font");
+                f.AddExtraFonts("Fonts/C64.font");
+            }
         )
         .IsStartingScreenFocused(true)
         .ConfigureFonts(true)
@@ -36,7 +40,7 @@ Game.Instance.Dispose();
 
 async void Game_Started(object? sender, GameHost host)
 {
-    Game.Instance.StartingConsole.Font = host.Fonts.RandomElement().Value;
+    //Game.Instance.StartingConsole.Font = host.Fonts["C64"];
 
     Game.Instance.StartingConsole.Clear();
 

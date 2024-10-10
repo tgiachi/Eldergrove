@@ -14,15 +14,16 @@ using NLua;
 using NLua.Exceptions;
 
 
-
 namespace Eldergrove.Engine.Core.Services;
 
 [AutostartService(1)]
 public class ScriptEngineService : IScriptEngineService
 {
     private readonly ILogger _logger;
+
     private readonly Lua _luaEngine;
-    private readonly Dictionary<string, object> _scriptConstants = new();
+
+
     private readonly List<ScriptClassData> _scriptModules;
     private readonly DirectoryConfig _directoryConfig;
     private readonly IServiceProvider _container;
@@ -32,8 +33,10 @@ public class ScriptEngineService : IScriptEngineService
 
     private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-    public ScriptEngineService(ILogger<ScriptEngineService> logger,
-        DirectoryConfig directoryConfig, List<ScriptClassData> scriptModules, IServiceProvider container, JsonSerializerOptions jsonSerializerOptions
+    public ScriptEngineService(
+        ILogger<ScriptEngineService> logger,
+        DirectoryConfig directoryConfig, List<ScriptClassData> scriptModules, IServiceProvider container,
+        JsonSerializerOptions jsonSerializerOptions
     )
     {
         _directoryConfig = directoryConfig;
@@ -70,7 +73,6 @@ public class ScriptEngineService : IScriptEngineService
         {
             bootstrap.Call();
         }
-
     }
 
     private Task ScanScriptModulesAsync()
@@ -160,7 +162,7 @@ public class ScriptEngineService : IScriptEngineService
         }
         catch (LuaException ex)
         {
-            return new ScriptEngineExecutionResult() { Exception = ex };
+            return new ScriptEngineExecutionResult { Exception = ex };
         }
     }
 
@@ -193,7 +195,8 @@ public class ScriptEngineService : IScriptEngineService
 
     private static Delegate CreateLuaEngineDelegate(object obj, MethodInfo method)
     {
-        var parameterTypes = method.GetParameters().Select(p => p.ParameterType).Concat(new[] { method.ReturnType }).ToArray();
+        var parameterTypes =
+            method.GetParameters().Select(p => p.ParameterType).Concat(new[] { method.ReturnType }).ToArray();
         return method.CreateDelegate(Expression.GetDelegateType(parameterTypes), obj);
     }
 
@@ -204,12 +207,6 @@ public class ScriptEngineService : IScriptEngineService
         luaDefinitions.AppendLine("-- Eldergrove Engine Lua Definitions");
         luaDefinitions.AppendLine();
 
-        foreach (var constant in _scriptConstants)
-        {
-            luaDefinitions.AppendLine(
-                $"-- {constant.Key}: {CSharpJsConverterUtils.ConvertCSharpTypeToTypeScript(constant.Value.GetType().Name)}"
-            );
-        }
 
         foreach (var constant in ContextVariables)
         {
@@ -219,7 +216,6 @@ public class ScriptEngineService : IScriptEngineService
         }
 
         luaDefinitions.AppendLine();
-
 
 
         foreach (var function in Functions)
@@ -265,10 +261,10 @@ public class ScriptEngineService : IScriptEngineService
         );
     }
 
-    private string FormatException(LuaException e)
+    private static string FormatException(LuaException e)
     {
-        var source = (string.IsNullOrEmpty(e.Source)) ? "<no source>" : e.Source.Substring(0, e.Source.Length - 2);
-        return string.Format("{0}\nLua (at {2})", e.Message, string.Empty, source);
+        var source = (string.IsNullOrEmpty(e.Source)) ? "<no source>" : e.Source[..^2];
+        return string.Format("{0}\nLua (at {2})", e.Message, "", source);
     }
 
     public Task StopAsync()
