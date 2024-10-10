@@ -6,7 +6,7 @@
         "fabrics": [
             {
                 "id": "houses",
-                "min": 1,
+                "min": 20,
                 "max": 20
             }
         ],

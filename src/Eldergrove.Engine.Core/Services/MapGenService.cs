@@ -3,6 +3,7 @@ using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Data.Events;
 using Eldergrove.Engine.Core.Data.Game;
 using Eldergrove.Engine.Core.Data.Json.Maps;
+using Eldergrove.Engine.Core.Data.Json.TileSet;
 using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.GameObject;
 using Eldergrove.Engine.Core.Interfaces.Services;
@@ -11,6 +12,8 @@ using Eldergrove.Engine.Core.Types;
 using Eldergrove.Engine.Core.Utils;
 using GoRogue.MapGeneration;
 using Microsoft.Extensions.Logging;
+using SadConsole;
+using SadRogue.Primitives;
 using SadRogue.Primitives.GridViews;
 
 namespace Eldergrove.Engine.Core.Services;
@@ -140,7 +143,7 @@ public class MapGenService : IMapGenService
             {
                 var fabricObject = GetFabric(fabric.Id);
 
-                GenerateFabric(fabricObject, CurrentMap, wallTile.Id, floorTile.Id);
+                GenerateFabric(fabricObject, CurrentMap, (wallGlyph, wallTile), (floorGlyph, floorTile));
             }
         }
 
@@ -180,7 +183,9 @@ public class MapGenService : IMapGenService
     }
 
 
-    private void GenerateFabric(MapFabricObject fabric, GameMap map, string wallId, string floorId)
+    private void GenerateFabric(
+        MapFabricObject fabric, GameMap map, (ColoredGlyph, TileEntry) wall, (ColoredGlyph, TileEntry) floor
+    )
     {
         _logger.LogDebug(
             "Finding free area for fabric {Fabric} area: {Area} (W: {W} H: {H})",
@@ -199,5 +204,26 @@ public class MapGenService : IMapGenService
         }
 
         _logger.LogDebug("Free area found for fabric {Fabric} in {Point}", fabric.Id, freeArea[0]);
+
+        var fabricArray = fabric.ToArray;
+
+        for (int x = 0; x < fabric.Width; x++)
+        {
+            for (int y = 0; y < fabric.Height; y++)
+            {
+                var realX = freeArea[0].X + x;
+                var realY = freeArea[0].Y + y;
+
+                var tile = fabricArray[y][x].ToString();
+
+                var isWall = tile == fabric.Wall.Symbol;
+
+                var (glyph, tileEntry) = isWall ? wall : floor;
+
+                var terrain = new TerrainGameObject(new Point(realX, realY), glyph, tileEntry.Id, !isWall, !isWall);
+
+                map.SetTerrain(terrain);
+            }
+        }
     }
 }

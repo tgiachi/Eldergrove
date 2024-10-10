@@ -25,5 +25,29 @@
                 "d": "door"
             }
         }
+    },
+    {
+        "$type": "map_fabric",
+        "id": "house_2",
+        "category": "houses",
+        "name": "House 2",
+        "fabric": [
+            "##########",
+            "#        #",
+            "#        #",
+            "w        w",
+            "####d#####"
+       ],
+        "wall": {
+            "symbol": "#"
+        },
+        "floor": {
+            "symbol": " "
+        },
+        "layers": {
+            "props": {
+                "d": "door"
+            }
+        }
     }
 ]
