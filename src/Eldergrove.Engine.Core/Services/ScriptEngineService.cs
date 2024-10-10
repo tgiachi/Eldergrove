@@ -193,14 +193,8 @@ public class ScriptEngineService : IScriptEngineService
 
     private static Delegate CreateLuaEngineDelegate(object obj, MethodInfo method)
     {
-        return method.CreateDelegate(
-            Expression.GetDelegateType(
-                (from parameter in method.GetParameters() select parameter.ParameterType)
-                .Concat(new[] { method.ReturnType })
-                .ToArray()
-            ),
-            obj
-        );
+        var parameterTypes = method.GetParameters().Select(p => p.ParameterType).Concat(new[] { method.ReturnType }).ToArray();
+        return method.CreateDelegate(Expression.GetDelegateType(parameterTypes), obj);
     }
 
     public async Task<string> GenerateDefinitionsAsync()

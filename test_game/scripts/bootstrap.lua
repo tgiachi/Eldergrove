@@ -26,3 +26,7 @@ on_ready(function()
     log_info("Game is ready")
     generate_map()
 end)
+
+file = io.open("output.txt", "w")
+file:write(gen_lua_def())
+file:close()

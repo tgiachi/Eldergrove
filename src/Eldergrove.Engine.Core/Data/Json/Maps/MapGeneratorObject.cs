@@ -1,4 +1,5 @@
 using Eldergrove.Engine.Core.Attributes.DataLoader;
+using Eldergrove.Engine.Core.Data.Json.Data;
 using Eldergrove.Engine.Core.Data.Json.Random;
 using Eldergrove.Engine.Core.Interfaces.Json;
 using Eldergrove.Engine.Core.Types;
@@ -13,5 +14,10 @@ public class MapGeneratorObject : IJsonDataObject
     public MapGeneratorType GeneratorType { get; set; }
 
     public List<JsonRandomObject> Fabrics { get; set; }
+
+
+    public JsonSymbolDataObject Wall { get; set; }
+
+    public JsonSymbolDataObject Floor { get; set; }
 
 }

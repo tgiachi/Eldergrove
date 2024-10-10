@@ -1,3 +1,4 @@
+using System.Text;
 using Eldergrove.Engine.Core.Attributes.Scripts;
 using Eldergrove.Engine.Core.Data.Internal;
 using Eldergrove.Engine.Core.Interfaces.Services;
@@ -47,5 +48,12 @@ public class ScriptModule
     public void SetGameConfig(object value)
     {
         _scriptEngineService.AddContextVariable("game_config", value);
+    }
+
+
+    [ScriptFunction("gen_lua_def", "Generate lua definitions")]
+    public string GenerateLuaDefinitions()
+    {
+        return _scriptEngineService.GenerateDefinitionsAsync().Result;
     }
 }

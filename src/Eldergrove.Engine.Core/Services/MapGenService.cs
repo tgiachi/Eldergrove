@@ -1,12 +1,16 @@
+using System.Diagnostics;
 using System.Text.Json;
 using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Data.Events;
 using Eldergrove.Engine.Core.Data.Game;
 using Eldergrove.Engine.Core.Data.Json.Maps;
+using Eldergrove.Engine.Core.GameObject;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Maps;
+using Eldergrove.Engine.Core.Types;
 using GoRogue.MapGeneration;
 using Microsoft.Extensions.Logging;
+using SadRogue.Primitives.GridViews;
 
 namespace Eldergrove.Engine.Core.Services;
 
@@ -25,16 +29,19 @@ public class MapGenService : IMapGenService
     private readonly IMessageBusService _messageBusService;
     private readonly IScriptEngineService _scriptEngineService;
 
+    private readonly ITileService _tileService;
+
     private GameConfig _gameConfig;
 
     public MapGenService(
         ILogger<MapGenService> logger, IDataLoaderService dataLoaderService, IScriptEngineService scriptEngineService,
-        IMessageBusService messageBusService
+        IMessageBusService messageBusService, ITileService tileService
     )
     {
         _logger = logger;
         _scriptEngineService = scriptEngineService;
         _messageBusService = messageBusService;
+        _tileService = tileService;
 
 
         dataLoaderService.SubscribeData<MapFabricObject>(OnMapFabric);
@@ -75,20 +82,57 @@ public class MapGenService : IMapGenService
     {
         _gameConfig = _scriptEngineService.GetContextVariable<GameConfig>("game_config");
 
+        _mapGenerators.TryGetValue(_gameConfig.Map.GeneratorId, out var mapGenerator);
+
+
+        if (mapGenerator == null)
+        {
+            _logger.LogError("Map generator with id {GeneratorId} not found", _gameConfig.Map.GeneratorId);
+            throw new InvalidOperationException("Map generator not found named " + _gameConfig.Map.GeneratorId);
+        }
+
+        var stopWatch = Stopwatch.StartNew();
+
+
         var generator = new Generator(_gameConfig.Map.Width, _gameConfig.Map.Height)
             .ConfigAndGenerateSafe(
                 gen =>
                 {
-                    gen.AddSteps(
-                        DefaultAlgorithms.RectangleMapSteps()
-                    );
+                    if (mapGenerator.GeneratorType == MapGeneratorType.Container)
+                    {
+                        _logger.LogDebug("Using container generator");
+                        gen.AddSteps(
+                            DefaultAlgorithms.RectangleMapSteps()
+                        );
+                    }
                 }
             );
 
         generator.Generate();
 
+
+        var (wallGlyph, wallTile) = _tileService.GetTileWithEntry(mapGenerator.Wall);
+        var (floorGlyph, floorTile) = _tileService.GetTileWithEntry(mapGenerator.Floor);
+
+        //TODO: Add TerrainFOVVisibilityHandler
+
+
         CurrentMap = new GameMap(_gameConfig.Map.Width, _gameConfig.Map.Height, null);
 
+        var generatedMap = generator.Context.GetFirst<ISettableGridView<bool>>("WallFloor");
+
+        CurrentMap.ApplyTerrainOverlay(
+            generatedMap,
+            (pos, val) =>
+                val
+                    ? new TerrainGameObject(pos, floorGlyph, floorTile.Id)
+                    : new TerrainGameObject(pos, wallGlyph, wallTile.Id, false)
+        );
+
+
         _messageBusService.Publish(new MapGeneratedEvent(CurrentMap));
+
+        stopWatch.Stop();
+        _logger.LogDebug("Map generated in {Elapsed}ms", stopWatch.ElapsedMilliseconds);
     }
 }
