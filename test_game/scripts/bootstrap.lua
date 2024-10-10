@@ -13,7 +13,7 @@ on_bootstrap(function()
     color_seed.colors()
     tile_seed.seed()
     name_seed.seed()
-    brain_seed.seed()
+    brain_seed()
     npc_seed.seed()
 end)
 

@@ -1,5 +1,4 @@
 
-local brains = {}
 
 
 local function dummy_brain() 
@@ -8,8 +7,8 @@ local function dummy_brain()
 end
 
 
-function brains.seed()
+
+
+return function ()
     add_brain("dummy", dummy_brain)
 end
-
-return brains

@@ -5,4 +5,8 @@ public class GameConfig
     public int MapWidth { get; set; }
 
     public int MapHeight { get; set; }
+    
+    public string TitleName { get; set; }
+
+    public string FontName { get; set; }
 }
