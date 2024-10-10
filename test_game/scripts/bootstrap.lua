@@ -10,11 +10,11 @@ set_game_config({
 })
 
 on_bootstrap(function()
-    color_seed.colors()
-    tile_seed.seed()
-    name_seed.seed()
+    color_seed()
+    tile_seed()
+    name_seed()
     brain_seed()
-    npc_seed.seed()
+    npc_seed()
 end)
 
 
@@ -22,4 +22,3 @@ on_ready(function()
     log_info("Game is ready")
     generate_map()
 end)
-

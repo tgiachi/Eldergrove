@@ -1,6 +1,4 @@
-local npc_seed = {}
-
-function npc_seed.seed()
+return function()
     add_npc({
         id = "a_cat",
         name = "@animals",
@@ -18,8 +16,6 @@ function npc_seed.seed()
         }
     })
 
-   local cat =  build_npc("animals", 1, 1)
+    local cat = build_npc("animals", 1, 1)
     log_info(cat)
 end
-
-return npc_seed

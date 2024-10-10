@@ -40,7 +40,7 @@ public class LoggerPanel : Console, ISubscriber<LoggerEvent>
         _lock.Wait();
         _events.Add(message);
 
-        if (_events.Count > Height)
+        if (_events.Count > Height - 2)
         {
             _events.RemoveAt(0);
         }
