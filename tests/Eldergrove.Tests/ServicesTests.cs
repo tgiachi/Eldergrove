@@ -32,8 +32,8 @@ public class ServicesTests
 
     private void LoadData()
     {
-        _engine.GetService<IColorService>().AddColor("black", 0, 0, 0);
-        _engine.GetService<IColorService>().AddColor("white", 255, 255, 255);
+        _engine.GetService<IColorService>().AddColor("black_", 0, 0, 0);
+        _engine.GetService<IColorService>().AddColor("white_", 255, 255, 255);
 
         _engine.GetService<IItemService>()
             .AddItem(
@@ -219,13 +219,13 @@ public class ServicesTests
         var schedulerService = _engine.GetService<ISchedulerService>();
 
 
-        foreach (var _ in Enumerable.Range(0, 10))
+        foreach (var _ in Enumerable.Range(0, 50))
         {
             schedulerService.AddAction(new DummyAction(Random.Shared.Next(1, 10)));
         }
 
 
-        foreach (var _ in Enumerable.Range(0, 10))
+        foreach (var _ in Enumerable.Range(0, 20))
         {
             await schedulerService.TickAsync();
         }

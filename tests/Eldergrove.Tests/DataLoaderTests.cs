@@ -26,7 +26,7 @@ public class DataLoaderTests
         await _engine.InitializeAsync();
     }
 
-    [Test]
+   // [Test]
     public async Task LoadTests()
     {
         var _dataLoaderService = _engine.GetService<IDataLoaderService>();

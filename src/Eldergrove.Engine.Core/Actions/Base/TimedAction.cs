@@ -6,7 +6,7 @@ public abstract class TimedAction : AbstractSchedulerAction
 {
     protected int WaitTurns { get; set; }
 
-    protected TimedAction(int waitTurns = 10)
+    protected TimedAction(int waitTurns)
     {
         WaitTurns = waitTurns;
     }
