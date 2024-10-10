@@ -3,10 +3,12 @@ using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Data.Events;
 using Eldergrove.Engine.Core.Data.Game;
 using Eldergrove.Engine.Core.Data.Json.Maps;
+using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.GameObject;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Maps;
 using Eldergrove.Engine.Core.Types;
+using Eldergrove.Engine.Core.Utils;
 using GoRogue.MapGeneration;
 using Microsoft.Extensions.Logging;
 using SadRogue.Primitives.GridViews;
@@ -129,6 +131,17 @@ public class MapGenService : IMapGenService
         );
 
 
+        foreach (var fabric in mapGenerator.Fabrics)
+        {
+            foreach (var _ in Enumerable.Range(0, fabric.GetRandomValue()))
+            {
+                var fabricObject = GetFabric(fabric.Id);
+
+                GenerateFabric(fabricObject, CurrentMap);
+            }
+
+        }
+
         _messageBusService.Publish(new MapGeneratedEvent(CurrentMap));
 
         stopWatch.Stop();
@@ -137,9 +150,45 @@ public class MapGenService : IMapGenService
         return CurrentMap;
     }
 
+    private MapFabricObject GetFabric(string idOrCategory)
+    {
+        MapFabricObject fabric = null;
+
+        fabric = _mapFabrics.GetValueOrDefault(idOrCategory);
+
+        if (fabric == null)
+        {
+            var category = _mapFabrics.Values.Where(x => x.Category == idOrCategory).ToList();
+
+            if (category.Any())
+            {
+                fabric = category.RandomElement();
+            }
+
+        }
+
+
+        if (fabric == null)
+        {
+            _logger.LogError("Fabric with idOrCategory {FabricId} not found", idOrCategory);
+            throw new InvalidOperationException("Fabric not found named " + idOrCategory);
+        }
+
+
+
+        return fabric;
+    }
+
 
     private void GenerateFabric(MapFabricObject fabric, GameMap map)
     {
+
+        _logger.LogDebug("Finding free area for fabric {Fabric} area: {Area}", fabric.Id, fabric.Area);
+
+        var freeArea = map.FindFreeArea(fabric.Width, fabric.Height);
+
+
+
 
     }
 }
