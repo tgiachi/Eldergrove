@@ -10,6 +10,7 @@ using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Maps;
 using Eldergrove.Engine.Core.Types;
 using Eldergrove.Engine.Core.Utils;
+using GoRogue.GameFramework;
 using GoRogue.MapGeneration;
 using Microsoft.Extensions.Logging;
 using SadConsole;
@@ -33,19 +34,26 @@ public class MapGenService : IMapGenService
     private readonly IMessageBusService _messageBusService;
     private readonly IScriptEngineService _scriptEngineService;
 
+    private readonly IPropService _propService;
+    private readonly INpcService _npcService;
+    private readonly IItemService _itemService;
     private readonly ITileService _tileService;
 
     private GameConfig _gameConfig;
 
     public MapGenService(
         ILogger<MapGenService> logger, IDataLoaderService dataLoaderService, IScriptEngineService scriptEngineService,
-        IMessageBusService messageBusService, ITileService tileService
+        IMessageBusService messageBusService, ITileService tileService, IPropService propService, INpcService npcService,
+        IItemService itemService
     )
     {
         _logger = logger;
         _scriptEngineService = scriptEngineService;
         _messageBusService = messageBusService;
         _tileService = tileService;
+        _propService = propService;
+        _npcService = npcService;
+        _itemService = itemService;
 
 
         dataLoaderService.SubscribeData<MapFabricObject>(OnMapFabric);
@@ -187,7 +195,7 @@ public class MapGenService : IMapGenService
         MapFabricObject fabric, GameMap map, (ColoredGlyph, TileEntry) wall, (ColoredGlyph, TileEntry) floor
     )
     {
-        _logger.LogDebug(
+        _logger.LogTrace(
             "Finding free area for fabric {Fabric} area: {Area} (W: {W} H: {H})",
             fabric.Id,
             fabric.Area,
@@ -203,7 +211,14 @@ public class MapGenService : IMapGenService
             return;
         }
 
-        _logger.LogDebug("Free area found for fabric {Fabric} in {Point}", fabric.Id, freeArea[0]);
+        _logger.LogDebug(
+            "Free area found for fabric {Fabric} in {Point} - (Area: {Area} - W: {W} H: {H})",
+            fabric.Id,
+            freeArea[0],
+            fabric.Area,
+            fabric.Width,
+            fabric.Height
+        );
 
         var fabricArray = fabric.ToArray;
 
@@ -223,7 +238,40 @@ public class MapGenService : IMapGenService
                 var terrain = new TerrainGameObject(new Point(realX, realY), glyph, tileEntry.Id, !isWall, !isWall);
 
                 map.SetTerrain(terrain);
+
+                foreach (var layer in fabric.Layers.Keys)
+                {
+                    if (fabric.Layers[layer].TryGetValue(tile, out var id))
+                    {
+                        var gameObject = CreateGameObject(layer, id, new Point(realX, realY));
+                        if (gameObject != null)
+                        {
+                            _logger.LogDebug("Adding {GameObject} to map", gameObject);
+                            map.AddEntity(gameObject);
+                        }
+                    }
+                }
             }
         }
+    }
+
+    private IGameObject? CreateGameObject(MapLayerType layer, string id, Point position)
+    {
+        if (layer == MapLayerType.Props)
+        {
+            return _propService.BuildGameObject(id, position);
+        }
+
+        if (layer == MapLayerType.Npc)
+        {
+            return _npcService.BuildGameObject(id, position);
+        }
+
+        if (layer == MapLayerType.Items)
+        {
+            return _itemService.BuildGameObject(id, position);
+        }
+
+        throw new InvalidOperationException("Unknown layer type " + layer);
     }
 }

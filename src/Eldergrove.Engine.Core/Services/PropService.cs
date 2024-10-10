@@ -1,3 +1,4 @@
+using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Components;
 using Eldergrove.Engine.Core.Data.Json.Props;
 using Eldergrove.Engine.Core.Extensions;
@@ -8,6 +9,7 @@ using SadRogue.Primitives;
 
 namespace Eldergrove.Engine.Core.Services;
 
+[AutostartService]
 public class PropService : IPropService
 {
     private readonly ILogger _logger;
@@ -18,11 +20,22 @@ public class PropService : IPropService
 
     private readonly IItemService _itemService;
 
-    public PropService(ILogger<PropService> logger, ITileService tileService, IItemService itemService)
+
+    public PropService(
+        ILogger<PropService> logger, ITileService tileService, IItemService itemService, IDataLoaderService dataLoaderService
+    )
     {
         _logger = logger;
         _tileService = tileService;
         _itemService = itemService;
+        dataLoaderService.SubscribeData<PropObject>(
+            o =>
+            {
+                AddProp(o);
+
+                return Task.CompletedTask;
+            }
+        );
     }
 
     public Task StartAsync() => Task.CompletedTask;

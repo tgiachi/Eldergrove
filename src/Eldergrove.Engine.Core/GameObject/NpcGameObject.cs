@@ -7,7 +7,7 @@ using SadRogue.Primitives;
 
 namespace Eldergrove.Engine.Core.GameObject;
 
-public class NpcGameObject : RogueLikeCell, INamedComponent
+public class NpcGameObject : RogueLikeEntity, INamedComponent
 {
     public string Name { get; set; }
 
@@ -17,7 +17,7 @@ public class NpcGameObject : RogueLikeCell, INamedComponent
 
     public NpcGameObject(
         Point position, ColoredGlyph appearance
-    ) : base(appearance, (int)MapLayerType.Npc, false, false)
+    ) : base(appearance, false, false, (int)MapLayerType.Npc)
     {
         Position = position;
     }

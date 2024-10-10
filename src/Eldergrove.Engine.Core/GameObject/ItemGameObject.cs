@@ -6,14 +6,14 @@ using SadRogue.Primitives;
 
 namespace Eldergrove.Engine.Core.GameObject;
 
-public class ItemGameObject : RogueLikeCell, INamedComponent
+public class ItemGameObject : RogueLikeEntity, INamedComponent
 {
     public string ItemId { get; set; }
     public string Name { get; set; }
 
     public ItemGameObject(
         Point position, ColoredGlyph appearance, bool walkable = true, bool transparent = false
-    ) : base(appearance, (int)MapLayerType.Items, walkable, transparent)
+    ) : base(appearance, walkable, transparent, (int)MapLayerType.Items)
     {
         Position = position;
     }

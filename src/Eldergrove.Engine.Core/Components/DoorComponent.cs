@@ -26,6 +26,6 @@ public class DoorComponent : RogueLikeComponentBase<PropGameObject>, IActionable
 
     public void Action()
     {
-        Parent.Appearance.CopyAppearanceFrom(IsOpen ? _closedDoor : _openDoor);
+      //  Parent.CopyAppearanceFrom(IsOpen ? _closedDoor : _openDoor);
     }
 }

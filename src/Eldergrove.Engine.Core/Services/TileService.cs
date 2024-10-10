@@ -81,8 +81,9 @@ public class TileService : ITileService
             return (GetTile(tileData), tile);
         }
 
-        _logger.LogWarning("Tile {TileId} not found", tileData.Symbol);
-        throw new KeyNotFoundException($"Tile {tileData.Symbol} not found");
+        return (GetTile(tileData), new TileEntry());
+        //_logger.LogWarning("Tile {TileId} not found", tileData.Symbol);
+        //throw new KeyNotFoundException($"Tile {tileData.Symbol} not found");
     }
 
     public void AddTile(TileEntry tileEntry)
