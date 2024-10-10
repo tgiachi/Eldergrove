@@ -133,13 +133,15 @@ public class MapGenService : IMapGenService
 
         foreach (var fabric in mapGenerator.Fabrics)
         {
-            foreach (var _ in Enumerable.Range(0, fabric.GetRandomValue()))
+            var fabricCount = fabric.GetRandomValue();
+
+            _logger.LogDebug("Generating fabric {Fabric} {Count} times", fabric.Id, fabricCount);
+            foreach (var _ in Enumerable.Range(0, fabricCount))
             {
                 var fabricObject = GetFabric(fabric.Id);
 
-                GenerateFabric(fabricObject, CurrentMap);
+                GenerateFabric(fabricObject, CurrentMap, wallTile.Id, floorTile.Id);
             }
-
         }
 
         _messageBusService.Publish(new MapGeneratedEvent(CurrentMap));
@@ -164,7 +166,6 @@ public class MapGenService : IMapGenService
             {
                 fabric = category.RandomElement();
             }
-
         }
 
 
@@ -175,20 +176,28 @@ public class MapGenService : IMapGenService
         }
 
 
-
         return fabric;
     }
 
 
-    private void GenerateFabric(MapFabricObject fabric, GameMap map)
+    private void GenerateFabric(MapFabricObject fabric, GameMap map, string wallId, string floorId)
     {
-
-        _logger.LogDebug("Finding free area for fabric {Fabric} area: {Area}", fabric.Id, fabric.Area);
+        _logger.LogDebug(
+            "Finding free area for fabric {Fabric} area: {Area} (W: {W} H: {H})",
+            fabric.Id,
+            fabric.Area,
+            fabric.Width,
+            fabric.Height
+        );
 
         var freeArea = map.FindFreeArea(fabric.Width, fabric.Height);
 
+        if (freeArea == null)
+        {
+            _logger.LogWarning("No free area found for fabric {Fabric}", fabric.Id);
+            return;
+        }
 
-
-
+        _logger.LogDebug("Free area found for fabric {Fabric} in {Point}", fabric.Id, freeArea[0]);
     }
 }

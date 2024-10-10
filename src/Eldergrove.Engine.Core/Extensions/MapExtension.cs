@@ -22,7 +22,7 @@ public static class MapExtension
         return true;
     }
 
-    public static List<Point>? FindFreeArea(this Map map, int width, int height, int maxAttempts = 1000)
+    public static List<Point>? FindFreeArea(this Map map, int width, int height, int maxAttempts = 200)
     {
         for (int attempt = 0; attempt < maxAttempts; attempt++)
         {
