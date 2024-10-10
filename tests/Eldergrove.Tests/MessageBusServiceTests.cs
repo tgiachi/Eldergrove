@@ -19,7 +19,7 @@ public class MessageBusServiceTests
             .CreateLogger();
         _mockMessageBus = new Mock<MessageBus>();
         _mockLogger = new Mock<ILogger>();
-        _messageBusService = new MessageBusService();
+        _messageBusService = new MessageBusService(new EventDispatcherService());
     }
 
     [Test]

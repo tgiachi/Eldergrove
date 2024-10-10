@@ -1,0 +1,6 @@
+﻿<Solution>
+  <Project Path="src\Eldergrove.Engine.Core\Eldergrove.Engine.Core.csproj" Type="Classic C#" />
+  <Project Path="src\Eldergrove.Gui\Eldergrove.Gui.csproj" Type="Classic C#" />
+  <Project Path="src\Eldergrove.Ui.Core\Eldergrove.Ui.Core.csproj" Type="Classic C#" />
+  <Project Path="tests\Eldergrove.Tests\Eldergrove.Tests.csproj" Type="Classic C#" />
+</Solution>
