@@ -7,6 +7,6 @@ public interface ISchedulerService
     int Turn { get; }
 
     void AddAction(ISchedulerAction action);
-
+    
     Task TickAsync();
 }

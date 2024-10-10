@@ -1,3 +1,5 @@
+using Eldergrove.Engine.Core.Actions;
+using Eldergrove.Engine.Core.Actions.Tests;
 using Eldergrove.Engine.Core.Data.Internal;
 using Eldergrove.Engine.Core.Data.Json.Items;
 using Eldergrove.Engine.Core.Data.Json.Props;
@@ -196,4 +198,37 @@ public class ServicesTests
 
         Assert.That(propGameObject.ItemsContainer.Items.Count > 0, Is.True);
     }
+
+
+    [Test]
+    public async Task Test_SchedulerService()
+    {
+        var schedulerService = _engine.GetService<ISchedulerService>();
+
+        schedulerService.AddAction(new DummyAction());
+
+        foreach (var _ in Enumerable.Range(0, 10))
+        {
+            await schedulerService.TickAsync();
+        }
+    }
+
+    [Test]
+    public async Task Test_SchedulerServiceALotOfActions()
+    {
+        var schedulerService = _engine.GetService<ISchedulerService>();
+
+
+        foreach (var _ in Enumerable.Range(0, 10))
+        {
+            schedulerService.AddAction(new DummyAction(Random.Shared.Next(1, 10)));
+        }
+
+
+        foreach (var _ in Enumerable.Range(0, 10))
+        {
+            await schedulerService.TickAsync();
+        }
+    }
 }
+

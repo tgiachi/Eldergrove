@@ -35,14 +35,16 @@ public class SchedulerService : ISchedulerService, ISubscriber<AddActionToSchedu
 
     public async Task TickAsync()
     {
-        _logger.LogDebug("Tick {Turn}", Turn);
+        _logger.LogDebug("Tick {Turn} total action to execute: {ActionCount}", Turn, _actions.Count);
         Turn++;
+
+        var waitActions = new List<ISchedulerAction>();
 
         while (_actions.Count > 0)
         {
             var action = _actions.Dequeue();
             var result = await action.ExecuteAsync();
-            _logger.LogDebug("Action {Action} executed with result {Result}", action.GetType().Name, result);
+            _logger.LogDebug("Action {Action} executed with result {Result}", action.GetType().Name, result.Result);
 
             if (result.Result == ActionResultType.Success)
             {
@@ -51,21 +53,29 @@ public class SchedulerService : ISchedulerService, ISubscriber<AddActionToSchedu
 
             if (result.Result == ActionResultType.Failure)
             {
-                _logger.LogDebug("Action {Action} failed", action.GetType().Name);
+                _logger.LogTrace("Action {Action} failed", action.GetType().Name);
+
+                _actions.Clear();
+                break;
             }
 
             if (result.Result == ActionResultType.Repeat)
             {
-                _logger.LogDebug("Action {Action} repeated", action.GetType().Name);
+                _logger.LogTrace("Action {Action} repeated", action.GetType().Name);
                 _actions.Enqueue(action);
             }
 
             if (result.Result == ActionResultType.Wait)
             {
-                _logger.LogDebug("Action {Action} waiting", action.GetType().Name);
+                _logger.LogTrace("Action {Action} waiting", action.GetType().Name);
 
-                _actions.Enqueue(action);
+                waitActions.Add(action);
             }
+        }
+
+        foreach (var action in waitActions)
+        {
+            _actions.Enqueue(action);
         }
 
 
