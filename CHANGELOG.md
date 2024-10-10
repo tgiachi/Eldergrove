@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+<a name="0.2.0-alpha.1"></a>
+## [0.2.0-alpha.1](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.2.0-alpha.1) (2024-10-10)
+
+### Features
+
+* add PlayerFOVController to manage player's field of view and visibility ([fb6a129](https://www.github.com/tgiachi/Eldergrove/commit/fb6a12931d3fcee9fc38f1dcd230e2c9b3ad9e9a))
+* **default_fabrics.json:** add a cat NPC to the default fabrics for enhanced gameplay ([15a51da](https://www.github.com/tgiachi/Eldergrove/commit/15a51da88891685c635d4fcbc1ada4da222317e1))
+* **DoorComponent:** comment out appearance copying logic to prevent errors when door state changes ([37cc582](https://www.github.com/tgiachi/Eldergrove/commit/37cc582752cab8a760a45100aacdf6012e26971d))
+* **extensions:** add MapExtension class with FindFreeArea method to locate free areas on the map ([30509db](https://www.github.com/tgiachi/Eldergrove/commit/30509db253e2df54bdf3f9b00e5f07066fe18976))
+* **fonts:** add C64 font configuration and corresponding image file to enhance GUI aesthetics ([dfe82cd](https://www.github.com/tgiachi/Eldergrove/commit/dfe82cdecac8d70cf114fef9288cfc46d34df3a5))
+* **IMapGenService:** change GenerateMapAsync method to return GameMap to provide generated map data ([b930668](https://www.github.com/tgiachi/Eldergrove/commit/b93066838a194db211d5e7d04a4ab2ae32e16a4e))
+* **MapGenService:** refactor GenerateFabric method to use tuples for wall and floor parameters for better clarity and structure ([f997a5a](https://www.github.com/tgiachi/Eldergrove/commit/f997a5a2021a3f532dfebfe7ecbd11461100ac6b))
+* **SkillsComponent:** add Gold property to SkillsComponent for tracking player gold ([4109452](https://www.github.com/tgiachi/Eldergrove/commit/4109452228b4b30cfdb94cf26b30ffaf58f10491))
+
+### Bug Fixes
+
+* **FindFreeArea:** increase maxAttempts from 1000 to 200 to improve area search success rate ([094506e](https://www.github.com/tgiachi/Eldergrove/commit/094506eea11a835122a0117ae66a140772198c3d))
+
 <a name="0.2.0-alpha.0"></a>
 ## [0.2.0-alpha.0](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.2.0-alpha.0) (2024-10-10)
 
