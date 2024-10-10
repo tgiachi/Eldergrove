@@ -11,22 +11,22 @@ namespace Eldergrove.Engine.Core.Actions.Player;
 public class PlayerMovementAction : AbstractSchedulerAction
 {
     private readonly Direction _direction;
-    private readonly GameMap _gameMap;
     private readonly PlayerGameObject _player;
 
-    public PlayerMovementAction(Direction direction, GameMap gameMap, PlayerGameObject player)
+    public PlayerMovementAction(Direction direction, PlayerGameObject player)
     {
         _direction = direction;
-        _gameMap = gameMap;
+
         _player = player;
     }
 
     public override async Task<ActionResult> ExecuteAsync()
     {
         var newPosition = _player.Position + _direction;
-        if (_gameMap.GameObjectCanMove(_player, newPosition))
+        if (_player.CurrentMap.GameObjectCanMove(_player, newPosition))
         {
             _player.Position = newPosition;
+
 
             return ActionResult.Succeed();
         }
