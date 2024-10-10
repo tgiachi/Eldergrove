@@ -33,8 +33,6 @@ public class GameObject : ScreenObject
 
         _currentMap.PlayerFOV.Calculate(0, 0, 30);
 
-        // ViewLock = new SurfaceComponentFollowTarget { Target =  };
-
-        // _currentMap.DefaultRenderer.Components.Add(ViewLock);
+        _currentMap.PlayerFOV.Calculate(30, 30, 30);
     }
 }
