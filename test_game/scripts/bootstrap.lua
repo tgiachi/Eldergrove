@@ -5,8 +5,12 @@ local npc_seed = require "seed.npcs"
 local brain_seed = require "seed.brains"
 
 set_game_config({
-    map_width = 300,
-    map_height = 300,
+    title_name = "Eldergrove",
+    map = {
+        generator_id = "default",
+        width = 400,
+        height = 400
+    }
 })
 
 on_bootstrap(function()

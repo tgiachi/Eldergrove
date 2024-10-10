@@ -1,13 +1,12 @@
 using System.Text.Json;
 using Eldergrove.Engine.Core.Attributes.Services;
+using Eldergrove.Engine.Core.Data.Events;
 using Eldergrove.Engine.Core.Data.Game;
 using Eldergrove.Engine.Core.Data.Json.Maps;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Maps;
-using Eldergrove.Engine.Core.Utils;
 using GoRogue.MapGeneration;
 using Microsoft.Extensions.Logging;
-using NLua;
 
 namespace Eldergrove.Engine.Core.Services;
 
@@ -20,25 +19,38 @@ public class MapGenService : IMapGenService
 
     private readonly Dictionary<string, MapFabricObject> _mapFabrics = new();
 
-    private readonly IEventDispatcherService _eventDispatcherService;
+    private readonly Dictionary<string, MapGeneratorObject> _mapGenerators = new();
 
-    private readonly JsonSerializerOptions _jsonSerializerOptions;
 
+    private readonly IMessageBusService _messageBusService;
     private readonly IScriptEngineService _scriptEngineService;
 
     private GameConfig _gameConfig;
 
     public MapGenService(
         ILogger<MapGenService> logger, IDataLoaderService dataLoaderService, IScriptEngineService scriptEngineService,
-        JsonSerializerOptions jsonSerializerOptions, IEventDispatcherService eventDispatcherService
+        IMessageBusService messageBusService
     )
     {
         _logger = logger;
         _scriptEngineService = scriptEngineService;
-        _jsonSerializerOptions = jsonSerializerOptions;
-        _eventDispatcherService = eventDispatcherService;
+        _messageBusService = messageBusService;
+
 
         dataLoaderService.SubscribeData<MapFabricObject>(OnMapFabric);
+        dataLoaderService.SubscribeData<MapGeneratorObject>(OnMapGenerator);
+    }
+
+    private Task OnMapGenerator(MapGeneratorObject arg)
+    {
+        if (!_mapGenerators.TryAdd(arg.Id, arg))
+        {
+            _logger.LogWarning("Map generator with id {generatorId} already exists", arg.Id);
+            return Task.CompletedTask;
+        }
+
+        _logger.LogDebug("Map generator {Generator} added", arg.Id);
+        return Task.CompletedTask;
     }
 
     private Task OnMapFabric(MapFabricObject arg)
@@ -61,17 +73,9 @@ public class MapGenService : IMapGenService
 
     public async Task GenerateMapAsync()
     {
-        if (!_scriptEngineService.ContextVariables.TryGetValue("game_config", out var gameConfig))
-        {
-            _logger.LogError("Game config not found");
-            throw new Exception("Game config not found");
-        }
+        _gameConfig = _scriptEngineService.GetContextVariable<GameConfig>("game_config");
 
-        var json = JsonSerializer.Serialize(ScriptUtils.LuaTableToDictionary((LuaTable)gameConfig), _jsonSerializerOptions);
-
-        _gameConfig = JsonSerializer.Deserialize<GameConfig>(json, _jsonSerializerOptions);
-
-        var generator = new Generator(_gameConfig.MapWidth, _gameConfig.MapHeight)
+        var generator = new Generator(_gameConfig.Map.Width, _gameConfig.Map.Height)
             .ConfigAndGenerateSafe(
                 gen =>
                 {
@@ -83,8 +87,8 @@ public class MapGenService : IMapGenService
 
         generator.Generate();
 
-        CurrentMap = new GameMap(_gameConfig.MapWidth, _gameConfig.MapHeight, null);
+        CurrentMap = new GameMap(_gameConfig.Map.Width, _gameConfig.Map.Height, null);
 
-        _eventDispatcherService.DispatchEvent("map_generated", CurrentMap);
+        _messageBusService.Publish(new MapGeneratedEvent(CurrentMap));
     }
 }

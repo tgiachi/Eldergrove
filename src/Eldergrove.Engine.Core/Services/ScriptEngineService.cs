@@ -1,6 +1,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using Eldergrove.Engine.Core.Attributes.Scripts;
 using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Data.Internal;
@@ -8,9 +9,10 @@ using Eldergrove.Engine.Core.Data.Scripts;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Types;
 using Eldergrove.Engine.Core.Utils;
+using Microsoft.Extensions.Logging;
 using NLua;
 using NLua.Exceptions;
-using Serilog;
+
 
 
 namespace Eldergrove.Engine.Core.Services;
@@ -18,7 +20,7 @@ namespace Eldergrove.Engine.Core.Services;
 [AutostartService(1)]
 public class ScriptEngineService : IScriptEngineService
 {
-    private readonly ILogger _logger = Log.ForContext<ScriptEngineService>();
+    private readonly ILogger _logger;
     private readonly Lua _luaEngine;
     private readonly Dictionary<string, object> _scriptConstants = new();
     private readonly List<ScriptClassData> _scriptModules;
@@ -28,13 +30,17 @@ public class ScriptEngineService : IScriptEngineService
     public List<ScriptFunctionDescriptor> Functions { get; } = new();
     public Dictionary<string, object> ContextVariables { get; } = new();
 
-    public ScriptEngineService(
-        DirectoryConfig directoryConfig, List<ScriptClassData> scriptModules, IServiceProvider container
+    private readonly JsonSerializerOptions _jsonSerializerOptions;
+
+    public ScriptEngineService(ILogger<ScriptEngineService> logger,
+        DirectoryConfig directoryConfig, List<ScriptClassData> scriptModules, IServiceProvider container, JsonSerializerOptions jsonSerializerOptions
     )
     {
         _directoryConfig = directoryConfig;
         _scriptModules = scriptModules;
         _container = container;
+        _jsonSerializerOptions = jsonSerializerOptions;
+        _logger = logger;
         _luaEngine = new Lua();
 
         AddModulesDirectory();
@@ -71,7 +77,7 @@ public class ScriptEngineService : IScriptEngineService
     {
         foreach (var module in _scriptModules)
         {
-            _logger.Debug("Found script module {Module}", module.ClassType.Name);
+            _logger.LogDebug("Found script module {Module}", module.ClassType.Name);
 
             try
             {
@@ -88,14 +94,14 @@ public class ScriptEngineService : IScriptEngineService
 
                     ExtractFunctionDescriptor(sMethodAttr, scriptMethod);
 
-                    _logger.Debug("Adding script method {M}", sMethodAttr.Alias ?? scriptMethod.Name);
+                    _logger.LogDebug("Adding script method {M}", sMethodAttr.Alias ?? scriptMethod.Name);
 
                     _luaEngine[sMethodAttr.Alias ?? scriptMethod.Name] = CreateLuaEngineDelegate(obj, scriptMethod);
                 }
             }
             catch (Exception ex)
             {
-                _logger.Error("Error during initialize script module {Alias}: {Ex}", module.ClassType, ex);
+                _logger.LogError("Error during initialize script module {Alias}: {Ex}", module.ClassType, ex);
             }
         }
 
@@ -104,7 +110,7 @@ public class ScriptEngineService : IScriptEngineService
 
     public async Task ExecuteFileAsync(string file)
     {
-        _logger.Information("Executing script: {File}", Path.GetFileName(file));
+        _logger.LogInformation("Executing script: {File}", Path.GetFileName(file));
         try
         {
             var script = await File.ReadAllTextAsync(file);
@@ -112,7 +118,7 @@ public class ScriptEngineService : IScriptEngineService
         }
         catch (LuaException ex)
         {
-            _logger.Error(ex, "Error executing script: {File}: {Formatted}", Path.GetFileName(file), FormatException(ex));
+            _logger.LogError(ex, "Error executing script: {File}: {Formatted}", Path.GetFileName(file), FormatException(ex));
         }
     }
 
@@ -160,10 +166,30 @@ public class ScriptEngineService : IScriptEngineService
 
     public void AddContextVariable(string name, object value)
     {
-        _logger.Information("Adding context variable {Name} with value {Value}", name, value);
+        _logger.LogInformation("Adding context variable {Name} with value {Value}", name, value);
         _luaEngine[name] = value;
         ContextVariables[name] = value;
     }
+
+    public TVar? GetContextVariable<TVar>(string name, bool throwIfNotFound = true) where TVar : class
+    {
+        if (!ContextVariables.TryGetValue(name, out var ctxVar))
+        {
+            _logger.LogError("Variable {Name} not found", name);
+
+            if (throwIfNotFound)
+            {
+                throw new KeyNotFoundException($"Variable {name} not found");
+            }
+
+            return default;
+        }
+
+        var json = JsonSerializer.Serialize(ScriptUtils.LuaTableToDictionary((LuaTable)ctxVar), _jsonSerializerOptions);
+
+        return JsonSerializer.Deserialize<TVar>(json, _jsonSerializerOptions);
+    }
+
 
     private static Delegate CreateLuaEngineDelegate(object obj, MethodInfo method)
     {

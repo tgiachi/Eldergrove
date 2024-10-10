@@ -17,6 +17,8 @@ public class MapFabricObject : IJsonDataObject, IJsonCategoryObject, IJsonNamedO
 
     public string? SubCategory { get; set; }
 
+    public bool CanRotate { get; set; } = true;
+
     public string[] Fabric { get; set; }
 
     public JsonSymbolDataObject Wall { get; set; }

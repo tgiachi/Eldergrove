@@ -1,0 +1,14 @@
+[
+    {
+        "$type": "map_generator",
+        "id": "default",
+        "generator_type": "container",
+        "fabrics": [
+            {
+                "id": "houses",
+                "min": 1,
+                "max": 2
+            }
+        ]
+    }
+]

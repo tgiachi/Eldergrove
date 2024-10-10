@@ -1,3 +1,4 @@
+using Eldergrove.Engine.Core.Data.Events;
 using Eldergrove.Engine.Core.Data.Internal;
 using Eldergrove.Engine.Core.Data.Json.Colors;
 using Eldergrove.Engine.Core.Data.Json.Items;
@@ -86,6 +87,7 @@ public class EldergroveEngine : IEldergroveEngine
             .AddDataLoaderType<ItemObject>()
             .AddDataLoaderType<NpcObject>()
             .AddDataLoaderType<MapFabricObject>()
+            .AddDataLoaderType<MapGeneratorObject>()
             ;
     }
 
@@ -135,7 +137,7 @@ public class EldergroveEngine : IEldergroveEngine
             }
 
 
-            Log.Logger.Information("Starting service {ServiceType}", s.ServiceType.Name);
+            Log.Logger.Debug("Starting service {ServiceType}", s.ServiceType.Name);
             await service.StartAsync();
         }
 
@@ -144,8 +146,8 @@ public class EldergroveEngine : IEldergroveEngine
             action();
         }
 
-        _logger.Information("Engine started");
-        GetService<IEventDispatcherService>().DispatchEvent("engine_ready");
+
+        GetService<IMessageBusService>().Publish(new EngineReadyEvent());
     }
 
     public Task StartAsync()

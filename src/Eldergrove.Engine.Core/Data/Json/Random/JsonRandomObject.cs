@@ -9,4 +9,6 @@ public class JsonRandomObject : IJsonRandomObject
     public int Min { get; set; }
 
     public int Max { get; set; }
+
+    public override string ToString() => $"Id: {Id}, Min: {Min}, Max: {Max}";
 }

@@ -31,6 +31,8 @@ public class MessageBusService : IMessageBusService
 
         //_logger.Debug("Publishing message {Message}", message.GetType());
         _messageBus.Send(message);
+
+        DispatchMessage(message);
     }
 
     private void DispatchMessage(object message)
