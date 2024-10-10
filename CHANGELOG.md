@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+<a name="0.2.0-alpha.0"></a>
+## [0.2.0-alpha.0](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.2.0-alpha.0) (2024-10-10)
+
+### Features
+
+* add initial project structure and core components for Eldergrove engine ([75d20dd](https://www.github.com/tgiachi/Eldergrove/commit/75d20dd336847dca06b3fcb90f6b304f1b21e4f3))
+* **actions:** add PlayerMovementAction class to handle player movement logic ([6603bc4](https://www.github.com/tgiachi/Eldergrove/commit/6603bc4f0d6291adc1c5b5e610cb8430e151f745))
+* **actions:** implement TimedAction and PlayerMovementAction for better action scheduling and player movement handling ([bffa824](https://www.github.com/tgiachi/Eldergrove/commit/bffa82477ddb61f4a1bac748f8a15b05680879dd))
+* **events:** add EngineReadyEvent and MapGeneratedEvent to handle engine state changes ([150a4a9](https://www.github.com/tgiachi/Eldergrove/commit/150a4a90cae7fdd8b27e8b2d360de04c77a0919a))
+* **MainScreen:** add MainScreen class to manage the main console interface ([1f6a74d](https://www.github.com/tgiachi/Eldergrove/commit/1f6a74df0c37231f39d386792e142f2cfd57fe59))
+* **MapGenerator:** add Wall and Floor properties to MapGeneratorObject for better map customization ([ee5f433](https://www.github.com/tgiachi/Eldergrove/commit/ee5f433d727d63a4f229d4c761a7faa096ead1a5))
+* **scheduler:** implement abstract scheduler action and dummy action for task scheduling ([9e9eaaf](https://www.github.com/tgiachi/Eldergrove/commit/9e9eaaffc45927477a22e7dfecbd099eeae7e637))
+
 <a name="0.1.1"></a>
 ## [0.1.1](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.1.1) (2024-10-09)
 
