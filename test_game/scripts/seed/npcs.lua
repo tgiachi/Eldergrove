@@ -2,7 +2,7 @@ return function()
     add_npc({
         id = "a_cat",
         name = "@animals",
-        symbol = "#@c",
+        symbol = "##c",
         foreground = "black",
         background = "white",
         category = "animals",
