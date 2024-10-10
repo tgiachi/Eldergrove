@@ -9,6 +9,6 @@ public interface IMapGenService
 
     void AddFabric(MapFabricObject fabric);
 
-    Task GenerateMapAsync();
+    Task<GameMap> GenerateMapAsync();
 
 }

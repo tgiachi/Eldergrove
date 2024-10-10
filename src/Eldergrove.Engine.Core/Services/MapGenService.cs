@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using System.Text.Json;
 using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Data.Events;
 using Eldergrove.Engine.Core.Data.Game;
@@ -78,7 +77,7 @@ public class MapGenService : IMapGenService
         _logger.LogDebug("Map fabric {Fabric} added", fabric.Id);
     }
 
-    public async Task GenerateMapAsync()
+    public async Task<GameMap> GenerateMapAsync()
     {
         _gameConfig = _scriptEngineService.GetContextVariable<GameConfig>("game_config");
 
@@ -134,5 +133,13 @@ public class MapGenService : IMapGenService
 
         stopWatch.Stop();
         _logger.LogDebug("Map generated in {Elapsed}ms", stopWatch.ElapsedMilliseconds);
+
+        return CurrentMap;
+    }
+
+
+    private void GenerateFabric(MapFabricObject fabric, GameMap map)
+    {
+
     }
 }
