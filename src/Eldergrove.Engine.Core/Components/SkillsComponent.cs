@@ -7,6 +7,8 @@ public class SkillsComponent : RogueLikeComponentBase<NpcGameObject>
 {
     public int Health { get; set; }
 
+    public int Gold { get; set; }
+
     public SkillsComponent() : base(false, false, false, false)
     {
     }

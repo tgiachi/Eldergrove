@@ -10,6 +10,13 @@ set_game_config({
         generator_id = "default",
         width = 400,
         height = 400
+    },
+    player = {
+        starting_gold = {
+            min = 100,
+            max = 200
+        }
+
     }
 })
 
