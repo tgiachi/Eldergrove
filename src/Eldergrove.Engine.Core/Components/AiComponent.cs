@@ -1,5 +1,6 @@
 using Eldergrove.Engine.Core.Ai;
 using Eldergrove.Engine.Core.GameObject;
+using Eldergrove.Engine.Core.Interfaces.Actions;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Maps;
 using SadRogue.Integration.Components;
@@ -24,14 +25,16 @@ public class AiComponent : RogueLikeComponentBase<NpcGameObject>
         _context = new AiContext();
     }
 
-    public void TakeTurn()
+    public IEnumerable<ISchedulerAction> TakeTurn()
     {
         if (Parent?.CurrentMap == null)
         {
-            return;
+            return null;
         }
 
         _context.Map = (GameMap)Parent.CurrentMap;
         _npcService.InvokeBrain(BrainId, _context);
+
+        return null;
     }
 }

@@ -33,6 +33,16 @@ public class NpcGameObject : RogueLikeEntity, INamedComponent, IActionableEntity
 
     public IEnumerable<ISchedulerAction> TakeTurn()
     {
-        yield return new DummyAction(1);
+        if (GoRogueComponents.GetFirstOrDefault<AiComponent>() != null)
+        {
+            var list = GoRogueComponents.GetFirstOrDefault<AiComponent>().TakeTurn();
+
+            if (list != null)
+            {
+                return list;
+            }
+        }
+
+        return new List<ISchedulerAction>();
     }
 }
