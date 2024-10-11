@@ -17,39 +17,35 @@ public class GameObject : ScreenObject
 
     private readonly GameMap _currentMap;
 
-    private readonly PlayerGameObject _playerGameObject;
 
     private readonly ISchedulerService _schedulerService;
 
-    /// <summary>
-    /// Component which locks the map's view onto an entity (usually the player).
-    /// </summary>
+    private readonly INpcService _npcService;
+
     public readonly SurfaceComponentFollowTarget ViewLock;
 
     public GameObject(IEldergroveEngine eldergroveEngine, int width, int height)
     {
         _eldergroveEngine = eldergroveEngine;
 
+        _npcService = _eldergroveEngine.GetService<INpcService>();
 
         _currentMap = _eldergroveEngine.GetService<IMapGenService>().CurrentMap;
         _schedulerService = _eldergroveEngine.GetService<ISchedulerService>();
 
-        _playerGameObject = new PlayerGameObject((1, 1), new ColoredGlyph(Color.Azure, Color.Black, '@'));
-        _playerGameObject.GoRogueComponents.Add(new PlayerFOVController());
-        _currentMap.AddEntity(_playerGameObject);
+        _npcService.Player = new PlayerGameObject((1, 1), new ColoredGlyph(Color.Azure, Color.Black, '@'));
+        _npcService.Player.GoRogueComponents.Add(new PlayerFOVController());
+        _currentMap.AddEntity(_npcService.Player);
 
 
         _currentMap.DefaultRenderer = _currentMap.CreateRenderer((width, height));
 
         Children.Add(_currentMap);
 
-        //        _currentMap
-        //            .DefaultRenderer.IsFocused = true;
-
         IsFocused = true;
         UseKeyboard = true;
 
-        ViewLock = new SurfaceComponentFollowTarget() { Target = _playerGameObject };
+        ViewLock = new SurfaceComponentFollowTarget() { Target = _npcService.Player };
 
         _currentMap.DefaultRenderer?.SadComponents.Add(ViewLock);
 
@@ -60,7 +56,7 @@ public class GameObject : ScreenObject
     {
         if (keyboard.IsKeyPressed(Keys.Up))
         {
-            _schedulerService.AddAction(new EntityMovementAction(Direction.Up, _playerGameObject));
+            _schedulerService.AddAction(new EntityMovementAction(Direction.Up, _npcService.Player));
             _schedulerService.TickAsync();
 
             return true;
@@ -68,7 +64,7 @@ public class GameObject : ScreenObject
 
         if (keyboard.IsKeyPressed(Keys.Down))
         {
-            _schedulerService.AddAction(new EntityMovementAction(Direction.Down, _playerGameObject));
+            _schedulerService.AddAction(new EntityMovementAction(Direction.Down, _npcService.Player));
             _schedulerService.TickAsync();
 
             return true;
@@ -76,7 +72,8 @@ public class GameObject : ScreenObject
 
         if (keyboard.IsKeyPressed(Keys.Left))
         {
-            _schedulerService.AddAction(new EntityMovementAction(Direction.Left, _playerGameObject));
+
+            _schedulerService.AddAction(new EntityMovementAction(Direction.Left, _npcService.Player));
             _schedulerService.TickAsync();
 
             return true;
@@ -84,7 +81,7 @@ public class GameObject : ScreenObject
 
         if (keyboard.IsKeyPressed(Keys.Right))
         {
-            _schedulerService.AddAction(new EntityMovementAction(Direction.Right, _playerGameObject));
+            _schedulerService.AddAction(new EntityMovementAction(Direction.Right, _npcService.Player));
             _schedulerService.TickAsync();
 
             return true;

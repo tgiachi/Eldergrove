@@ -100,7 +100,7 @@ public class EldergroveEngine : IEldergroveEngine
             .AddEldergroveService<IScriptEngineService, ScriptEngineService>()
             .AddEldergroveService<IMessageBusService, MessageBusService>()
             .AddEldergroveService<IDataLoaderService, DataLoaderService>()
-            .AddEldergroveService<IActionCommandService, ActionCommandService>()
+            .AddEldergroveService<IActionCommandService, KeyActionCommandService>()
             .AddEldergroveService<INameGeneratorService, NameGeneratorService>()
             .AddEldergroveService<IColorService, ColorService>()
             .AddEldergroveService<IPropService, PropService>()

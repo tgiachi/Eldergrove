@@ -106,7 +106,7 @@ public class ServicesTests
     {
         var actionCommandService = _engine.GetService<IActionCommandService>();
 
-        actionCommandService.RegisterCommand("test", Assert.Pass);
+        actionCommandService.RegisterCommand("test", context => { Assert.Pass(); });
 
 
         actionCommandService.ExecuteCommand("test");
@@ -231,4 +231,3 @@ public class ServicesTests
         }
     }
 }
-

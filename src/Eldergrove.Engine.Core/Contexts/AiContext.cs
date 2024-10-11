@@ -5,7 +5,7 @@ using Eldergrove.Engine.Core.Maps;
 using GoRogue.GameFramework;
 using SadRogue.Primitives;
 
-namespace Eldergrove.Engine.Core.Ai;
+namespace Eldergrove.Engine.Core.Contexts;
 
 public class AiContext
 {

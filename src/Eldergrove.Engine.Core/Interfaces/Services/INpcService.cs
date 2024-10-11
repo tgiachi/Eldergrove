@@ -1,4 +1,4 @@
-using Eldergrove.Engine.Core.Ai;
+using Eldergrove.Engine.Core.Contexts;
 using Eldergrove.Engine.Core.Data.Json.Npcs;
 using Eldergrove.Engine.Core.GameObject;
 using Eldergrove.Engine.Core.Interfaces.Actions;

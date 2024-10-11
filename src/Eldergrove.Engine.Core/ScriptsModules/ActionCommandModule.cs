@@ -1,4 +1,5 @@
 using Eldergrove.Engine.Core.Attributes.Scripts;
+using Eldergrove.Engine.Core.Contexts;
 using Eldergrove.Engine.Core.Interfaces.Services;
 
 namespace Eldergrove.Engine.Core.ScriptsModules;
@@ -14,7 +15,7 @@ public class ActionCommandModule
     }
 
     [ScriptFunction("action_register_cmd")]
-    public void RegisterCommand(string command, Action action)
+    public void RegisterCommand(string command, Action<ActionContext> action)
     {
         _actionCommandService.RegisterCommand(command, action);
     }
