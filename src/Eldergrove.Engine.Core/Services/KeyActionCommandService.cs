@@ -12,7 +12,7 @@ namespace Eldergrove.Engine.Core.Services;
 
 
 [AutostartService]
-public class KeyKeyActionCommandService : IKeyActionCommandService
+public class KeyActionCommandService : IKeyActionCommandService
 {
     private readonly ILogger _logger;
 
@@ -27,8 +27,8 @@ public class KeyKeyActionCommandService : IKeyActionCommandService
     private readonly IEldergroveEngine _engine;
 
 
-    public KeyKeyActionCommandService(
-        ILogger<KeyKeyActionCommandService> logger, IEldergroveEngine engine, List<KeyActionData> keyActions,
+    public KeyActionCommandService(
+        ILogger<KeyActionCommandService> logger, IEldergroveEngine engine, List<KeyActionData> keyActions,
         IServiceProvider serviceProvider
     )
     {

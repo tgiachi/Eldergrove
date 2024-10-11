@@ -103,7 +103,7 @@ public class EldergroveEngine : IEldergroveEngine
             .AddEldergroveService<IScriptEngineService, ScriptEngineService>()
             .AddEldergroveService<IMessageBusService, MessageBusService>()
             .AddEldergroveService<IDataLoaderService, DataLoaderService>()
-            .AddEldergroveService<IKeyActionCommandService, KeyKeyActionCommandService>()
+            .AddEldergroveService<IKeyActionCommandService, KeyActionCommandService>()
             .AddEldergroveService<INameGeneratorService, NameGeneratorService>()
             .AddEldergroveService<IColorService, ColorService>()
             .AddEldergroveService<IPropService, PropService>()
@@ -116,7 +116,8 @@ public class EldergroveEngine : IEldergroveEngine
             .AddEldergroveService<ISchedulerService, SchedulerService>()
             ;
 
-        _serviceCollection.AddKeybindingAction<PlayerMoveKeyAction>();
+        _serviceCollection
+            .AddKeybindingAction<PlayerMoveUp>();
     }
 
 
