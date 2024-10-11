@@ -10,7 +10,6 @@ using Microsoft.Extensions.Logging;
 
 namespace Eldergrove.Engine.Core.Services;
 
-
 [AutostartService]
 public class KeyActionCommandService : IKeyActionCommandService
 {
@@ -18,7 +17,7 @@ public class KeyActionCommandService : IKeyActionCommandService
 
     private readonly Dictionary<string, Action<ActionContext>> _commands = new();
 
-    private readonly Dictionary<KeybindingData, string> _keybindings = new();
+    private readonly Dictionary<string, Dictionary<KeybindingData, string>> _keybindings = new();
 
     private readonly List<KeyActionData> _keyActions;
 
@@ -65,12 +64,23 @@ public class KeyActionCommandService : IKeyActionCommandService
         _commands.Add(command, action);
     }
 
-    public void RegisterKeybinding(string key, string command)
+    public void RegisterKeybinding(string context, string key, string command)
     {
         var keyBinding = KeybindingParser.Parse(key);
-        _keybindings.Add(keyBinding, command);
 
-        _logger.LogDebug("Keybinding '{Keybinding}' registered for command '{Command}'", key, command);
+        if (!_keybindings.ContainsKey(context))
+        {
+            _keybindings.Add(context, new Dictionary<KeybindingData, string>());
+        }
+
+        _keybindings[context].Add(keyBinding, command);
+
+        _logger.LogDebug(
+            "Keybinding '{Keybinding}' registered for command '{Command}' and Context {Context}",
+            key,
+            command,
+            context
+        );
     }
 
     public void UnregisterCommand(string command)
@@ -94,5 +104,26 @@ public class KeyActionCommandService : IKeyActionCommandService
         {
             _logger.LogWarning("Command '{Command}' not found.", command);
         }
+    }
+
+    public bool ExecuteKeybinding(string context, KeybindingData keybindingData)
+    {
+        if (_keybindings.TryGetValue(context, out var keybindings))
+        {
+            if (keybindings.TryGetValue(keybindingData, out var command))
+            {
+                _logger.LogDebug(
+                    "Keybinding '{Keybinding}' executed for command '{Command}' and Context {Context}",
+                    keybindingData,
+                    command,
+                    context
+                );
+                ExecuteCommand(command);
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }

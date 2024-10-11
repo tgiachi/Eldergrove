@@ -33,8 +33,8 @@ public class ActionCommandModule
     }
 
     [ScriptFunction("register_keybinding")]
-    public void RegisterKeybinding(string key, string command)
+    public void RegisterKeybinding(string context, string key, string command)
     {
-        _keyActionCommandService.RegisterKeybinding(key, command);
+        _keyActionCommandService.RegisterKeybinding( context, key, command);
     }
 }

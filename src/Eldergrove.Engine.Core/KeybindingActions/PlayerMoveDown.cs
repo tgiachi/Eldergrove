@@ -5,9 +5,9 @@ using SadRogue.Primitives;
 
 namespace Eldergrove.Engine.Core.KeybindingActions;
 
-[KeybindingAction("map", "player_move_up")]
-public class PlayerMoveUp(ISchedulerService schedulerService, INpcService npcService) : BasePlayerMovement(
-    Direction.Up,
+[KeybindingAction("map", "player_move_down")]
+public class PlayerMoveDown(ISchedulerService schedulerService, INpcService npcService) : BasePlayerMovement(
+    Direction.Down,
     schedulerService,
     npcService
 )

@@ -75,8 +75,6 @@ public class EldergroveEngine : IEldergroveEngine
             .RegisterScriptModule<NpcModule>()
             .RegisterScriptModule<MapModule>()
             ;
-
-
     }
 
     private void RegisterDataLoaders()
@@ -116,8 +114,13 @@ public class EldergroveEngine : IEldergroveEngine
             .AddEldergroveService<ISchedulerService, SchedulerService>()
             ;
 
+        // Register default keybinding actions
         _serviceCollection
-            .AddKeybindingAction<PlayerMoveUp>();
+            .AddKeybindingAction<PlayerMoveUp>()
+            .AddKeybindingAction<PlayerMoveDown>()
+            .AddKeybindingAction<PlayerMoveLeft>()
+            .AddKeybindingAction<PlayerMoveRight>()
+            ;
     }
 
 
