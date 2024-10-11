@@ -2,6 +2,7 @@ using System.Text.Json;
 using Eldergrove.Engine.Core.Attributes.Scripts;
 using Eldergrove.Engine.Core.Data.Json.Npcs;
 using Eldergrove.Engine.Core.GameObject;
+using Eldergrove.Engine.Core.Interfaces.Actions;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Utils;
 using NLua;
@@ -41,7 +42,8 @@ public class NpcModule
     {
         _npcService.AddBrain(id, ctx =>
         {
-            brain.Call(ctx);
+            return (List<ISchedulerAction>)brain.Call(ctx)[0];
+
         });
     }
 }

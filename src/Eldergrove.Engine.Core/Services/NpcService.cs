@@ -3,6 +3,7 @@ using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Components;
 using Eldergrove.Engine.Core.Data.Json.Npcs;
 using Eldergrove.Engine.Core.GameObject;
+using Eldergrove.Engine.Core.Interfaces.Actions;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Utils;
 using Microsoft.Extensions.Logging;
@@ -23,7 +24,7 @@ public class NpcService : INpcService
 
     private readonly IItemService _itemService;
 
-    private readonly Dictionary<string, Action<AiContext>> _brains = new();
+    private readonly Dictionary<string, Func<AiContext, List<ISchedulerAction>>> _brains = new();
 
     public NpcService(
         IDataLoaderService dataLoaderService, ILogger<NpcService> logger, ITileService tileService,
@@ -96,10 +97,12 @@ public class NpcService : INpcService
 
         gameObject.GoRogueComponents.Add(skills);
 
-        gameObject.GoRogueComponents.Add(new AiComponent(this)
-        {
-            BrainId = npc.BrainAi
-        });
+        gameObject.GoRogueComponents.Add(
+            new AiComponent(this)
+            {
+                BrainId = npc.BrainAi
+            }
+        );
 
 
         return gameObject;
@@ -112,19 +115,19 @@ public class NpcService : INpcService
         _npcObjects.Add(npc.Id, npc);
     }
 
-    public void AddBrain(string id, Action<AiContext> brain)
+    public void AddBrain(string id, Func<AiContext, List<ISchedulerAction>> brain)
     {
         _logger.LogDebug("Adding brain {BrainId}", id);
         _brains.Add(id, brain);
     }
 
-    public void InvokeBrain(string id, AiContext context)
+    public IEnumerable<ISchedulerAction> InvokeBrain(string id, AiContext context)
     {
         if (!_brains.TryGetValue(id, out var brain))
         {
             throw new InvalidOperationException($"No brain found with id {id}");
         }
 
-        brain(context);
+        return brain.Invoke(context);
     }
 }

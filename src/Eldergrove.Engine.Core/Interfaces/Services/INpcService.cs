@@ -1,6 +1,7 @@
 using Eldergrove.Engine.Core.Ai;
 using Eldergrove.Engine.Core.Data.Json.Npcs;
 using Eldergrove.Engine.Core.GameObject;
+using Eldergrove.Engine.Core.Interfaces.Actions;
 using Eldergrove.Engine.Core.Interfaces.GameObjects;
 
 
@@ -10,7 +11,7 @@ public interface INpcService : IGameObjectFactory<NpcGameObject>
 {
     void AddNpc(NpcObject npc);
 
-    void AddBrain(string id, Action<AiContext> brain);
+    void AddBrain(string id, Func<AiContext, List<ISchedulerAction>> brain);
 
-    void InvokeBrain(string id, AiContext context);
+    IEnumerable<ISchedulerAction> InvokeBrain(string id, AiContext context);
 }

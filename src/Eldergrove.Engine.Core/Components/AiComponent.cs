@@ -33,8 +33,6 @@ public class AiComponent : RogueLikeComponentBase<NpcGameObject>
         }
 
         _context.Map = (GameMap)Parent.CurrentMap;
-        _npcService.InvokeBrain(BrainId, _context);
-
-        return null;
+        return _npcService.InvokeBrain(BrainId, _context);
     }
 }
