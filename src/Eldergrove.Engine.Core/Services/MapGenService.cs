@@ -185,6 +185,11 @@ public class MapGenService : IMapGenService
         {
             _schedulerService.AddActionableEntity(actionableEntity);
         }
+
+        if (e.Item.Layer > 1)
+        {
+            _logger.LogDebug("Entity added {Entity} in position: {Pos}", e.Item.GetType(), e.Position);
+        }
     }
 
     private MapFabricObject GetFabric(string idOrCategory)

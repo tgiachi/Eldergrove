@@ -113,6 +113,8 @@ public class NpcService : INpcService
     }
 
 
+    public PlayerGameObject GetPlayer() => Player;
+
     public void AddNpc(NpcObject npc)
     {
         _logger.LogDebug("Adding npc {NpcId}", npc.Id);

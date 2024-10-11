@@ -6,7 +6,8 @@ public class ActionContext
 {
     public IEldergroveEngine Engine { get; set; }
 
+
+    public IEldergroveEngine GetEngine() => Engine;
+
     public string CommandName { get; set; }
-
-
 }

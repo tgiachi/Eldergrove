@@ -12,6 +12,8 @@ public interface INpcService : IGameObjectFactory<NpcGameObject>
 
     PlayerGameObject Player { get; set; }
 
+    PlayerGameObject GetPlayer();
+
     void AddNpc(NpcObject npc);
 
     void AddBrain(string id, Func<AiContext, List<ISchedulerAction>> brain);

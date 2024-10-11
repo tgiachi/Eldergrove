@@ -1,9 +1,4 @@
-
-
-
 local function dummy_brain(ctx)
-
-
     return ctx:DoMovement(ctx:GoRandom())
 end
 

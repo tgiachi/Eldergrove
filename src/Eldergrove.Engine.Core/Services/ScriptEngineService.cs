@@ -46,6 +46,8 @@ public class ScriptEngineService : IScriptEngineService
         _logger = logger;
         _luaEngine = new Lua();
 
+        _luaEngine.LoadCLRPackage();
+
         AddModulesDirectory();
     }
 

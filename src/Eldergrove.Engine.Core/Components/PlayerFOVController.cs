@@ -10,7 +10,7 @@ public class PlayerFOVController : RogueLikeComponentBase<RogueLikeEntity>
     /// <summary>
     /// The sight radius of the player.
     /// </summary>
-    public int FOVRadius { get; init; } = 8;
+    public int FOVRadius { get; set; } = 8;
 
     public PlayerFOVController(int fovRadius = 8)
         : base(false, false, false, false)

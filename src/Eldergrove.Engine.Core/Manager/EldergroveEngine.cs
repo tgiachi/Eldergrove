@@ -31,6 +31,8 @@ public class EldergroveEngine : IEldergroveEngine
     private readonly EldergroveOptions _options;
     private readonly DirectoryConfig _directoryConfig;
 
+    public INpcService NpcService => GetService<INpcService>();
+
     private ILogger _logger;
 
     public EldergroveEngine(EldergroveOptions options)
@@ -168,6 +170,8 @@ public class EldergroveEngine : IEldergroveEngine
     }
 
     public TService GetService<TService>() where TService : class => _serviceProvider.GetService<TService>();
+
+    public INpcService GetNpcService() => GetService<INpcService>();
 
     public void AddOnEngineStart(Action action)
     {
