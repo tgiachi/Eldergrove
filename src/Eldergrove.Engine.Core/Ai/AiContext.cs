@@ -41,6 +41,13 @@ public class AiContext
         _state[key] = value;
     }
 
+    public object this[string key]
+    {
+        get => GetState(key);
+        set => SetState(key, value);
+    }
+
+
     public bool HasState(string key) => _state.ContainsKey(key);
 
     public object GetState(string key) => _state.ContainsKey(key) ? _state[key] : null;
