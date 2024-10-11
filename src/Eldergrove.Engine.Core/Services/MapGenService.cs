@@ -139,6 +139,7 @@ public class MapGenService : IMapGenService
         var generatedMap = generator.Context.GetFirst<ISettableGridView<bool>>("WallFloor");
 
         CurrentMap.ObjectAdded += OnEntityAdded;
+        CurrentMap.ObjectRemoved += OnEntityRemoved;
 
         CurrentMap.ApplyTerrainOverlay(
             generatedMap,
@@ -168,6 +169,14 @@ public class MapGenService : IMapGenService
         _logger.LogDebug("Map generated in {Elapsed}ms", stopWatch.ElapsedMilliseconds);
 
         return CurrentMap;
+    }
+
+    private void OnEntityRemoved(object? sender, ItemEventArgs<IGameObject> e)
+    {
+        if (e.Item is IActionableEntity actionableEntity)
+        {
+            _schedulerService.RemoveActionableEntity(actionableEntity);
+        }
     }
 
     private void OnEntityAdded(object? sender, ItemEventArgs<IGameObject> e)
