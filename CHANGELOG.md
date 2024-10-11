@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file.
 
+<a name="0.2.0-alpha.2"></a>
+## [0.2.0-alpha.2](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.2.0-alpha.2) (2024-10-11)
+
+### Features
+
+* **ActionResult:** add AlternateAction property to ActionResult for enhanced action handling ([25161e4](https://www.github.com/tgiachi/Eldergrove/commit/25161e4f5ae1685fd3045872eacb3b44a1431046))
+* **AiComponent:** add entity reference to context for improved AI processing ([9cb5f55](https://www.github.com/tgiachi/Eldergrove/commit/9cb5f55896936c56e71fe24bdfe08c4d673fe14f))
+* **AiComponent:** change TakeTurn method to return IEnumerable<ISchedulerAction> for better action scheduling ([45943f7](https://www.github.com/tgiachi/Eldergrove/commit/45943f72dbf927b35f67f66415fc4e6d67f688f0))
+* **AiComponent:** refactor AI components to use new ActionContext for command registration and execution ([151195c](https://www.github.com/tgiachi/Eldergrove/commit/151195cc01e29a5406eb1a02e2cf00c68dc9b577))
+* **AiContext:** add EmptyActionList method to return an empty action list for AI context ([b0894ef](https://www.github.com/tgiachi/Eldergrove/commit/b0894ef7c587b2dc56aa3cac79cd18ae619cb9a6))
+* **AiContext:** add ToString method for better debugging and logging of AiContext ([21e7294](https://www.github.com/tgiachi/Eldergrove/commit/21e72943a2352e2b589988d960434b2abf755bca))
+* **AiContext.cs:** add state management methods to AiContext for better entity state handling ([ffe0294](https://www.github.com/tgiachi/Eldergrove/commit/ffe02941897533b06dc5d78134764f2aa59b6875))
+* **AiContext.cs:** implement indexer for AiContext to simplify state access and modification ([5f246f4](https://www.github.com/tgiachi/Eldergrove/commit/5f246f4b44ef192fb79fce7ca8f8e94cf8f03c11))
+* **EntityMovement:** implement EntityMovementAction to handle NPC movement logic ([ff80cdc](https://www.github.com/tgiachi/Eldergrove/commit/ff80cdca78a57164a1757dc96cd77e555f1f4195))
+* **Keybinding:** implement keybinding action system to enhance user input handling ([2996d3d](https://www.github.com/tgiachi/Eldergrove/commit/2996d3d832111b6e9ef4d93abd62c6c17e33d760))
+* **KeybindingActions:** implement base class for player movement actions and create specific action for moving up ([82d47d0](https://www.github.com/tgiachi/Eldergrove/commit/82d47d07d7de328fc659d7c4befd27bf5ff2013d))
+* **keybindings:** implement context-based keybinding system for player movement actions ([15d7c8d](https://www.github.com/tgiachi/Eldergrove/commit/15d7c8dd258cde9a3f28838c92ebff494970bcf3))
+* **MapGenService:** add event handler for object removal to manage actionable entities in the map ([1d9969e](https://www.github.com/tgiachi/Eldergrove/commit/1d9969e6a1972d5f4006a9085af49f0cd7035304))
+* **PlayerMovement:** remove gameMap dependency from PlayerMovementAction to simplify the constructor and use player’s current map directly ([7e32b7d](https://www.github.com/tgiachi/Eldergrove/commit/7e32b7d2771f85e9b39b2236f119ee4a0cd561f9))
+* **SchedulerService:** add methods to manage actionable entities in the scheduler ([a857de2](https://www.github.com/tgiachi/Eldergrove/commit/a857de2ec22f10d3678b2cef04e7fb3881890596))
+* **SchedulerService:** add stopwatch to measure execution time of TickAsync method for performance monitoring ([3f4c1ee](https://www.github.com/tgiachi/Eldergrove/commit/3f4c1eef960d66ea691922ac5c36e5053fcac81f))
+
+### Bug Fixes
+
+* **GameMap.cs:** change distance calculation method from Manhattan to Euclidean to improve pathfinding accuracy ([74f0c4b](https://www.github.com/tgiachi/Eldergrove/commit/74f0c4b8a5b06c6bb571ae735afff61f9a0722e1))
+* **MapFabricObject.cs:** set default value of CanRotate to false to prevent unintended rotations ([8b64c8d](https://www.github.com/tgiachi/Eldergrove/commit/8b64c8d86a5996841e092805255090453ad289d3))
+
 <a name="0.2.0-alpha.1"></a>
 ## [0.2.0-alpha.1](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.2.0-alpha.1) (2024-10-10)
 
