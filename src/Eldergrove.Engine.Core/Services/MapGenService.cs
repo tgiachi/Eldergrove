@@ -7,6 +7,7 @@ using Eldergrove.Engine.Core.Data.Json.Maps;
 using Eldergrove.Engine.Core.Data.Json.TileSet;
 using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.GameObject;
+using Eldergrove.Engine.Core.Interfaces.Actions;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Maps;
 using Eldergrove.Engine.Core.Types;
@@ -35,6 +36,7 @@ public class MapGenService : IMapGenService
 
     private readonly IMessageBusService _messageBusService;
     private readonly IScriptEngineService _scriptEngineService;
+    private readonly ISchedulerService _schedulerService;
 
     private readonly IPropService _propService;
     private readonly INpcService _npcService;
@@ -46,7 +48,7 @@ public class MapGenService : IMapGenService
     public MapGenService(
         ILogger<MapGenService> logger, IDataLoaderService dataLoaderService, IScriptEngineService scriptEngineService,
         IMessageBusService messageBusService, ITileService tileService, IPropService propService, INpcService npcService,
-        IItemService itemService
+        IItemService itemService, ISchedulerService schedulerService
     )
     {
         _logger = logger;
@@ -56,6 +58,7 @@ public class MapGenService : IMapGenService
         _propService = propService;
         _npcService = npcService;
         _itemService = itemService;
+        _schedulerService = schedulerService;
 
 
         dataLoaderService.SubscribeData<MapFabricObject>(OnMapFabric);
@@ -169,7 +172,10 @@ public class MapGenService : IMapGenService
 
     private void OnEntityAdded(object? sender, ItemEventArgs<IGameObject> e)
     {
-        // Add npc to scheduler
+        if (e.Item is IActionableEntity actionableEntity)
+        {
+            _schedulerService.AddActionableEntity(actionableEntity);
+        }
     }
 
     private MapFabricObject GetFabric(string idOrCategory)

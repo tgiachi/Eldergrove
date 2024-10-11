@@ -9,4 +9,8 @@ public interface ISchedulerService
     void AddAction(ISchedulerAction action);
 
     Task TickAsync();
+
+    void AddActionableEntity(IActionableEntity entity);
+
+    void RemoveActionableEntity(IActionableEntity entity);
 }

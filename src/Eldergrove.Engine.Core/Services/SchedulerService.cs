@@ -15,6 +15,8 @@ public class SchedulerService : ISchedulerService, ISubscriber<AddActionToSchedu
 
     private readonly IMessageBusService _messageBusService;
 
+    private readonly List<IActionableEntity> _actionableEntities = new();
+
 
     public SchedulerService(
         ILogger<SchedulerService> logger, IMessageBusService messageBusService
@@ -33,8 +35,23 @@ public class SchedulerService : ISchedulerService, ISubscriber<AddActionToSchedu
         _actions.Enqueue(action);
     }
 
+    private void PrepareActions()
+    {
+        foreach (var entity in _actionableEntities)
+        {
+            var actions = entity.TakeTurn();
+            foreach (var action in actions)
+            {
+                AddAction(action);
+            }
+        }
+    }
+
     public async Task TickAsync()
     {
+
+        PrepareActions();
+
         _logger.LogDebug("Tick {Turn} total action to execute: {ActionCount}", Turn, _actions.Count);
         Turn++;
 
@@ -80,6 +97,16 @@ public class SchedulerService : ISchedulerService, ISubscriber<AddActionToSchedu
 
 
         _messageBusService.Publish(new TickEvent(Turn));
+    }
+
+    public void AddActionableEntity(IActionableEntity entity)
+    {
+        _actionableEntities.Add(entity);
+    }
+
+    public void RemoveActionableEntity(IActionableEntity entity)
+    {
+        _actionableEntities.Remove(entity);
     }
 
     public void Handle(AddActionToSchedulerEvent message)
