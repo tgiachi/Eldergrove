@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Eldergrove.Engine.Core.Data.Events;
 using Eldergrove.Engine.Core.Interfaces.Actions;
 using Eldergrove.Engine.Core.Interfaces.Services;
@@ -49,6 +50,8 @@ public class SchedulerService : ISchedulerService, ISubscriber<AddActionToSchedu
 
     public async Task TickAsync()
     {
+        var stopWatch = Stopwatch.StartNew();
+
         PrepareActions();
 
         _logger.LogDebug("Tick {Turn} total action to execute: {ActionCount}", Turn, _actions.Count);
@@ -88,7 +91,7 @@ public class SchedulerService : ISchedulerService, ISubscriber<AddActionToSchedu
                 waitActions.Add(action);
             }
 
-            await Task.Delay(100);
+            //  await Task.Delay(100);
         }
 
         foreach (var action in waitActions)
@@ -96,6 +99,9 @@ public class SchedulerService : ISchedulerService, ISubscriber<AddActionToSchedu
             _actions.Enqueue(action);
         }
 
+
+        stopWatch.Stop();
+        _logger.LogDebug("Tick {Turn} took {Elapsed}ms", Turn, stopWatch.ElapsedMilliseconds);
 
         _messageBusService.Publish(new TickEvent(Turn));
     }

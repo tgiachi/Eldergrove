@@ -51,6 +51,7 @@ public class GameObject : ScreenObject
 
         ViewLock = new SurfaceComponentFollowTarget() { Target = _playerGameObject };
 
+        _currentMap.DefaultRenderer?.SadComponents.Add(ViewLock);
 
         //_currentMap.AllComponents.Add(ViewLock);
     }
