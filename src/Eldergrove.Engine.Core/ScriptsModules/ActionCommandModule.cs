@@ -7,28 +7,34 @@ namespace Eldergrove.Engine.Core.ScriptsModules;
 [ScriptModule]
 public class ActionCommandModule
 {
-    private readonly IActionCommandService _actionCommandService;
+    private readonly IKeyActionCommandService _keyActionCommandService;
 
-    public ActionCommandModule(IActionCommandService actionCommandService)
+    public ActionCommandModule(IKeyActionCommandService keyActionCommandService)
     {
-        _actionCommandService = actionCommandService;
+        _keyActionCommandService = keyActionCommandService;
     }
 
     [ScriptFunction("action_register_cmd")]
     public void RegisterCommand(string command, Action<ActionContext> action)
     {
-        _actionCommandService.RegisterCommand(command, action);
+        _keyActionCommandService.RegisterCommand(command, action);
     }
 
     [ScriptFunction("action_unregister_cmd")]
     public void UnregisterCommand(string command)
     {
-        _actionCommandService.UnregisterCommand(command);
+        _keyActionCommandService.UnregisterCommand(command);
     }
 
     [ScriptFunction("action_execute_cmd")]
     public void ExecuteCommand(string command)
     {
-        _actionCommandService.ExecuteCommand(command);
+        _keyActionCommandService.ExecuteCommand(command);
+    }
+
+    [ScriptFunction("register_keybinding")]
+    public void RegisterKeybinding(string key, string command)
+    {
+        _keyActionCommandService.RegisterKeybinding(key, command);
     }
 }

@@ -3,7 +3,7 @@ using Eldergrove.Engine.Core.Interfaces.Services.Base;
 
 namespace Eldergrove.Engine.Core.Interfaces.Services;
 
-public interface IActionCommandService : IEldergroveService
+public interface IKeyActionCommandService : IEldergroveService
 {
 
     void RegisterCommand(string command, Action<ActionContext> action);

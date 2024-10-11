@@ -104,7 +104,7 @@ public class ServicesTests
     [Test]
     public async Task Test_ActionCommandService()
     {
-        var actionCommandService = _engine.GetService<IActionCommandService>();
+        var actionCommandService = _engine.GetService<IKeyActionCommandService>();
 
         actionCommandService.RegisterCommand("test", context => { Assert.Pass(); });
 

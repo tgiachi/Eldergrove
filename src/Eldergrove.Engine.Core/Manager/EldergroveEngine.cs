@@ -12,6 +12,7 @@ using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.Interfaces.Manager;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Interfaces.Services.Base;
+using Eldergrove.Engine.Core.KeybindingActions;
 using Eldergrove.Engine.Core.ScriptsModules;
 using Eldergrove.Engine.Core.Services;
 using Eldergrove.Engine.Core.Utils;
@@ -74,6 +75,8 @@ public class EldergroveEngine : IEldergroveEngine
             .RegisterScriptModule<NpcModule>()
             .RegisterScriptModule<MapModule>()
             ;
+
+
     }
 
     private void RegisterDataLoaders()
@@ -100,7 +103,7 @@ public class EldergroveEngine : IEldergroveEngine
             .AddEldergroveService<IScriptEngineService, ScriptEngineService>()
             .AddEldergroveService<IMessageBusService, MessageBusService>()
             .AddEldergroveService<IDataLoaderService, DataLoaderService>()
-            .AddEldergroveService<IActionCommandService, KeyActionCommandService>()
+            .AddEldergroveService<IKeyActionCommandService, KeyKeyActionCommandService>()
             .AddEldergroveService<INameGeneratorService, NameGeneratorService>()
             .AddEldergroveService<IColorService, ColorService>()
             .AddEldergroveService<IPropService, PropService>()
@@ -112,6 +115,8 @@ public class EldergroveEngine : IEldergroveEngine
             .AddEldergroveService<IMapGenService, MapGenService>()
             .AddEldergroveService<ISchedulerService, SchedulerService>()
             ;
+
+        _serviceCollection.AddKeybindingAction<PlayerMoveKeyAction>();
     }
 
 

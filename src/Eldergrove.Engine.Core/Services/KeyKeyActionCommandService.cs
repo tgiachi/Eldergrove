@@ -1,5 +1,8 @@
+using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Contexts;
+using Eldergrove.Engine.Core.Data.Internal;
 using Eldergrove.Engine.Core.Data.Keyboard;
+using Eldergrove.Engine.Core.Interfaces.Actions;
 using Eldergrove.Engine.Core.Interfaces.Manager;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Utils;
@@ -7,7 +10,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Eldergrove.Engine.Core.Services;
 
-public class KeyActionCommandService : IActionCommandService
+
+[AutostartService]
+public class KeyKeyActionCommandService : IKeyActionCommandService
 {
     private readonly ILogger _logger;
 
@@ -15,22 +20,48 @@ public class KeyActionCommandService : IActionCommandService
 
     private readonly Dictionary<KeybindingData, string> _keybindings = new();
 
+    private readonly List<KeyActionData> _keyActions;
+
+    private readonly IServiceProvider _serviceProvider;
 
     private readonly IEldergroveEngine _engine;
 
 
-    public KeyActionCommandService(ILogger<KeyActionCommandService> logger, IEldergroveEngine engine)
+    public KeyKeyActionCommandService(
+        ILogger<KeyKeyActionCommandService> logger, IEldergroveEngine engine, List<KeyActionData> keyActions,
+        IServiceProvider serviceProvider
+    )
     {
         _logger = logger;
         _engine = engine;
+        _keyActions = keyActions;
+        _serviceProvider = serviceProvider;
     }
 
-    public Task StartAsync() => Task.CompletedTask;
+    public Task StartAsync()
+    {
+        foreach (var keyActionData in _keyActions)
+        {
+            var keyAction = (IKeybindingAction)_serviceProvider.GetService(keyActionData.Type);
+
+            if (keyAction == null)
+            {
+                _logger.LogError("Type {Type} must implement IKeybindingAction", keyActionData.Type);
+
+                throw new InvalidOperationException("Type must implement IKeybindingAction");
+            }
+
+            RegisterCommand(keyActionData.Action, context => keyAction.Execute(context));
+        }
+
+        return Task.CompletedTask;
+    }
 
     public Task StopAsync() => Task.CompletedTask;
 
     public void RegisterCommand(string command, Action<ActionContext> action)
     {
+        _logger.LogDebug("Command '{Command}' registered.", command);
         _commands.Add(command, action);
     }
 
