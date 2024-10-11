@@ -29,6 +29,12 @@ public class AiContext
         new EntityMovementAction(direction, Entity)
     };
 
+    public bool IsPlayerInRange(int radius)
+    {
+        return Radius.Circle.PositionsInRadius(Entity.Position, radius)
+            .Any(point => point == Player.Position);
+    }
+
     public List<IGameObject> GetEntitiesAtRange(int radius, int layer = 1)
     {
         var entities = new List<IGameObject>();
