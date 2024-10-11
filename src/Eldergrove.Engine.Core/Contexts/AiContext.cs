@@ -79,13 +79,13 @@ public class AiContext
 
     public object GetState(string key) => _state.ContainsKey(key) ? _state[key] : null;
 
-    public Direction GoLeft() => Direction.Left;
+    public Direction Left() => Direction.Left;
 
-    public Direction GoRight() => Direction.Right;
+    public Direction Right() => Direction.Right;
 
-    public Direction GoUp() => Direction.Up;
+    public Direction Up() => Direction.Up;
 
-    public Direction GoDown() => Direction.Down;
+    public Direction Down() => Direction.Down;
 
     public Direction GoRandom() => Direction.GetDirection(new Point(Random.Shared.Next(-1, 1), Random.Shared.Next(-1, 1)));
 }
