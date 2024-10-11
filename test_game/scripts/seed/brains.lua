@@ -1,7 +1,8 @@
 
 
 
-local function dummy_brain() 
+local function dummy_brain(ctx)
+
 
     log_info("Dummy brain called")
 end
