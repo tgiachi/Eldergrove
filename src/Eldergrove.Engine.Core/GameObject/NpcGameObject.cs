@@ -1,4 +1,6 @@
+using Eldergrove.Engine.Core.Actions.Tests;
 using Eldergrove.Engine.Core.Components;
+using Eldergrove.Engine.Core.Interfaces.Actions;
 using Eldergrove.Engine.Core.Interfaces.Components;
 using Eldergrove.Engine.Core.Types;
 using SadConsole;
@@ -7,7 +9,7 @@ using SadRogue.Primitives;
 
 namespace Eldergrove.Engine.Core.GameObject;
 
-public class NpcGameObject : RogueLikeEntity, INamedComponent
+public class NpcGameObject : RogueLikeEntity, INamedComponent, IActionableEntity
 {
     public string Name { get; set; }
 
@@ -28,4 +30,9 @@ public class NpcGameObject : RogueLikeEntity, INamedComponent
     }
 
     public override string ToString() => $"ID: {ID} Npc: {Name}";
+
+    public IEnumerable<ISchedulerAction> TakeTurn()
+    {
+        yield return new DummyAction(1);
+    }
 }
