@@ -2,30 +2,30 @@ using Eldergrove.Engine.Core.Actions.Base;
 using Eldergrove.Engine.Core.Attributes.Actions;
 using Eldergrove.Engine.Core.Data.Action;
 using Eldergrove.Engine.Core.GameObject;
-using Eldergrove.Engine.Core.Maps;
+
 using SadRogue.Primitives;
 
 namespace Eldergrove.Engine.Core.Actions.Player;
 
-[SchedulerAction("player_movement")]
-public class PlayerMovementAction : AbstractSchedulerAction
+[SchedulerAction("entity_movement")]
+public class EntityMovementAction : AbstractSchedulerAction
 {
     private readonly Direction _direction;
-    private readonly PlayerGameObject _player;
+    private readonly NpcGameObject _entity;
 
-    public PlayerMovementAction(Direction direction, PlayerGameObject player)
+    public EntityMovementAction(Direction direction, NpcGameObject entity)
     {
         _direction = direction;
 
-        _player = player;
+        _entity = entity;
     }
 
     public override async Task<ActionResult> ExecuteAsync()
     {
-        var newPosition = _player.Position + _direction;
-        if (_player.CurrentMap.GameObjectCanMove(_player, newPosition))
+        var newPosition = _entity.Position + _direction;
+        if (_entity.CurrentMap.GameObjectCanMove(_entity, newPosition))
         {
-            _player.Position = newPosition;
+            _entity.Position = newPosition;
 
 
             return ActionResult.Succeed();

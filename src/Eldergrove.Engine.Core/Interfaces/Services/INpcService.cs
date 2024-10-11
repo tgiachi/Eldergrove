@@ -9,6 +9,9 @@ namespace Eldergrove.Engine.Core.Interfaces.Services;
 
 public interface INpcService : IGameObjectFactory<NpcGameObject>
 {
+
+    PlayerGameObject Player { get; set; }
+
     void AddNpc(NpcObject npc);
 
     void AddBrain(string id, Func<AiContext, List<ISchedulerAction>> brain);

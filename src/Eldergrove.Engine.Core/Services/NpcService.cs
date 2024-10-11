@@ -12,6 +12,7 @@ using SadRogue.Primitives;
 namespace Eldergrove.Engine.Core.Services;
 
 [AutostartService]
+
 public class NpcService : INpcService
 {
     private readonly ILogger _logger;
@@ -25,6 +26,9 @@ public class NpcService : INpcService
     private readonly IItemService _itemService;
 
     private readonly Dictionary<string, Func<AiContext, List<ISchedulerAction>>> _brains = new();
+
+    public PlayerGameObject Player { get; set; }
+
 
     public NpcService(
         IDataLoaderService dataLoaderService, ILogger<NpcService> logger, ITileService tileService,
@@ -107,6 +111,7 @@ public class NpcService : INpcService
 
         return gameObject;
     }
+
 
     public void AddNpc(NpcObject npc)
     {

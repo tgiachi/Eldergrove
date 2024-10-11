@@ -3,10 +3,7 @@
 
 local function dummy_brain(ctx)
 
-    log_info(ctx)
-    log_info("Dummy brain called")
-
-    return ctx:EmptyActionList();
+    return ctx:DoMovement(ctx:GoRandom())
 end
 
 

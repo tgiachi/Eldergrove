@@ -59,7 +59,7 @@ public class GameObject : ScreenObject
     {
         if (keyboard.IsKeyPressed(Keys.Up))
         {
-            _schedulerService.AddAction(new PlayerMovementAction(Direction.Up, _playerGameObject));
+            _schedulerService.AddAction(new EntityMovementAction(Direction.Up, _playerGameObject));
             _schedulerService.TickAsync();
 
             return true;
@@ -67,7 +67,7 @@ public class GameObject : ScreenObject
 
         if (keyboard.IsKeyPressed(Keys.Down))
         {
-            _schedulerService.AddAction(new PlayerMovementAction(Direction.Down, _playerGameObject));
+            _schedulerService.AddAction(new EntityMovementAction(Direction.Down, _playerGameObject));
             _schedulerService.TickAsync();
 
             return true;
@@ -75,7 +75,7 @@ public class GameObject : ScreenObject
 
         if (keyboard.IsKeyPressed(Keys.Left))
         {
-            _schedulerService.AddAction(new PlayerMovementAction(Direction.Left, _playerGameObject));
+            _schedulerService.AddAction(new EntityMovementAction(Direction.Left, _playerGameObject));
             _schedulerService.TickAsync();
 
             return true;
@@ -83,7 +83,7 @@ public class GameObject : ScreenObject
 
         if (keyboard.IsKeyPressed(Keys.Right))
         {
-            _schedulerService.AddAction(new PlayerMovementAction(Direction.Right, _playerGameObject));
+            _schedulerService.AddAction(new EntityMovementAction(Direction.Right, _playerGameObject));
             _schedulerService.TickAsync();
 
             return true;
