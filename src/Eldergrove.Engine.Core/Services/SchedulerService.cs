@@ -49,7 +49,6 @@ public class SchedulerService : ISchedulerService, ISubscriber<AddActionToSchedu
 
     public async Task TickAsync()
     {
-
         PrepareActions();
 
         _logger.LogDebug("Tick {Turn} total action to execute: {ActionCount}", Turn, _actions.Count);
@@ -88,6 +87,8 @@ public class SchedulerService : ISchedulerService, ISubscriber<AddActionToSchedu
 
                 waitActions.Add(action);
             }
+
+            await Task.Delay(100);
         }
 
         foreach (var action in waitActions)
@@ -117,6 +118,7 @@ public class SchedulerService : ISchedulerService, ISubscriber<AddActionToSchedu
         }
 
         _logger.LogDebug("Received action message {Message}", message.GetType());
+
         AddAction(message.Action);
     }
 }
