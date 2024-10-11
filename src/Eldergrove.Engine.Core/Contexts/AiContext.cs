@@ -3,6 +3,7 @@ using Eldergrove.Engine.Core.GameObject;
 using Eldergrove.Engine.Core.Interfaces.Actions;
 using Eldergrove.Engine.Core.Maps;
 using GoRogue.GameFramework;
+using GoRogue.Pathing;
 using SadRogue.Primitives;
 
 namespace Eldergrove.Engine.Core.Contexts;
@@ -28,12 +29,32 @@ public class AiContext
         new EntityMovementAction(direction, Entity)
     };
 
-    public List<IGameObject> GetEntitiesAtRange(int radius)
+    public List<IGameObject> GetEntitiesAtRange(int radius, int layer = 1)
     {
         var entities = new List<IGameObject>();
 
+        Radius.Circle.PositionsInRadius(Entity.Position, radius)
+            .ToList()
+            .ForEach(
+                point =>
+                {
+                    if (Map.GetObjectAt(point, (uint)layer) is IGameObject entity)
+                    {
+                        entities.Add(entity);
+                    }
+                }
+            );
 
         return entities;
+    }
+
+    public List<Point> GetPathForPlayer()
+    {
+        var pathFinder = new AStar(Map.WalkabilityView, Map.DistanceMeasurement);
+
+        var pathing = pathFinder.ShortestPath(Entity.Position, Player.Position);
+
+        return pathing.Steps.ToList();
     }
 
     public void SetState(string key, object value)
