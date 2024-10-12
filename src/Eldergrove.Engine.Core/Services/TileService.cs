@@ -81,18 +81,11 @@ public class TileService : ITileService
         return colored;
     }
 
-    public (ColoredGlyph glyph, TileEntry tile) GetTileWithEntry(IJsonSymbolDataObject tileData)
-    {
-        if (_tiles.TryGetValue(tileData.Symbol, out var tile))
-        {
-            return (GetTile(tileData), tile);
-        }
+    public (ColoredGlyph glyph, TileEntry tile) GetTileWithEntry(IJsonSymbolDataObject tileData) =>
+        _tiles.TryGetValue(tileData.Symbol, out var tile) ? (GetTile(tileData), tile) : (GetTile(tileData), new TileEntry());
 
-        return (GetTile(tileData), new TileEntry());
-        //_logger.LogWarning("Tile {TileId} not found", tileData.Symbol);
-        //throw new KeyNotFoundException($"Tile {tileData.Symbol} not found");
-    }
-
+    //_logger.LogWarning("Tile {TileId} not found", tileData.Symbol);
+    //throw new KeyNotFoundException($"Tile {tileData.Symbol} not found");
     public void AddTile(TileEntry tileEntry)
     {
         _logger.LogDebug("Adding tile {TileId}", tileEntry.Id);
