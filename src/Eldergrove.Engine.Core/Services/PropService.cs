@@ -109,6 +109,10 @@ public class PropService : IPropService
             gameObject.GoRogueComponents.Add(new ItemsContainerComponent(items.ToList()));
         }
 
+
+        _tileService.BuildTileAnimation(gameObject, tile);
+
+
         return gameObject;
     }
 }

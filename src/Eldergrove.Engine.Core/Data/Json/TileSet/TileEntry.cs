@@ -18,4 +18,6 @@ public class TileEntry : IJsonDataObject, IJsonTagsDataObject, IJsonSymbolDataOb
     public bool IsBlocking { get; set; }
 
     public bool IsTransparent { get; set; }
+
+    public TileAnimationObject? Animation { get; set; }
 }

@@ -108,6 +108,9 @@ public class NpcService : INpcService
             }
         );
 
+        var (_, tileEntry) = _tileService.GetTileWithEntry(npc);
+
+        _tileService.BuildTileAnimation(gameObject, tileEntry);
 
         return gameObject;
     }

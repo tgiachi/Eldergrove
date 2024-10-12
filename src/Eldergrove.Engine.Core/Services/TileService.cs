@@ -1,8 +1,10 @@
 using System.Globalization;
 using Eldergrove.Engine.Core.Attributes.Services;
+using Eldergrove.Engine.Core.Components;
 using Eldergrove.Engine.Core.Data.Json.TileSet;
 using Eldergrove.Engine.Core.Interfaces.Json;
 using Eldergrove.Engine.Core.Interfaces.Services;
+using GoRogue.GameFramework;
 using Microsoft.Extensions.Logging;
 using SadConsole;
 using SadRogue.Primitives;
@@ -73,7 +75,10 @@ public class TileService : ITileService
 
         TileEntry tile = _tiles[tileData.Symbol];
 
-        return new ColoredGlyph(foreground, background, tile.Symbol[0]);
+        var colored = new ColoredGlyph(foreground, background, tile.Symbol[0]);
+
+
+        return colored;
     }
 
     public (ColoredGlyph glyph, TileEntry tile) GetTileWithEntry(IJsonSymbolDataObject tileData)
@@ -92,6 +97,19 @@ public class TileService : ITileService
     {
         _logger.LogDebug("Adding tile {TileId}", tileEntry.Id);
         _tiles.Add(tileEntry.Id, tileEntry);
+    }
+
+    public void BuildTileAnimation<TGameObject>(TGameObject gameObject, TileEntry tileEntry) where TGameObject : IGameObject
+    {
+        if (tileEntry.Animation != null)
+        {
+            var animation = tileEntry.Animation;
+            var startingSymbol = animation.Starting.Symbol;
+            var endSymbol = animation.Ending.Symbol;
+
+            var animationComponent = new TileAnimationComponent(startingSymbol, endSymbol);
+            gameObject.GoRogueComponents.Add(animationComponent);
+        }
     }
 
 
