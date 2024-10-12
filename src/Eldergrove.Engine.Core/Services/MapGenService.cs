@@ -33,6 +33,7 @@ public class MapGenService : IMapGenService
 
     private readonly Dictionary<string, MapGeneratorObject> _mapGenerators = new();
 
+    private readonly Dictionary<string, GameMap> _maps = new();
 
     private readonly IMessageBusService _messageBusService;
     private readonly IScriptEngineService _scriptEngineService;
@@ -62,6 +63,7 @@ public class MapGenService : IMapGenService
 
 
         dataLoaderService.SubscribeData<MapFabricObject>(OnMapFabric);
+
         dataLoaderService.SubscribeData<MapGeneratorObject>(OnMapGenerator);
     }
 
@@ -189,6 +191,11 @@ public class MapGenService : IMapGenService
         if (e.Item.Layer > 1)
         {
             _logger.LogDebug("Entity added {Entity} in position: {Pos}", e.Item.GetType(), e.Position);
+        }
+
+        if (e.Item is PlayerGameObject playerGameObject)
+        {
+            playerGameObject.AllComponents.GetFirstOrDefault<PlayerFOVController>().CalculateFOV();
         }
     }
 

@@ -7,6 +7,9 @@ public interface IMapGenService
 {
     GameMap CurrentMap { get; }
 
+
+
+
     void AddFabric(MapFabricObject fabric);
 
     Task<GameMap> GenerateMapAsync();

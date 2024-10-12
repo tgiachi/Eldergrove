@@ -25,5 +25,14 @@
                 "is_transparent": false
             }
         }
+    },
+    {
+        "$type": "prop",
+        "id": "a_torch",
+        "name": "Torch",
+        "category": "torches",
+        "symbol": "t_flame",
+        "is_blocking": true,
+        "is_transparent": false
     }
 ]
