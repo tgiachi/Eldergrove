@@ -1,6 +1,7 @@
 using Eldergrove.Engine.Core.Data.Events;
 using Eldergrove.Engine.Core.Data.Internal;
 using Eldergrove.Engine.Core.Data.Json.Colors;
+using Eldergrove.Engine.Core.Data.Json.Dialogs;
 using Eldergrove.Engine.Core.Data.Json.Items;
 using Eldergrove.Engine.Core.Data.Json.Keybinding;
 using Eldergrove.Engine.Core.Data.Json.Maps;
@@ -76,6 +77,7 @@ public class EldergroveEngine : IEldergroveEngine
             .RegisterScriptModule<TileServiceModule>()
             .RegisterScriptModule<NpcModule>()
             .RegisterScriptModule<MapModule>()
+            .RegisterScriptModule<VariablesModule>()
             ;
     }
 
@@ -91,6 +93,7 @@ public class EldergroveEngine : IEldergroveEngine
             .AddDataLoaderType<NpcObject>()
             .AddDataLoaderType<MapFabricObject>()
             .AddDataLoaderType<MapGeneratorObject>()
+            .AddDataLoaderType<DialogObject>()
             ;
     }
 
@@ -114,6 +117,7 @@ public class EldergroveEngine : IEldergroveEngine
             .AddEldergroveService<INpcService, NpcService>()
             .AddEldergroveService<IMapGenService, MapGenService>()
             .AddEldergroveService<ISchedulerService, SchedulerService>()
+            .AddEldergroveService<IVariablesService, VariableService>()
             ;
 
         // Register default keybinding actions
