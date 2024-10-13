@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+<a name="0.2.0-alpha.3"></a>
+## [0.2.0-alpha.3](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.2.0-alpha.3) (2024-10-13)
+
+### Features
+
+* **AiContext:** add IsPlayerInRange method to check if player is within a specified radius for improved gameplay mechanics ([70327d9](https://www.github.com/tgiachi/Eldergrove/commit/70327d967f704d248013f66a23996ac4a48b0373))
+* **AiContext:** add layer parameter to GetEntitiesAtRange method for improved entity retrieval ([3b3a06e](https://www.github.com/tgiachi/Eldergrove/commit/3b3a06ecf734c0f661c8b55f70482b82a9009028))
+* **AiContext:** fix random direction generation logic to ensure valid range ([03390fa](https://www.github.com/tgiachi/Eldergrove/commit/03390fae0979d78c53ab6856ae6be9250410ba43))
+* **dialogs:** add DialogNode, DialogObject, and DialogOption classes to support dialog structure ([e21849a](https://www.github.com/tgiachi/Eldergrove/commit/e21849aba5acd6f829439ef96a0cfdcc76fd800b))
+* **IMapGenService:** add a new method to handle map generation and management ([97f4e6b](https://www.github.com/tgiachi/Eldergrove/commit/97f4e6be0864ac75a5010a2ce4951a8c5489f9a9))
+* **PlayerFOVController:** change FOVRadius from init-only to settable to allow dynamic updates ([b67737d](https://www.github.com/tgiachi/Eldergrove/commit/b67737d2372d8f8c35bd0cba2f9212b4ea9ab08f))
+* **PropObject:** change Name property to nullable string to allow for missing names ([fb8472f](https://www.github.com/tgiachi/Eldergrove/commit/fb8472fa3826dc3abc2a32c8396e0e145cc23a37))
+* **TileAnimation:** implement TileAnimationComponent for animated tiles ([f2ed6ca](https://www.github.com/tgiachi/Eldergrove/commit/f2ed6cae5f2770d922e4f73623aa545f14cb5151))
+
 <a name="0.2.0-alpha.2"></a>
 ## [0.2.0-alpha.2](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.2.0-alpha.2) (2024-10-11)
 
