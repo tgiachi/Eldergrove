@@ -12,6 +12,13 @@ return function()
     })
 
     add_tile({
+        id = "t_window",
+        symbol = "w",
+        background = "black",
+        foreground = "cyan",
+    })
+
+    add_tile({
         id = "t_wall",
         symbol = "#",
         background = "black",

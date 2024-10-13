@@ -131,7 +131,7 @@ public class NpcService : INpcService
         }
 
 
-        Player = new PlayerGameObject((1, 1), playerEntry);
+        Player = new PlayerGameObject(position, playerEntry);
         Player.GoRogueComponents.Add(new PlayerFOVController());
     }
 

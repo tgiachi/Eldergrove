@@ -18,7 +18,7 @@
                 "is_transparent": true
             },
             "off": {
-                "symbol": "##d",
+                "symbol": "##D",
                 "foreground": "yellow",
                 "background": "black",
                 "is_blocking": true,
@@ -34,5 +34,15 @@
         "symbol": "t_flame",
         "is_blocking": true,
         "is_transparent": false
+    },
+    {
+        "$type": "prop",
+        "id": "a_window",
+        "name": "Window",
+        "category": "windows",
+        "symbol": "t_window",
+        "is_blocking": true,
+        "is_transparent": true,
+        "is_destructible": true
     }
 ]

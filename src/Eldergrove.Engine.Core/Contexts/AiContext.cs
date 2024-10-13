@@ -87,5 +87,5 @@ public class AiContext
 
     public Direction Down() => Direction.Down;
 
-    public Direction GoRandom() => Direction.GetDirection(new Point(Random.Shared.Next(-1, 1), Random.Shared.Next(-1, 1)));
+    public Direction GoRandom() => Direction.GetDirection(new Point(Random.Shared.Next(-1, -1), Random.Shared.Next(1, 1)));
 }

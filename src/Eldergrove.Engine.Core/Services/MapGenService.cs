@@ -35,6 +35,8 @@ public class MapGenService : IMapGenService
 
     private readonly Dictionary<string, GameMap> _maps = new();
 
+    private readonly Dictionary<MapLayerType, List<IGameObject>> _layeredObjects = new();
+
     private readonly IMessageBusService _messageBusService;
     private readonly IScriptEngineService _scriptEngineService;
     private readonly ISchedulerService _schedulerService;
@@ -85,6 +87,9 @@ public class MapGenService : IMapGenService
         return Task.CompletedTask;
     }
 
+
+    public List<TGameObject> GetEntities<TGameObject>(MapLayerType layerType) where TGameObject : IGameObject =>
+        _layeredObjects.GetValueOrDefault(layerType)?.Cast<TGameObject>().ToList() ?? [];
 
     public void AddFabric(MapFabricObject fabric)
     {
@@ -191,6 +196,13 @@ public class MapGenService : IMapGenService
         if (e.Item.Layer > 1)
         {
             _logger.LogDebug("Entity added {Entity} in position: {Pos}", e.Item.GetType(), e.Position);
+
+            if (!_layeredObjects.TryGetValue((MapLayerType)e.Item.Layer, out var layer))
+            {
+                _layeredObjects.Add((MapLayerType)e.Item.Layer, []);
+            }
+
+            _layeredObjects[(MapLayerType)e.Item.Layer].Add(e.Item);
         }
 
         if (e.Item is PlayerGameObject playerGameObject)

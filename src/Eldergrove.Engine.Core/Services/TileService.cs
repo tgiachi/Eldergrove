@@ -18,7 +18,6 @@ public class TileService : ITileService
 
     private readonly IColorService _colorService;
 
-    private readonly IDataLoaderService _dataLoaderService;
 
     private readonly Dictionary<string, TileEntry> _tiles = new();
 
@@ -26,9 +25,9 @@ public class TileService : ITileService
     {
         _logger = logger;
         _colorService = colorService;
-        _dataLoaderService = dataLoaderService;
 
-        _dataLoaderService.SubscribeData<TileSetObject>(
+
+        dataLoaderService.SubscribeData<TileSetObject>(
             async (tileSet) =>
             {
                 foreach (var tile in tileSet.Tiles)

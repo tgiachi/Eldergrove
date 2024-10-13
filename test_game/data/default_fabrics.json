@@ -23,7 +23,8 @@
         "layers": {
             "props": {
                 "d": "door",
-                "t": "a_torch"
+                "t": "a_torch",
+                "w": "a_window"
             },
             "npc": {
                 "c": "a_cat"
@@ -51,7 +52,8 @@
         "layers": {
             "props": {
                 "d": "door",
-                "t": "a_torch"
+                "t": "a_torch",
+                "w": "a_window"
             },
             "npc": {
                 "c": "a_cat"
