@@ -2,17 +2,18 @@ using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Components;
 using Eldergrove.Engine.Core.Contexts;
 using Eldergrove.Engine.Core.Data.Json.Npcs;
+using Eldergrove.Engine.Core.Data.Json.TileSet;
 using Eldergrove.Engine.Core.GameObject;
 using Eldergrove.Engine.Core.Interfaces.Actions;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Utils;
 using Microsoft.Extensions.Logging;
+using SadConsole;
 using SadRogue.Primitives;
 
 namespace Eldergrove.Engine.Core.Services;
 
 [AutostartService]
-
 public class NpcService : INpcService
 {
     private readonly ILogger _logger;
@@ -115,6 +116,24 @@ public class NpcService : INpcService
         return gameObject;
     }
 
+
+    public void BuildPlayer(Point position)
+    {
+        ColoredGlyph playerEntry = null!;
+
+        try
+        {
+            playerEntry = _tileService.GetTile("t_player");
+        }
+        catch (KeyNotFoundException)
+        {
+            playerEntry = new ColoredGlyph(Color.Azure, Color.Black, '@');
+        }
+
+
+        Player = new PlayerGameObject((1, 1), playerEntry);
+        Player.GoRogueComponents.Add(new PlayerFOVController());
+    }
 
     public PlayerGameObject GetPlayer() => Player;
 

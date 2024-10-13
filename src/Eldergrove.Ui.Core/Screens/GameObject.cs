@@ -37,8 +37,7 @@ public class GameObject : ScreenObject
         _currentMap = _eldergroveEngine.GetService<IMapGenService>().CurrentMap;
         _schedulerService = _eldergroveEngine.GetService<ISchedulerService>();
 
-        _npcService.Player = new PlayerGameObject((1, 1), new ColoredGlyph(Color.Azure, Color.Black, '@'));
-        _npcService.Player.GoRogueComponents.Add(new PlayerFOVController());
+        _npcService.BuildPlayer(new Point(10, 10));
         _currentMap.AddEntity(_npcService.Player);
 
 

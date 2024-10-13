@@ -1,4 +1,11 @@
 return function()
+
+    add_tile({
+        id = "t_player",
+        symbol = "##@",
+        foreground = "lred",
+    })
+
     add_tile({
         id = "t_tile",
         symbol = "T",

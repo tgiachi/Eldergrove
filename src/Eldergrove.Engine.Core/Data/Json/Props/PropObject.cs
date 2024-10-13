@@ -25,5 +25,5 @@ public class PropObject : IJsonDataObject, IJsonSymbolDataObject, IJsonCategoryO
     public JsonStateObject? Door { get; set; }
 
     public List<JsonRandomObject>? Container { get; set; }
-    public string Name { get; set; }
+    public string? Name { get; set; }
 }
