@@ -8,6 +8,8 @@ return function ()
     register_keybinding("map", "F1", "toggle_debug")
 
 
+    register_keybinding("map", "Space", "player_search")
+
     action_register_cmd("toggle_debug", function(ctx)
          ctx:GetEngine():GetNpcService():GetPlayer():ShowAllMap()
     end)

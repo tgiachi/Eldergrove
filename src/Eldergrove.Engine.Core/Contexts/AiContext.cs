@@ -1,4 +1,4 @@
-using Eldergrove.Engine.Core.Actions.Player;
+using Eldergrove.Engine.Core.Actions.Npcs;
 using Eldergrove.Engine.Core.GameObject;
 using Eldergrove.Engine.Core.Interfaces.Actions;
 using Eldergrove.Engine.Core.Maps;

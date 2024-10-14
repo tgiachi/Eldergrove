@@ -29,7 +29,7 @@ return function()
 
     add_tile({
         id = "t_floor",
-        symbol = ".",
+        symbol = "`",
         background = "black",
         foreground = "white",
         is_blocking = false,

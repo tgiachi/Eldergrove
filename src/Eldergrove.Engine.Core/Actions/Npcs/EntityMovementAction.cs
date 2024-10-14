@@ -4,7 +4,7 @@ using Eldergrove.Engine.Core.Data.Action;
 using Eldergrove.Engine.Core.GameObject;
 using SadRogue.Primitives;
 
-namespace Eldergrove.Engine.Core.Actions.Player;
+namespace Eldergrove.Engine.Core.Actions.Npcs;
 
 [SchedulerAction("entity_movement")]
 public class EntityMovementAction : AbstractSchedulerAction
