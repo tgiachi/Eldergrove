@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+<a name="0.2.0-alpha.4"></a>
+## [0.2.0-alpha.4](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.2.0-alpha.4) (2024-10-14)
+
+### Features
+
+* add new Bar and Text service classes and definitions to support future functionality ([4bbff52](https://www.github.com/tgiachi/Eldergrove/commit/4bbff522c5e4ea2651a6315b0553e3f14f738ceb))
+* **data-structure:** implement BarDefinition and BarObject classes to define bar data structures ([2cd239d](https://www.github.com/tgiachi/Eldergrove/commit/2cd239d86c8b48539080f7b84f3391f992522eeb))
+* **EntityMovement:** add entity movement action and handling for door interactions to enhance gameplay mechanics ([f7fb9b3](https://www.github.com/tgiachi/Eldergrove/commit/f7fb9b3c3d7648ba521847c293c6eebf058a0cb2))
+* **solution:** add Visual Studio solution file to manage project structure ([f6fef8e](https://www.github.com/tgiachi/Eldergrove/commit/f6fef8e72f9c5da6af961afecb6ceeeb3a00988a))
+
 <a name="0.2.0-alpha.3"></a>
 ## [0.2.0-alpha.3](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.2.0-alpha.3) (2024-10-13)
 
