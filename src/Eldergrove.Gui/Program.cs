@@ -66,8 +66,18 @@ async void Game_Started(object? sender, GameHost host)
 
                 topBarControl.Position = new Point(0, 0);
 
-                var map = new GameObject(EldergroveState.Engine, host.ScreenCellsX, host.ScreenCellsY);
+                var map = new GameObject(EldergroveState.Engine, host.ScreenCellsX - 50, host.ScreenCellsY - 10);
                 map.Position = new Point(0, 1);
+
+                var sideControl = new SideControl(50, host.ScreenCellsY - 1);
+                sideControl.Position = new Point(host.ScreenCellsX - 50, 1);
+
+
+                // Set message log control to bottom
+                var messageLogControl = new MessageLogControl(host.ScreenCellsX - 50, 10);
+
+
+                messageLogControl.Position = new Point(0, host.ScreenCellsY - 10);
 
 
                 Game.Instance.StartingConsole.Clear();
@@ -76,6 +86,9 @@ async void Game_Started(object? sender, GameHost host)
 
 
                 Game.Instance.StartingConsole.Children.Add(topBarControl);
+
+                Game.Instance.StartingConsole.Children.Add(sideControl);
+                Game.Instance.StartingConsole.Children.Add(messageLogControl);
                 Game.Instance.StartingConsole.Children.Add(map);
             }
         );

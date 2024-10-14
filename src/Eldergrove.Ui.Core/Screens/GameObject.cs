@@ -44,6 +44,11 @@ public class GameObject : ScreenObject
         _schedulerService = _eldergroveEngine.GetService<ISchedulerService>();
 
 
+        _currentMap.DefaultRenderer = _currentMap.CreateRenderer((width, height));
+
+        Children.Add(_currentMap);
+
+
         var randomProp = _mapGenService.GetEntities<NpcGameObject>(MapLayerType.Npc).RandomElement();
 
         var point = randomProp.Position + new Point(1, 0);
@@ -52,9 +57,6 @@ public class GameObject : ScreenObject
         _currentMap.AddEntity(_npcService.Player);
 
 
-        _currentMap.DefaultRenderer = _currentMap.CreateRenderer((width, height));
-
-        Children.Add(_currentMap);
 
         IsFocused = true;
         UseKeyboard = true;
@@ -62,6 +64,8 @@ public class GameObject : ScreenObject
         ViewLock = new SurfaceComponentFollowTarget() { Target = _npcService.Player };
 
         _currentMap.DefaultRenderer?.SadComponents.Add(ViewLock);
+
+        _npcService.Player.AllComponents.GetFirstOrDefault<PlayerFOVController>().CalculateFOV();
 
         //_currentMap.AllComponents.Add(ViewLock);
     }

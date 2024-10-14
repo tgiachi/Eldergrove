@@ -13,6 +13,7 @@ public class BarControl : Console
 
     private readonly IBarService _barService;
 
+
     public BarControl(int width, int height, string barId) : base(width, height)
     {
         _barId = barId;

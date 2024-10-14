@@ -45,8 +45,8 @@ public class NpcService : INpcService
 
         dataLoaderService.SubscribeData<NpcObject>(OnNpcObject);
 
-        messageBusService.Publish(new AddVariableBuilderEvent("player_x", () => GetPlayerX()));
-        messageBusService.Publish(new AddVariableBuilderEvent("player_y", () => GetPlayerY()));
+        messageBusService.Publish(new AddVariableBuilderEvent("player_x", GetPlayerX));
+        messageBusService.Publish(new AddVariableBuilderEvent("player_y", GetPlayerY));
     }
 
     private string GetPlayerX()

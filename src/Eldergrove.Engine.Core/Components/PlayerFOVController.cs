@@ -28,7 +28,10 @@ public class PlayerFOVController : RogueLikeComponentBase<RogueLikeEntity>
     public void CalculateFOV()
         => Parent?.CurrentMap?.PlayerFOV.Calculate(Parent.Position, FOVRadius, Parent.CurrentMap.DistanceMeasurement);
 
-    private void OnAdded(object? s, EventArgs e) => Parent!.PositionChanged += OnPositionChanged;
+    private void OnAdded(object? s, EventArgs e)
+    {
+        Parent!.PositionChanged += OnPositionChanged;
+    }
 
     private void OnRemoved(object? s, ParentAwareComponentRemovedEventArgs<RogueLikeEntity> e)
         => e.OldParent.PositionChanged -= OnPositionChanged;

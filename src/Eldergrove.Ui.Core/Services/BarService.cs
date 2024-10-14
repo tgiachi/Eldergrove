@@ -28,7 +28,6 @@ public class BarService : IBarService, ISubscriber<TickEvent>
 
     private readonly Dictionary<string, Action<List<BarColoredObject>>> callbacks = new();
 
-
     public BarService(
         ILogger<BarService> logger, IDataLoaderService dataLoaderService, IColorService colorService,
         IMessageBusService messageBusService, IVariablesService variablesService
@@ -70,9 +69,9 @@ public class BarService : IBarService, ISubscriber<TickEvent>
     {
         if (!_barDefinitions.TryGetValue(id, out var barDefinition))
         {
-            _logger.LogError("Bar defintion {Id} not found", id);
+            _logger.LogError("Bar definition {Id} not found", id);
 
-            throw new KeyNotFoundException($"Bar defintion {id} not found");
+            throw new KeyNotFoundException($"Bar definition {id} not found");
         }
 
         var bars = new List<BarColoredObject>();
