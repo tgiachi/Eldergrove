@@ -6,35 +6,35 @@ using SadRogue.Primitives;
 
 namespace Eldergrove.Engine.Core.Actions.Player;
 
-[SchedulerAction("entity_movement")]
-public class EntityMovementAction : AbstractSchedulerAction
+[SchedulerAction("entity_action")]
+public class EntityPerformAction : AbstractSchedulerAction
 {
     private readonly Direction _direction;
+
     private readonly NpcGameObject _entity;
 
-    public EntityMovementAction(Direction direction, NpcGameObject entity)
+
+    public EntityPerformAction(Direction direction, NpcGameObject entity)
     {
         _direction = direction;
-
         _entity = entity;
     }
 
     public override async Task<ActionResult> ExecuteAsync()
     {
         var newPosition = _entity.Position + _direction;
-        if (_entity.CurrentMap.GameObjectCanMove(_entity, newPosition))
-        {
-            _entity.Position = newPosition;
-
-
-            return ActionResult.Succeed();
-        }
-
         var entity = _entity.CurrentMap.GetEntityAt<PropGameObject>(newPosition);
 
-        if (entity != null)
+        if (entity == null)
         {
-            return ActionResult.Fail(new EntityPerformAction(_direction, _entity));
+            return ActionResult.Fail();
+        }
+
+        if (entity.IsDoor)
+        {
+            entity.Door.Action();
+
+            return ActionResult.Succeed();
         }
 
         return ActionResult.Fail();

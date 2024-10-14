@@ -4,8 +4,8 @@ using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Manager;
 using Eldergrove.Engine.Core.Maps;
 using Eldergrove.Engine.Core.State;
+using Eldergrove.Ui.Core.Controls;
 using Eldergrove.Ui.Core.Screens;
-using Eldergrove.Ui.Core.Surfaces;
 using SadConsole;
 using SadConsole.Configuration;
 
@@ -63,7 +63,7 @@ async void Game_Started(object? sender, GameHost host)
 
     Game.Instance.StartingConsole.Clear();
 
-    Game.Instance.StartingConsole.Children.Add(new LoggerPanel(host.ScreenCellsX, host.ScreenCellsY));
+    Game.Instance.StartingConsole.Children.Add(new LoadingPanel(host.ScreenCellsX, host.ScreenCellsY));
 
     await Task.Delay(1000);
 

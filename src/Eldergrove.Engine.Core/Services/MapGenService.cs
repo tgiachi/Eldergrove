@@ -115,6 +115,7 @@ public class MapGenService : IMapGenService
             throw new InvalidOperationException("Map generator not found named " + _gameConfig.Map.GeneratorId);
         }
 
+        _messageBusService.Publish(new MapStartGenerateEvent());
         var stopWatch = Stopwatch.StartNew();
 
 

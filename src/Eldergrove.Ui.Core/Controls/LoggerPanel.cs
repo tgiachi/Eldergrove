@@ -7,7 +7,7 @@ using SadRogue.Primitives;
 using Serilog.Events;
 using Console = SadConsole.Console;
 
-namespace Eldergrove.Ui.Core.Surfaces;
+namespace Eldergrove.Ui.Core.Controls;
 
 public class LoggerPanel : Console, ISubscriber<LoggerEvent>
 {
@@ -15,10 +15,11 @@ public class LoggerPanel : Console, ISubscriber<LoggerEvent>
 
     private readonly List<LoggerEvent> _events = new();
 
+    private int _startingIndex = 0;
+
 
     public LoggerPanel(int width, int height) : base(width, height)
     {
-
         EldergroveState.Engine.GetService<IMessageBusService>().Subscribe(this);
 
         ParentChanged += (s, e) =>
@@ -53,8 +54,6 @@ public class LoggerPanel : Console, ISubscriber<LoggerEvent>
 
     private void PrintMessages()
     {
-        //  _lock.Wait();
-        this.Clear();
         for (var i = 0; i < _events.Count; i++)
         {
             var @event = _events[i];
@@ -65,8 +64,6 @@ public class LoggerPanel : Console, ISubscriber<LoggerEvent>
                 GetColor(@event.Level)
             );
         }
-
-        // _lock.Release();
     }
 
     private static Color GetColor(LogEventLevel level)

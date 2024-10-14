@@ -76,8 +76,19 @@ public class SchedulerService : ISchedulerService, ISubscriber<AddActionToSchedu
             {
                 _logger.LogTrace("Action {Action} failed", action.GetType().Name);
 
-                _actions.Clear();
-                break;
+
+                if (result.AlternateAction != null)
+                {
+                    _logger.LogTrace(
+                        "Action {Action} has alternate action {AlternateAction}",
+                        action.GetType().Name,
+                        result.AlternateAction.GetType().Name
+                    );
+                    _actions.Enqueue(result.AlternateAction);
+                }
+
+
+
             }
 
             if (result.Result == ActionResultType.Repeat)
