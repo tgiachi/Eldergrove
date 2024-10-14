@@ -29,7 +29,7 @@ return function()
 
     add_tile({
         id = "t_floor",
-        symbol = "`",
+        symbol = ".",
         background = "black",
         foreground = "white",
         is_blocking = false,
@@ -46,8 +46,8 @@ return function()
         animation = {
             starting = {
                 symbol = "f",
-                background = "black",
-                foreground = "red",
+                background = "#ff4500",
+                foreground = "#ff8c00",
             }
         }
     }
@@ -55,8 +55,8 @@ return function()
 
     test_animation["animation"]["ending"] = {
         symbol = "F",
-        background = "black",
-        foreground = "red",
+        background = "#ffd700",
+        foreground = "#ffffff",
     }
     add_tile(test_animation)
 end

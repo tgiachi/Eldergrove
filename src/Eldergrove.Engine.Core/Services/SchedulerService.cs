@@ -19,6 +19,8 @@ public class SchedulerService : ISchedulerService, ISubscriber<AddActionToSchedu
     private readonly List<IActionableEntity> _actionableEntities = new();
 
 
+    //private readonly Task _tickTask;
+
     public SchedulerService(
         ILogger<SchedulerService> logger, IMessageBusService messageBusService
     )
@@ -29,6 +31,15 @@ public class SchedulerService : ISchedulerService, ISubscriber<AddActionToSchedu
         _messageBusService.Subscribe(this);
 
         _messageBusService.Publish(new AddVariableBuilderEvent("ticks", () => Turn));
+
+        // _tickTask = Task.Run(async () =>
+        // {
+        //     while (true)
+        //     {
+        //         await Task.Delay(400);
+        //         await TickAsync();
+        //     }
+        // });
     }
 
     public int Turn { get; private set; }

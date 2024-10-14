@@ -95,11 +95,37 @@ public class TileService : ITileService
     {
         if (tileEntry.Animation != null)
         {
+            Color? startForeground = null;
+            Color? endForeground = null;
+            Color? startBackground = null;
+            Color? endBackground = null;
+
+
+            if (tileEntry.Animation.Starting.Foreground != null && tileEntry.Animation.Ending.Foreground != null)
+            {
+                startForeground = _colorService.GetColor(tileEntry.Animation.Starting.Foreground);
+                endForeground = _colorService.GetColor(tileEntry.Animation.Ending.Foreground);
+            }
+
+            if (tileEntry.Animation.Starting.Background != null && tileEntry.Animation.Ending.Background != null)
+            {
+                startBackground = _colorService.GetColor(tileEntry.Animation.Starting.Background);
+                endBackground = _colorService.GetColor(tileEntry.Animation.Ending.Background);
+            }
+
+
             var animation = tileEntry.Animation;
             var startingSymbol = animation.Starting.Symbol;
             var endSymbol = animation.Ending.Symbol;
 
-            var animationComponent = new TileAnimationComponent(startingSymbol, endSymbol);
+            var animationComponent = new TileAnimationComponent(
+                startingSymbol,
+                endSymbol,
+                startForeground,
+                endForeground,
+                startBackground,
+                endBackground
+            );
             gameObject.GoRogueComponents.Add(animationComponent);
         }
     }
