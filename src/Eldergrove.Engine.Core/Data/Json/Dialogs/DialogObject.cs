@@ -8,13 +8,9 @@ public class DialogObject : IJsonDataObject
 {
     public string Id { get; set; }
 
-    public string Text { get; set; }
+    public string? TextId { get; set; }
+
+    public string? Action { get; set; }
 
     public List<DialogObject> Options { get; set; } = new();
-
-    public DialogObject(string id, string text)
-    {
-        Id = id;
-        Text = text;
-    }
 }

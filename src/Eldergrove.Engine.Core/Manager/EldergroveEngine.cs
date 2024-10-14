@@ -1,5 +1,6 @@
 using Eldergrove.Engine.Core.Data.Events;
 using Eldergrove.Engine.Core.Data.Internal;
+using Eldergrove.Engine.Core.Data.Json.Bars;
 using Eldergrove.Engine.Core.Data.Json.Colors;
 using Eldergrove.Engine.Core.Data.Json.Dialogs;
 using Eldergrove.Engine.Core.Data.Json.Items;
@@ -8,6 +9,7 @@ using Eldergrove.Engine.Core.Data.Json.Maps;
 using Eldergrove.Engine.Core.Data.Json.Names;
 using Eldergrove.Engine.Core.Data.Json.Npcs;
 using Eldergrove.Engine.Core.Data.Json.Props;
+using Eldergrove.Engine.Core.Data.Json.Texts;
 using Eldergrove.Engine.Core.Data.Json.TileSet;
 using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.Interfaces.Manager;
@@ -32,13 +34,19 @@ public class EldergroveEngine : IEldergroveEngine
     private readonly EldergroveOptions _options;
     private readonly DirectoryConfig _directoryConfig;
 
+    private Func<IServiceCollection, IServiceCollection>? _serviceCollectionDelegate;
+
     public INpcService NpcService => GetService<INpcService>();
 
     private ILogger _logger;
 
-    public EldergroveEngine(EldergroveOptions options)
+    public EldergroveEngine(
+        EldergroveOptions options, Func<IServiceCollection, IServiceCollection> serviceCollectionDelegate = null
+    )
     {
         _options = options;
+
+        _serviceCollectionDelegate = serviceCollectionDelegate;
 
         ConfigureLogger();
         _directoryConfig = new DirectoryConfig(_options.RootDirectory);
@@ -48,6 +56,8 @@ public class EldergroveEngine : IEldergroveEngine
         RegisterServices();
         RegisterScriptModules();
         RegisterDataLoaders();
+
+        _serviceCollectionDelegate?.Invoke(_serviceCollection);
     }
 
     private void ConfigureLogger()
@@ -78,6 +88,7 @@ public class EldergroveEngine : IEldergroveEngine
             .RegisterScriptModule<NpcModule>()
             .RegisterScriptModule<MapModule>()
             .RegisterScriptModule<VariablesModule>()
+            .RegisterScriptModule<TextServiceModule>()
             ;
     }
 
@@ -94,6 +105,9 @@ public class EldergroveEngine : IEldergroveEngine
             .AddDataLoaderType<MapFabricObject>()
             .AddDataLoaderType<MapGeneratorObject>()
             .AddDataLoaderType<DialogObject>()
+            .AddDataLoaderType<BarObject>()
+            .AddDataLoaderType<BarDefinition>()
+            .AddDataLoaderType<TextObject>()
             ;
     }
 

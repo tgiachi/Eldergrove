@@ -15,4 +15,8 @@
         <ProjectReference Include="..\Eldergrove.Engine.Core\Eldergrove.Engine.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Services\" />
+    </ItemGroup>
+
 </Project>
