@@ -1,4 +1,6 @@
+using System.Text;
 using System.Text.RegularExpressions;
+using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Data.Events;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using GoRogue.Messaging;
@@ -6,7 +8,10 @@ using Microsoft.Extensions.Logging;
 
 namespace Eldergrove.Engine.Core.Services;
 
-public partial class VariableService : IVariablesService, ISubscriber<TickEvent>
+
+[AutostartService(-1)]
+public partial class VariableService
+    : IVariablesService, ISubscriber<TickEvent>, ISubscriber<AddVariableEvent>, ISubscriber<AddVariableBuilderEvent>
 {
     [GeneratedRegex(@"\{([^}]+)\}")] // example "Hello {name}, how are you? -> Hello John, how are you?"
     private static partial Regex TokenRegex();
@@ -22,7 +27,9 @@ public partial class VariableService : IVariablesService, ISubscriber<TickEvent>
     public VariableService(ILogger<VariableService> logger, IMessageBusService messageBusService)
     {
         _logger = logger;
-        messageBusService.Subscribe(this);
+        messageBusService.Subscribe<TickEvent>(this);
+        messageBusService.Subscribe<AddVariableEvent>(this);
+        messageBusService.Subscribe<AddVariableBuilderEvent>(this);
     }
 
     public void AddVariableBuilder(string variableName, Func<object> builder)
@@ -39,30 +46,63 @@ public partial class VariableService : IVariablesService, ISubscriber<TickEvent>
 
     public string TranslateText(string text)
     {
-        MatchCollection matches = _tokenRegex.Matches(text);
+        var matches = _tokenRegex.Matches(text);
+        var result = new StringBuilder(text);
 
         foreach (Match match in matches)
         {
             string token = match.Groups[1].Value;
+            string replacement = null;
+
             if (_variables.TryGetValue(token, out var variable))
             {
-                text = text.Replace(match.Value, variable.ToString());
+                replacement = variable.ToString();
             }
             else if (_variableBuilder.TryGetValue(token, out var value))
             {
-                text = text.Replace(match.Value, value().ToString());
+                replacement = value().ToString();
+            }
+
+            if (replacement != null)
+            {
+                result.Replace(match.Value, replacement, match.Index, match.Length);
             }
         }
 
+        return result.ToString();
+    }
 
-        return text;
+    public List<string> GetVariables()
+    {
+        var list = new List<string>();
+        list.AddRange(_variables.Keys);
+        list.AddRange(_variableBuilder.Keys);
+
+        list = list.OrderByDescending(x => x).ToList();
+
+        return list;
+    }
+
+    public void RebuildVariables()
+    {
+        foreach (var builder in _variableBuilder.AsParallel())
+        {
+            _variables[builder.Key] = builder.Value();
+        }
     }
 
     public void Handle(TickEvent message)
     {
-        foreach (var builder in _variableBuilder)
-        {
-            _variables[builder.Key] = builder.Value();
-        }
+        RebuildVariables();
+    }
+
+    public void Handle(AddVariableEvent message)
+    {
+        AddVariable(message.VariableName, message.Value);
+    }
+
+    public void Handle(AddVariableBuilderEvent message)
+    {
+        AddVariableBuilder(message.VariableName, message.Builder);
     }
 }

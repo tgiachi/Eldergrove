@@ -27,6 +27,8 @@ public class SchedulerService : ISchedulerService, ISubscriber<AddActionToSchedu
         _messageBusService = messageBusService;
 
         _messageBusService.Subscribe(this);
+
+        _messageBusService.Publish(new AddVariableBuilderEvent("tick", () => Turn));
     }
 
     public int Turn { get; private set; }

@@ -230,4 +230,17 @@ public class ServicesTests
             await schedulerService.TickAsync();
         }
     }
+
+    [Test]
+    public async Task Test_VariableService()
+    {
+        var variableService = _engine.GetService<IVariablesService>();
+
+        variableService.AddVariable("test", "testValue");
+
+        var text = variableService.TranslateText("Hello {test}");
+
+        Assert.That(text, Is.EqualTo("Hello testValue"));
+
+    }
 }

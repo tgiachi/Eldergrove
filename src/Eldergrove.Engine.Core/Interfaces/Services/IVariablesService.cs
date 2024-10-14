@@ -8,4 +8,9 @@ public interface IVariablesService
     public void AddVariable(string variableName, object value);
 
     string TranslateText(string text);
+
+    List<string> GetVariables();
+
+
+    void RebuildVariables();
 }
