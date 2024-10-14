@@ -20,7 +20,7 @@ return function()
 
     add_tile({
         id = "t_wall",
-        symbol = "#",
+        symbol = "!!178",
         background = "black",
         foreground = "white",
         is_blocking = true,

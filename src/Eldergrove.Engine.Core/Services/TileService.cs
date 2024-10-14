@@ -72,7 +72,23 @@ public class TileService : ITileService
             return new ColoredGlyph(foreground, background, tileData.Symbol[2]);
         }
 
+        if (tileData.Symbol.StartsWith("!!"))
+        {
+            return new ColoredGlyph(foreground, background, int.Parse(tileData.Symbol[2].ToString()));
+        }
+
         TileEntry tile = _tiles[tileData.Symbol];
+
+        if (tile.Symbol.StartsWith("##"))
+        {
+            return new ColoredGlyph(foreground, background, tile.Symbol[2]);
+        }
+
+        if (tile.Symbol.StartsWith("!!"))
+        {
+            return new ColoredGlyph(foreground, background, int.Parse(tile.Symbol[2..]));
+        }
+
 
         var colored = new ColoredGlyph(foreground, background, tile.Symbol[0]);
 
