@@ -8,7 +8,6 @@ using Microsoft.Extensions.Logging;
 
 namespace Eldergrove.Engine.Core.Services;
 
-
 [AutostartService(-1)]
 public partial class VariableService
     : IVariablesService, ISubscriber<TickEvent>, ISubscriber<AddVariableEvent>, ISubscriber<AddVariableBuilderEvent>
@@ -65,7 +64,7 @@ public partial class VariableService
 
             if (replacement != null)
             {
-                result.Replace(match.Value, replacement, match.Index, match.Length);
+                result.Replace(match.Value, replacement);
             }
         }
 
@@ -87,7 +86,14 @@ public partial class VariableService
     {
         foreach (var builder in _variableBuilder.AsParallel())
         {
-            _variables[builder.Key] = builder.Value();
+            try
+            {
+                _variables[builder.Key] = builder.Value();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Error building variable {VariableName}", builder.Key);
+            }
         }
     }
 

@@ -1,0 +1,22 @@
+[
+    {
+        "$type": "bar_obj",
+        "id": "b_ticks",
+        "foreground": "yellow",
+        "background": "black",
+        "text": "> Current ticks: {ticks} "
+    },
+    {
+        "$type": "bar_obj",
+        "id": "b_player_position",
+        "foreground": "red",
+        "background": "black",
+        "text": "> Player position: {player_x}, {player_y} "
+    },
+    {
+        "$type":"bar_def",
+        "id": "default_top_bar",
+        "bar_ids": ["b_ticks", "b_player_position"]
+    }
+
+]

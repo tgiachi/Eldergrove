@@ -3,7 +3,7 @@ using Eldergrove.Engine.Core.Interfaces.Json;
 
 namespace Eldergrove.Engine.Core.Data.Json.Bars;
 
-[DataLoaderType("bar_object")]
+[DataLoaderType("bar_obj")]
 public class BarObject : IJsonDataObject
 {
     public string Id { get; set; }

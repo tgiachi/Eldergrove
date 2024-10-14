@@ -132,6 +132,8 @@ public class EldergroveEngine : IEldergroveEngine
             .AddEldergroveService<IMapGenService, MapGenService>()
             .AddEldergroveService<ISchedulerService, SchedulerService>()
             .AddEldergroveService<IVariablesService, VariableService>()
+            .AddEldergroveService<IDialogService, DialogService>()
+            .AddEldergroveService<ITextService, TextService>()
             ;
 
         // Register default keybinding actions

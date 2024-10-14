@@ -1,0 +1,54 @@
+[
+    {
+        "$type": "dialog",
+        "id": "test_npc_dialog",
+        "text_id": "Hello, Adventurer! You're new here, right? What would you like to do?",
+        "options": [
+            {
+                "id": "1_1",
+                "text_id": "Ask about the village",
+                "options": [
+                    {
+                        "id": "1_1_1",
+                        "text_id": "This village is very old. We have stories of dragons and magic.",
+                        "options": []
+                    }
+                ]
+            },
+            {
+                "id": "1_2",
+                "text_id": "Is there any work for me?",
+                "options": [
+                    {
+                        "id": "1_2_1",
+                        "text_id": "We need someone to gather herbs from the forest. Do you want to accept?",
+                        "options": [
+                            {
+                                "id": "1_2_1_1",
+                                "text_id": "Yes, I'll do it!",
+                                "action": "AcceptQuestHerbs",
+                                "options": []
+                            },
+                            {
+                                "id": "1_2_1_2",
+                                "text_id": "No, thank you.",
+                                "options": []
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": "1_3",
+                "text_id": "Leave",
+                "options": [
+                    {
+                        "id": "1_3_1",
+                        "text_id": "Goodbye, Adventurer.",
+                        "options": []
+                    }
+                ]
+            }
+        ]
+    }
+]

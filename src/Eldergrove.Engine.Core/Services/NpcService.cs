@@ -1,6 +1,7 @@
 using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Components;
 using Eldergrove.Engine.Core.Contexts;
+using Eldergrove.Engine.Core.Data.Events;
 using Eldergrove.Engine.Core.Data.Json.Npcs;
 using Eldergrove.Engine.Core.Data.Json.TileSet;
 using Eldergrove.Engine.Core.GameObject;
@@ -33,7 +34,7 @@ public class NpcService : INpcService
 
     public NpcService(
         IDataLoaderService dataLoaderService, ILogger<NpcService> logger, ITileService tileService,
-        INameGeneratorService nameGeneratorService, IItemService itemService
+        INameGeneratorService nameGeneratorService, IItemService itemService, IMessageBusService messageBusService
     )
     {
         _logger = logger;
@@ -43,6 +44,29 @@ public class NpcService : INpcService
 
 
         dataLoaderService.SubscribeData<NpcObject>(OnNpcObject);
+
+        messageBusService.Publish(new AddVariableBuilderEvent("player_x", () => GetPlayerX()));
+        messageBusService.Publish(new AddVariableBuilderEvent("player_y", () => GetPlayerY()));
+    }
+
+    private string GetPlayerX()
+    {
+        if (Player == null)
+        {
+            return "0";
+        }
+
+        return Player.Position.X.ToString();
+    }
+
+    private string GetPlayerY()
+    {
+        if (Player == null)
+        {
+            return "0";
+        }
+
+        return Player.Position.Y.ToString();
     }
 
     private NpcObject? GetById(string id) => _npcObjects.GetValueOrDefault(id);

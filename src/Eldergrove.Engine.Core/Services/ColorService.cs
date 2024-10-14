@@ -33,7 +33,34 @@ public class ColorService : IColorService
         );
     }
 
-    public Color GetColor(string colorName) => _colors[colorName];
+    public Color GetColor(string colorName)
+    {
+        if (colorName.StartsWith('#'))
+        {
+            byte r = byte.Parse(colorName.Substring(1, 2), System.Globalization.NumberStyles.HexNumber);
+            byte g = byte.Parse(colorName.Substring(3, 2), System.Globalization.NumberStyles.HexNumber);
+            byte b = byte.Parse(colorName.Substring(5, 2), System.Globalization.NumberStyles.HexNumber);
+
+
+            if (colorName.Length == 9)
+            {
+                byte a = byte.Parse(colorName.Substring(7, 2), System.Globalization.NumberStyles.HexNumber);
+                return Color.FromNonPremultiplied(r, g, b, a);
+            }
+            else
+            {
+                return Color.FromNonPremultiplied(r, g, b, 255);
+            }
+        }
+
+        if (!_colors.TryGetValue(colorName, out var color))
+        {
+            _logger.LogError("Color {ColorName} not found", colorName);
+            throw new KeyNotFoundException($"Color {colorName} not found");
+        }
+
+        return color;
+    }
 
     public void AddColor(string colorName, Color color)
     {

@@ -32,6 +32,7 @@ public class GameObject : ScreenObject
 
     public GameObject(IEldergroveEngine eldergroveEngine, int width, int height)
     {
+
         _eldergroveEngine = eldergroveEngine;
 
         _mapGenService = _eldergroveEngine.GetService<IMapGenService>();

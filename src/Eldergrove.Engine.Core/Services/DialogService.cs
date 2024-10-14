@@ -1,6 +1,5 @@
 using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Data.Json.Dialogs;
-using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Microsoft.Extensions.Logging;
 
@@ -13,10 +12,12 @@ public class DialogService : IDialogService
 
     private readonly Dictionary<string, DialogObject> _dialogs = new();
 
+    private readonly ITextService _textService;
 
-    public DialogService(ILogger<DialogService> logger, IDataLoaderService dataLoaderService)
+    public DialogService(ILogger<DialogService> logger, IDataLoaderService dataLoaderService, ITextService textService)
     {
         _logger = logger;
+        _textService = textService;
 
         dataLoaderService.SubscribeData<DialogObject>(OnDialogObject);
     }
@@ -24,16 +25,33 @@ public class DialogService : IDialogService
 
     private Task OnDialogObject(DialogObject arg)
     {
+        AddDialog(arg);
         return Task.CompletedTask;
     }
 
-    public List<string> StartDialog(string dialogId)
+    public List<DialogObject> StartDialog(string dialogId)
     {
-        return new List<string>();
+        if (!_dialogs.TryGetValue(dialogId, out var dialog))
+        {
+            _logger.LogError("Dialog {Id} not found", dialogId);
+            throw new KeyNotFoundException($"Dialog {dialogId} not found");
+        }
+
+        return dialog.Options;
     }
 
-    public List<string> ContinueDialog(string dialogId, string optionId)
+    public List<DialogObject> ContinueDialog(DialogObject selectedDialog)
     {
-        return new List<string>();
+        if (selectedDialog.Action != null)
+        {
+        }
+
+        return selectedDialog.Options;
+    }
+
+    public void AddDialog(DialogObject dialogObject)
+    {
+        _logger.LogDebug("Loaded dialog {Id}", dialogObject.Id);
+        _dialogs[dialogObject.Id] = dialogObject;
     }
 }

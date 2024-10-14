@@ -14,7 +14,7 @@ public class TextService : ITextService
 
     private readonly IVariablesService _variablesService;
 
-    public TextService(ILogger<TextService> logger, DataLoaderService dataLoaderService, IVariablesService variablesService)
+    public TextService(ILogger<TextService> logger, IDataLoaderService dataLoaderService, IVariablesService variablesService)
     {
         _logger = logger;
         _variablesService = variablesService;

@@ -13,4 +13,7 @@ public class DialogObject : IJsonDataObject
     public string? Action { get; set; }
 
     public List<DialogObject> Options { get; set; } = new();
+
+
+    public override string ToString() => $"Dialog {Id} - {TextId} - {Action} - {Options.Count} options";
 }

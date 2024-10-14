@@ -4,10 +4,14 @@ using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Manager;
 using Eldergrove.Engine.Core.Maps;
 using Eldergrove.Engine.Core.State;
+using Eldergrove.Engine.Core.Types;
 using Eldergrove.Ui.Core.Controls;
+using Eldergrove.Ui.Core.Interfaces;
 using Eldergrove.Ui.Core.Screens;
+using Eldergrove.Ui.Core.Services;
 using SadConsole;
 using SadConsole.Configuration;
+using SadRogue.Primitives;
 
 Settings.WindowTitle = "SadConsole Examples";
 
@@ -15,7 +19,10 @@ Settings.WindowTitle = "SadConsole Examples";
 var rootDirectory = Environment.GetEnvironmentVariable("ELDERGROVE_ROOT_DIRECTORY") ??
                     Path.Join(Directory.GetCurrentDirectory(), "Eldergrove");
 
-var engine = new EldergroveEngine(new EldergroveOptions() { RootDirectory = rootDirectory });
+var engine = new EldergroveEngine(
+    new EldergroveOptions() { RootDirectory = rootDirectory, },
+    services => { return services.AddEldergroveService<IBarService, BarService>(); }
+);
 
 EldergroveState.Engine = engine;
 
@@ -51,13 +58,25 @@ async void Game_Started(object? sender, GameHost host)
             "map_generated",
             (e) =>
             {
+                var topBarControl = new BarControl(
+                    host.ScreenCellsX,
+                    1,
+                    EldergroveState.Engine.GetService<IBarService>().GetBarFromPosition(BarPositionType.Top)
+                );
+
+                topBarControl.Position = new Point(0, 0);
+
+                var map = new GameObject(EldergroveState.Engine, host.ScreenCellsX, host.ScreenCellsY);
+                map.Position = new Point(0, 1);
+
+
                 Game.Instance.StartingConsole.Clear();
 
                 Game.Instance.StartingConsole.Children.Clear();
 
-                Game.Instance.StartingConsole.Children.Add(
-                    new GameObject(EldergroveState.Engine, host.ScreenCellsX, host.ScreenCellsY)
-                );
+
+                Game.Instance.StartingConsole.Children.Add(topBarControl);
+                Game.Instance.StartingConsole.Children.Add(map);
             }
         );
 
