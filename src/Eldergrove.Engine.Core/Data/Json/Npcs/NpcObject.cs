@@ -6,12 +6,13 @@ using Eldergrove.Engine.Core.Interfaces.Json;
 namespace Eldergrove.Engine.Core.Data.Json.Npcs;
 
 [DataLoaderType("npc")]
-public class NpcObject : IJsonDataObject,
-    IJsonTagsDataObject,
-    IJsonNamedObject,
-    IJsonSymbolDataObject,
-    IJsonCategoryObject,
-    IJsonContainerObject
+public class NpcObject
+    : IJsonDataObject,
+        IJsonTagsDataObject,
+        IJsonNamedObject,
+        IJsonSymbolDataObject,
+        IJsonCategoryObject,
+        IJsonContainerObject
 {
     public string Id { get; set; }
 
@@ -30,7 +31,6 @@ public class NpcObject : IJsonDataObject,
     public string Category { get; set; }
 
     public string? SubCategory { get; set; }
-
 
     public string AiBrain { get; set; }
 
