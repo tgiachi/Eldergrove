@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using Eldergrove.Engine.Core.Data.Events;
+using Eldergrove.Engine.Core.Data.Game;
 using Eldergrove.Engine.Core.Interfaces.Actions;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Types;
@@ -8,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Eldergrove.Engine.Core.Services;
 
-public class SchedulerService : ISchedulerService, ISubscriber<AddActionToSchedulerEvent>
+public class SchedulerService : ISchedulerService, ISubscriber<AddActionToSchedulerEvent>, ISubscriber<MapGeneratedEvent>
 {
     private readonly ILogger _logger;
 
@@ -19,16 +20,24 @@ public class SchedulerService : ISchedulerService, ISubscriber<AddActionToSchedu
     private readonly List<IActionableEntity> _actionableEntities = new();
 
 
+    private Task _tickTask;
+
+    private bool _isTurnBased;
+
+    private readonly IScriptEngineService _scriptEngineService;
+
     //private readonly Task _tickTask;
 
     public SchedulerService(
-        ILogger<SchedulerService> logger, IMessageBusService messageBusService
+        ILogger<SchedulerService> logger, IMessageBusService messageBusService, IScriptEngineService scriptEngineService
     )
     {
         _logger = logger;
         _messageBusService = messageBusService;
+        _scriptEngineService = scriptEngineService;
 
-        _messageBusService.Subscribe(this);
+        _messageBusService.Subscribe<AddActionToSchedulerEvent>(this);
+        _messageBusService.Subscribe<MapGeneratedEvent>(this);
 
         _messageBusService.Publish(new AddVariableBuilderEvent("ticks", () => Turn));
 
@@ -61,7 +70,7 @@ public class SchedulerService : ISchedulerService, ISubscriber<AddActionToSchedu
         }
     }
 
-    public async Task TickAsync()
+    private async Task ProcessQueue()
     {
         var stopWatch = Stopwatch.StartNew();
 
@@ -97,9 +106,6 @@ public class SchedulerService : ISchedulerService, ISubscriber<AddActionToSchedu
                     );
                     _actions.Enqueue(result.AlternateAction);
                 }
-
-
-
             }
 
             if (result.Result == ActionResultType.Repeat)
@@ -130,6 +136,14 @@ public class SchedulerService : ISchedulerService, ISubscriber<AddActionToSchedu
         _messageBusService.Publish(new TickEvent(Turn));
     }
 
+    public async Task TickAsync()
+    {
+        if (_isTurnBased)
+        {
+            await ProcessQueue();
+        }
+    }
+
     public void AddActionableEntity(IActionableEntity entity)
     {
         _actionableEntities.Add(entity);
@@ -150,5 +164,26 @@ public class SchedulerService : ISchedulerService, ISubscriber<AddActionToSchedu
         _logger.LogDebug("Received action message {Message}", message.GetType());
 
         AddAction(message.Action);
+    }
+
+    public void Handle(MapGeneratedEvent message)
+    {
+        var gameConfig = _scriptEngineService.GetContextVariable<GameConfig>("game_config");
+
+        _isTurnBased = gameConfig.Scheduler.IsTurnBased;
+
+        if (!gameConfig.Scheduler.IsTurnBased)
+        {
+            _tickTask = Task.Run(
+                async () =>
+                {
+                    while (true)
+                    {
+                        await Task.Delay(gameConfig.Scheduler.TickDelay);
+                        await ProcessQueue();
+                    }
+                }
+            );
+        }
     }
 }

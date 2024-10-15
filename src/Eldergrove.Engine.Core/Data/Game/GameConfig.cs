@@ -10,4 +10,8 @@ public class GameConfig
 
     public PlayerConfig Player { get; set; }
 
+
+    public SchedulerConfig Scheduler { get; set; }
+
+
 }

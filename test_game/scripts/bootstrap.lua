@@ -17,6 +17,9 @@ set_game_config({
             min = 100,
             max = 200
         }
+    },
+    scheduler = {
+        is_turn_based = false
 
     }
 })
