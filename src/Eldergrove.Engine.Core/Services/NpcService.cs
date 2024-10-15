@@ -2,6 +2,7 @@ using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Components;
 using Eldergrove.Engine.Core.Contexts;
 using Eldergrove.Engine.Core.Data.Events;
+using Eldergrove.Engine.Core.Data.Game;
 using Eldergrove.Engine.Core.Data.Json.Npcs;
 using Eldergrove.Engine.Core.Data.Json.TileSet;
 using Eldergrove.Engine.Core.GameObject;
@@ -25,6 +26,8 @@ public class NpcService : INpcService
 
     private readonly INameGeneratorService _nameGeneratorService;
 
+    private readonly IScriptEngineService _scriptEngineService;
+
     private readonly IItemService _itemService;
 
     private readonly Dictionary<string, Func<AiContext, List<ISchedulerAction>>> _brains = new();
@@ -34,13 +37,15 @@ public class NpcService : INpcService
 
     public NpcService(
         IDataLoaderService dataLoaderService, ILogger<NpcService> logger, ITileService tileService,
-        INameGeneratorService nameGeneratorService, IItemService itemService, IMessageBusService messageBusService
+        INameGeneratorService nameGeneratorService, IItemService itemService, IMessageBusService messageBusService,
+        IScriptEngineService scriptEngineService
     )
     {
         _logger = logger;
         _tileService = tileService;
         _nameGeneratorService = nameGeneratorService;
         _itemService = itemService;
+        _scriptEngineService = scriptEngineService;
 
 
         dataLoaderService.SubscribeData<NpcObject>(OnNpcObject);
@@ -121,7 +126,8 @@ public class NpcService : INpcService
 
         var skills = new SkillsComponent
         {
-            Health = npc.Skills.Health.GetRandomValue()
+            Health = npc.Skills.Health.GetRandomValue(),
+            Gold = npc.Skills.Gold.GetRandomValue()
         };
 
         gameObject.GoRogueComponents.Add(skills);
@@ -143,6 +149,9 @@ public class NpcService : INpcService
 
     public void BuildPlayer(Point position)
     {
+        var gameConfig = _scriptEngineService.GetContextVariable<GameConfig>("game_config");
+
+
         ColoredGlyph playerEntry = null!;
 
         try
@@ -154,9 +163,15 @@ public class NpcService : INpcService
             playerEntry = new ColoredGlyph(Color.Azure, Color.Black, '@');
         }
 
+        var skills = new SkillsComponent
+        {
+            Health = gameConfig.Player.StartingGold.GetRandomValue(),
+            Gold = gameConfig.Player.StartingGold.GetRandomValue()
+        };
 
         Player = new PlayerGameObject(position, playerEntry);
         Player.GoRogueComponents.Add(new PlayerFOVController());
+        Player.GoRogueComponents.Add(skills);
     }
 
     public PlayerGameObject GetPlayer() => Player;

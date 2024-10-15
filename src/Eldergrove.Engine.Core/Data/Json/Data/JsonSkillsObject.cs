@@ -6,4 +6,6 @@ namespace Eldergrove.Engine.Core.Data.Json.Data;
 public class JsonSkillsObject : IJsonSkillsObject
 {
     public JsonRandomObject Health { get; set; }
+
+    public JsonRandomObject Gold { get; set; } = new(1, 10);
 }
