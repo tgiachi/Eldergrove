@@ -16,5 +16,23 @@
         "floor": {
             "symbol": "t_floor"
         }
+    },
+    {
+        "$type": "map_generator",
+        "id": "start_town",
+        "generator_type": "town",
+        "fabrics": [
+            {
+                "id": "houses",
+                "min": 10,
+                "max": 15
+            }
+        ],
+        "wall": {
+            "symbol": "t_wall"
+        },
+        "floor": {
+            "symbol": "t_floor"
+        }
     }
 ]

@@ -119,17 +119,72 @@ public class MapGenService : IMapGenService
         var stopWatch = Stopwatch.StartNew();
 
 
+        if (mapGenerator.GeneratorType == MapGeneratorType.Town)
+        {
+            await GenerateTownAsync(mapGenerator);
+        }
+        else
+        {
+            await GenerateContainerAsync(mapGenerator);
+        }
+
+
+        _messageBusService.Publish(new MapGeneratedEvent(CurrentMap));
+
+        stopWatch.Stop();
+        _logger.LogDebug("Map generated in {Elapsed}ms", stopWatch.ElapsedMilliseconds);
+
+        return CurrentMap;
+    }
+
+
+    private async Task GenerateTownAsync(MapGeneratorObject mapGenerator)
+    {
         var generator = new Generator(_gameConfig.Map.Width, _gameConfig.Map.Height)
             .ConfigAndGenerateSafe(
                 gen =>
                 {
-                    if (mapGenerator.GeneratorType == MapGeneratorType.Container)
-                    {
-                        _logger.LogDebug("Using container generator");
-                        gen.AddSteps(
-                            DefaultAlgorithms.RectangleMapSteps()
-                        );
-                    }
+                    gen.AddSteps(
+                        DefaultAlgorithms.RectangleMapSteps()
+                    );
+                }
+            );
+
+        generator.Generate();
+
+
+        var (wallGlyph, wallTile) = _tileService.GetTileWithEntry(mapGenerator.Wall);
+        var (floorGlyph, floorTile) = _tileService.GetTileWithEntry(mapGenerator.Floor);
+
+        CurrentMap = new GameMap(_gameConfig.Map.Width, _gameConfig.Map.Height, null);
+
+        CurrentMap.AllComponents.Add(new TerrainFOVVisibilityHandler());
+
+        var generatedMap = generator.Context.GetFirst<ISettableGridView<bool>>("WallFloor");
+
+        CurrentMap.ObjectAdded += OnEntityAdded;
+        CurrentMap.ObjectRemoved += OnEntityRemoved;
+
+        CurrentMap.ApplyTerrainOverlay(
+            generatedMap,
+            (pos, val) =>
+                val
+                    ? new TerrainGameObject(pos, floorGlyph, floorTile.Id)
+                    : new TerrainGameObject(pos, wallGlyph, wallTile.Id, false)
+        );
+
+        var centerOnMap = new Point(CurrentMap.Width / 2, CurrentMap.Height / 2);
+    }
+
+    private async Task GenerateContainerAsync(MapGeneratorObject mapGenerator)
+    {
+        var generator = new Generator(_gameConfig.Map.Width, _gameConfig.Map.Height)
+            .ConfigAndGenerateSafe(
+                gen =>
+                {
+                    gen.AddSteps(
+                        DefaultAlgorithms.RectangleMapSteps()
+                    );
                 }
             );
 
@@ -170,13 +225,6 @@ public class MapGenService : IMapGenService
                 GenerateFabric(fabricObject, CurrentMap, (wallGlyph, wallTile), (floorGlyph, floorTile));
             }
         }
-
-        _messageBusService.Publish(new MapGeneratedEvent(CurrentMap));
-
-        stopWatch.Stop();
-        _logger.LogDebug("Map generated in {Elapsed}ms", stopWatch.ElapsedMilliseconds);
-
-        return CurrentMap;
     }
 
     private void OnEntityRemoved(object? sender, ItemEventArgs<IGameObject> e)
