@@ -174,7 +174,7 @@ public class MapGenService : IMapGenService
                     : new TerrainGameObject(pos, wallGlyph, wallTile.Id, false)
         );
 
-        var centerOnMap = new Point(CurrentMap.Width / 2, CurrentMap.Height / 2);
+        var centerOnMap = new Point(1, CurrentMap.Height / 2);
 
 
         foreach (var fabric in mapGenerator.Fabrics)
@@ -186,9 +186,9 @@ public class MapGenService : IMapGenService
             {
                 var fabricObject = GetFabric(fabric.Id);
 
-                centerOnMap += new Point(fabricObject.Width + 4, 0);
+                centerOnMap += new Point(fabricObject.Height + 10, 0);
 
-                _logger.LogDebug("Creating fabric on position {Center}", centerOnMap);
+                _logger.LogDebug("Creating fabric on position {Center} {Witdh}", centerOnMap, fabricObject.Width);
 
 
                 var fabricResult = GenerateFabricAsync(

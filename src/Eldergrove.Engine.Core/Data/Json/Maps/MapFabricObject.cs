@@ -28,7 +28,7 @@ public class MapFabricObject : IJsonDataObject, IJsonCategoryObject, IJsonNamedO
     public Dictionary<MapLayerType, Dictionary<string, string>> Layers { get; set; }
 
     [JsonIgnore] public int Area => Width * Height;
-    [JsonIgnore] public int Width => Fabric[0].Length;
-    [JsonIgnore] public int Height => Fabric.Length;
+    [JsonIgnore] public int Width => ToArray[0].Length;
+    [JsonIgnore] public int Height => ToArray.Length;
     [JsonIgnore] public char[][] ToArray => Fabric.Select(x => x.ToCharArray()).ToArray();
 }

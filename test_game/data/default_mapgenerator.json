@@ -24,8 +24,8 @@
         "fabrics": [
             {
                 "id": "houses",
-                "min": 4,
-                "max": 4
+                "min": 10,
+                "max": 10
             }
         ],
         "wall": {
