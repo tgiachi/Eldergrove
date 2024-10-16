@@ -1,6 +1,8 @@
 using Eldergrove.Engine.Core.Attributes.Scripts;
 using Eldergrove.Engine.Core.Data.Events;
+using Eldergrove.Engine.Core.Data.MessageLog;
 using Eldergrove.Engine.Core.Interfaces.Services;
+using Eldergrove.Engine.Core.Types;
 using Microsoft.Extensions.Logging;
 
 namespace Eldergrove.Engine.Core.ScriptsModules;
@@ -72,8 +74,8 @@ public class LoggerModule
     }
 
     [ScriptFunction("message_log", "Sends a message log event")]
-    public void SendMessageLog(string message, string background, string foreground)
+    public void SendMessageLog(string message, MessageLogType messageLogType)
     {
-        _messageBusService.Publish(new MessageLogEvent(message, background, foreground));
+        _messageBusService.Publish(new MessageLogEvent(new MessageLogData(message, messageLogType)));
     }
 }

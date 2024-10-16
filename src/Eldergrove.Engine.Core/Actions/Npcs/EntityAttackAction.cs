@@ -1,8 +1,11 @@
 ﻿using Eldergrove.Engine.Core.Actions.Base;
 using Eldergrove.Engine.Core.Data.Action;
+using Eldergrove.Engine.Core.Data.Events;
 using Eldergrove.Engine.Core.Data.Json.Random;
+using Eldergrove.Engine.Core.Data.MessageLog;
 using Eldergrove.Engine.Core.GameObject;
 using Eldergrove.Engine.Core.State;
+using Eldergrove.Engine.Core.Types;
 using Eldergrove.Engine.Core.Utils;
 using Microsoft.Extensions.Logging;
 
@@ -39,6 +42,12 @@ public class EntityAttackAction : AbstractSchedulerAction
                 _target.Name,
                 damage,
                 _target.Skills.Health
+            );
+
+            SendEventMessage(
+                new MessageLogEvent(
+                    new MessageLogData($"{name} attacks {_target.Name} for {damage} damage", MessageLogType.Attack)
+                )
             );
 
 
