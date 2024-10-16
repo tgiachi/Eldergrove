@@ -22,6 +22,20 @@ public static class MapExtension
         return true;
     }
 
+    public static List<Point>? PreAllocatePoints(int width, int height, Point startingPoint)
+    {
+        List<Point> points = new List<Point>();
+        for (int x = startingPoint.X; x < startingPoint.X + width; x++)
+        {
+            for (int y = startingPoint.Y; y < startingPoint.Y + height; y++)
+            {
+                points.Add(new Point(x, y));
+            }
+        }
+
+        return points;
+    }
+
     public static List<Point>? FindFreeArea(this Map map, int width, int height, int maxAttempts = 200)
     {
         for (int attempt = 0; attempt < maxAttempts; attempt++)
@@ -49,6 +63,4 @@ public static class MapExtension
 
         return null;
     }
-
-
 }
