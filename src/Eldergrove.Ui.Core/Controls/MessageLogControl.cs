@@ -14,9 +14,9 @@ public class MessageLogControl : Console, ISubscriber<MessageLogEvent>
 {
     private readonly List<MessageLogData> _messages = new();
 
-    private int _currentIndex = 0;
+    private int _currentIndex;
 
-    protected int visibleLines => Height - 1;
+    protected int visibleLines => Height - 2;
 
     public MessageLogControl(int width, int height) : base(width, height)
     {
