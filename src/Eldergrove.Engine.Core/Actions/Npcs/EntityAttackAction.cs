@@ -31,7 +31,6 @@ public class EntityAttackAction : AbstractSchedulerAction
         {
             var name = _source.Name ?? "Player";
 
-
             var damage = new JsonRandomObject(1, 3).GetRandomValue();
 
             _logger.LogInformation(

@@ -41,8 +41,8 @@ public class NpcDieComponent : RogueLikeComponentBase<NpcGameObject>
             Parent.CurrentMap.AddEntity(blood);
         }
 
-        this.Parent.AppearanceSingle.Appearance.Glyph = 'X';
+        Parent.AppearanceSingle.Appearance.Glyph = 'X';
 
-        Parent.GoRogueComponents.Add(new TimedRemoveComponent(TimeSpan.FromSeconds(5)));
+        Parent.AllComponents.Add(new TimedRemoveComponent(TimeSpan.FromSeconds(5)));
     }
 }
