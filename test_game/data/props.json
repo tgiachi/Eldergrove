@@ -43,6 +43,22 @@
         "symbol": "t_window",
         "is_blocking": true,
         "is_transparent": true,
-        "is_destructible": true
+        "is_destructible": true,
+        "door": {
+            "on": {
+                "symbol": "##w",
+                "foreground": "yellow",
+                "background": "black",
+                "is_blocking": false,
+                "is_transparent": true
+            },
+            "off": {
+                "symbol": "##W",
+                "foreground": "yellow",
+                "background": "black",
+                "is_blocking": true,
+                "is_transparent": false
+            }
+        }
     }
 ]
