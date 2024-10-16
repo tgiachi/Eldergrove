@@ -8,7 +8,7 @@ public class TimedRemoveComponent : RogueLikeComponentBase<GoRogue.GameFramework
     private TimeSpan _timeToLive;
 
 
-    protected TimedRemoveComponent(TimeSpan timeToLive) : base(true, false, false, false)
+    public TimedRemoveComponent(TimeSpan timeToLive) : base(true, false, false, false)
     {
         _timeToLive = timeToLive;
     }

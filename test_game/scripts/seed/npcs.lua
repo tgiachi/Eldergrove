@@ -16,6 +16,20 @@ return function()
         }
     })
 
-    local cat = build_npc("animals", 1, 1)
-    log_info(cat)
+    add_npc({
+        id = "a_goblin",
+        name = "@male",
+        symbol = "##g",
+        foreground = "black",
+        background = "green",
+        category = "monsters",
+        sub_category = "goblins",
+        brain_ai = "empty",
+        skills = {
+            health = {
+                min = 10,
+                max = 20
+            }
+        }
+    })
 end

@@ -253,6 +253,13 @@ public class ScriptEngineService : IScriptEngineService
         var modulesPath = Path.Combine(_directoryConfig[DirectoryType.Scripts]) + Path.DirectorySeparatorChar;
         var scriptModulePath = Path.Combine(_directoryConfig[DirectoryType.ScriptsModules]) + Path.DirectorySeparatorChar;
 
+
+        if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+        {
+            modulesPath = modulesPath.Replace(@"\", @"\\");
+            scriptModulePath = scriptModulePath.Replace(@"\", @"\\");
+        }
+
         _luaEngine.DoString(
             $@"
 			-- Update the search path

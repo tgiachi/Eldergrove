@@ -21,7 +21,6 @@ public class AiContext
 
     public override string ToString() => $"AiContext:";
 
-
     public List<ISchedulerAction> EmptyActionList() => new();
 
     public List<ISchedulerAction> DoMovement(Direction direction) => new()
@@ -89,7 +88,7 @@ public class AiContext
 
     public Direction GoRandom()
     {
-        var newDirection =  Direction.GetDirection(Random.Shared.Next(0, 4),Random.Shared.Next(0, 4) );
+        var newDirection = Direction.GetDirection(Random.Shared.Next(0, 4), Random.Shared.Next(0, 4));
 
         return newDirection;
     }

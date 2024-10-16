@@ -36,6 +36,8 @@ public class EldergroveEngine : IEldergroveEngine
 
     private Func<IServiceCollection, IServiceCollection>? _serviceCollectionDelegate;
 
+    public ILogger<TSource> GetLogger<TSource>() => _serviceProvider.GetService<ILogger<TSource>>();
+
     public INpcService NpcService => GetService<INpcService>();
 
     private ILogger _logger;

@@ -27,7 +27,7 @@
                 "w": "a_window"
             },
             "npc": {
-                "c": "a_cat"
+                "c": "monsters"
             }
         }
     },
@@ -56,7 +56,7 @@
                 "w": "a_window"
             },
             "npc": {
-                "c": "a_cat"
+                "c": "monsters"
             }
         }
     }

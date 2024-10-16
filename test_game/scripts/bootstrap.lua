@@ -19,7 +19,7 @@ set_game_config({
         }
     },
     scheduler = {
-        is_turn_based = false
+        is_turn_based = true
 
     }
 })

@@ -30,12 +30,20 @@ public class EntityMovementAction : AbstractSchedulerAction
             return ActionResult.Succeed();
         }
 
-        var entity = _entity.CurrentMap.GetEntityAt<PropGameObject>(newPosition);
+        var prop = _entity.CurrentMap.GetEntityAt<PropGameObject>(newPosition);
 
-        if (entity != null)
+        if (prop != null)
         {
             return ActionResult.Fail(new EntityPerformAction(_direction, _entity));
         }
+
+        var npc = _entity.CurrentMap.GetEntityAt<NpcGameObject>(newPosition);
+
+        if (npc != null)
+        {
+            return ActionResult.Fail(new EntityAttackAction(_entity, npc));
+        }
+
 
         return ActionResult.Fail();
     }
