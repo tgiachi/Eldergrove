@@ -139,6 +139,8 @@ public class NpcService : INpcService
             }
         );
 
+        gameObject.GoRogueComponents.Add(new NpcDieComponent());
+
         var (_, tileEntry) = _tileService.GetTileWithEntry(npc);
 
         _tileService.BuildTileAnimation(gameObject, tileEntry);

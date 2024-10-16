@@ -13,6 +13,14 @@ public class NpcGameObject : RogueLikeEntity, INamedComponent, IActionableEntity
     public string Name { get; set; }
 
 
+    public event EventHandler<object> Die;
+
+    public void OnDie()
+    {
+        Die?.Invoke(this, null);
+    }
+
+
     public SkillsComponent Skills => GoRogueComponents.GetFirst<SkillsComponent>();
 
 
