@@ -1,8 +1,8 @@
-﻿using Eldergrove.Engine.Core.Data.Internal;
+﻿using Eldergrove.Engine.Core.Data.Game;
+using Eldergrove.Engine.Core.Data.Internal;
 using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Manager;
-using Eldergrove.Engine.Core.Maps;
 using Eldergrove.Engine.Core.State;
 using Eldergrove.Engine.Core.Types;
 using Eldergrove.Ui.Core.Controls;
@@ -13,7 +13,7 @@ using SadConsole;
 using SadConsole.Configuration;
 using SadRogue.Primitives;
 
-Settings.WindowTitle = "SadConsole Examples";
+Settings.WindowTitle = "";
 
 
 var rootDirectory = Environment.GetEnvironmentVariable("ELDERGROVE_ROOT_DIRECTORY") ??
@@ -45,7 +45,10 @@ var startup = new Builder()
     ;
 
 Game.Create(startup);
+
+
 Game.Instance.Run();
+
 Game.Instance.Dispose();
 
 async void Game_Started(object? sender, GameHost host)
@@ -100,4 +103,8 @@ async void Game_Started(object? sender, GameHost host)
     await Task.Delay(1000);
 
     await engine.InitializeAsync();
+
+    Settings.WindowTitle = EldergroveState.Engine.GetService<IScriptEngineService>()
+        .GetContextVariable<GameConfig>("game_config")
+        .TitleName;
 }
