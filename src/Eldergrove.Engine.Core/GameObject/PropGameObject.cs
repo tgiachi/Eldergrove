@@ -11,6 +11,8 @@ public class PropGameObject : RogueLikeEntity, INamedComponent
 {
     public bool CanDestroy { get; set; }
 
+    public event EventHandler<object> Destroyed;
+
     public string Name { get; set; }
     public bool IsContainer => GoRogueComponents.Contains<InventoryComponent>();
     public InventoryComponent Inventory => GoRogueComponents.GetFirst<InventoryComponent>();
@@ -24,7 +26,11 @@ public class PropGameObject : RogueLikeEntity, INamedComponent
     {
         Position = position;
 
+    }
 
+    public void Destroy()
+    {
+        Destroyed?.Invoke(this, null);
     }
 
     public override string ToString() => $"ID: {ID} Prop: {Name}";

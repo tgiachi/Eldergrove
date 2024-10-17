@@ -4,7 +4,9 @@ public interface IJsonRandomObject
 {
     string Id { get; set; }
 
-    public int Min { get; set; }
+    public int? Min { get; set; }
 
-    public int Max { get; set; }
+    public int? Max { get; set; }
+
+    public string? Dice { get; set; }
 }

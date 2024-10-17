@@ -4,6 +4,7 @@ using Eldergrove.Engine.Core.Data.Json.Props;
 using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.GameObject;
 using Eldergrove.Engine.Core.Interfaces.Services;
+using Eldergrove.Engine.Core.Utils;
 using Microsoft.Extensions.Logging;
 using SadRogue.Primitives;
 
@@ -19,7 +20,6 @@ public class PropService : IPropService
     private readonly ITileService _tileService;
 
     private readonly IItemService _itemService;
-
 
     public PropService(
         ILogger<PropService> logger, ITileService tileService, IItemService itemService, IDataLoaderService dataLoaderService
@@ -107,6 +107,13 @@ public class PropService : IPropService
         {
             var items = _itemService.GetRandomItems(prop.Container);
             gameObject.GoRogueComponents.Add(new InventoryComponent(items.ToList()));
+        }
+
+        if (prop.IsDestructible && prop.OnDestroy != null && prop.DestroyHealth != null)
+        {
+            gameObject.GoRogueComponents.Add(new PropHealthComponent(prop.DestroyHealth.GetRandomValue()));
+
+            gameObject.GoRogueComponents.Add(new DestroyComponent(_itemService.GetRandomItems(prop.OnDestroy).ToList()));
         }
 
 

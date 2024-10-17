@@ -6,9 +6,11 @@ public class JsonRandomObject : IJsonRandomObject
 {
     public string Id { get; set; }
 
-    public int Min { get; set; }
+    public int? Min { get; set; }
 
-    public int Max { get; set; }
+    public int? Max { get; set; }
+
+    public string? Dice { get; set; }
 
     public JsonRandomObject(string id, int min, int max)
     {
@@ -20,8 +22,8 @@ public class JsonRandomObject : IJsonRandomObject
     public JsonRandomObject()
     {
         Id = string.Empty;
-        Min = 0;
-        Max = 0;
+        Min = null;
+        Max = null;
     }
 
     public JsonRandomObject(int min, int max)
@@ -31,5 +33,11 @@ public class JsonRandomObject : IJsonRandomObject
         Max = max;
     }
 
-    public override string ToString() => $"Id: {Id}, Min: {Min}, Max: {Max}";
+    public JsonRandomObject(string dice)
+    {
+        Id = string.Empty;
+        Dice = dice;
+    }
+
+    public override string ToString() => $"Id: {Id}, Min: {Min}, Max: {Max} Dice: {Dice}";
 }

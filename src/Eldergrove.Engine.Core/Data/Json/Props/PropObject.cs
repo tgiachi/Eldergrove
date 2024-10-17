@@ -17,16 +17,15 @@ public class PropObject : IJsonDataObject, IJsonSymbolDataObject, IJsonCategoryO
     public string? Background { get; set; }
 
     public bool IsBlocking { get; set; }
-
     public bool IsTransparent { get; set; }
     public bool IsDestructible { get; set; }
 
-    public JsonRandomObject? OnDestroy { get; set; }
-    public JsonStateObject? Door { get; set; }
 
+    public JsonRandomObject? DestroyHealth { get; set; }
+    public List<JsonRandomObject>? OnDestroy { get; set; }
+    public JsonStateObject? Door { get; set; }
     public List<JsonRandomObject>? Container { get; set; }
 
     public JsonPortalObject? Portal { get; set; }
-
     public string? Name { get; set; }
 }
