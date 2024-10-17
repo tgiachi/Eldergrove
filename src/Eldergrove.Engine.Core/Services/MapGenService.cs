@@ -122,7 +122,7 @@ public class MapGenService : IMapGenService
 
         if (mapGenerator.GeneratorType == MapGeneratorType.Town)
         {
-            await GenerateTownAsync(mapGenerator);
+            throw new NotImplementedException();
         }
         else
         {
@@ -138,83 +138,6 @@ public class MapGenService : IMapGenService
         return CurrentMap;
     }
 
-
-    private async Task GenerateTownAsync(MapGeneratorObject mapGenerator)
-    {
-        var generator = new Generator(_gameConfig.Map.Width, _gameConfig.Map.Height)
-            .ConfigAndGenerateSafe(
-                gen =>
-                {
-                    gen.AddSteps(
-                        DefaultAlgorithms.RectangleMapSteps()
-                    );
-                }
-            );
-
-        generator.Generate();
-
-
-        var (wallGlyph, wallTile) = _tileService.GetTileWithEntry(mapGenerator.Wall);
-        var (floorGlyph, floorTile) = _tileService.GetTileWithEntry(mapGenerator.Floor);
-
-        CurrentMap = new GameMap(_gameConfig.Map.Width, _gameConfig.Map.Height, null);
-
-        CurrentMap.AllComponents.Add(new TerrainFOVVisibilityHandler());
-
-        var generatedMap = generator.Context.GetFirst<ISettableGridView<bool>>("WallFloor");
-
-        CurrentMap.ObjectAdded += OnEntityAdded;
-        CurrentMap.ObjectRemoved += OnEntityRemoved;
-
-        CurrentMap.ApplyTerrainOverlay(
-            generatedMap,
-            (pos, val) =>
-                val
-                    ? new TerrainGameObject(pos, floorGlyph, floorTile.Id)
-                    : new TerrainGameObject(pos, wallGlyph, wallTile.Id, false)
-        );
-
-        var centerOnMap = new Point(1, CurrentMap.Height / 2);
-
-
-        foreach (var fabric in mapGenerator.Fabrics)
-        {
-            var fabricCount = fabric.GetRandomValue();
-
-            _logger.LogDebug("Generating fabric {Fabric} {Count} times", fabric.Id, fabricCount);
-            foreach (var _ in Enumerable.Range(0, fabricCount))
-            {
-                var fabricObject = GetFabric(fabric.Id);
-
-                centerOnMap += new Point(fabricObject.Height + 10, 0);
-
-                _logger.LogDebug("Creating fabric on position {Center} {Witdh}", centerOnMap, fabricObject.Width);
-
-
-                var fabricResult = GenerateFabricAsync(
-                    fabricObject,
-                    (wallGlyph, wallTile),
-                    (floorGlyph, floorTile),
-                    centerOnMap
-                );
-
-                foreach (var layer in fabricResult.Keys)
-                {
-                    foreach (var gameObject in fabricResult[layer])
-                    {
-                        if (gameObject is TerrainGameObject)
-                        {
-                            CurrentMap.SetTerrain(gameObject);
-                        }
-                        else
-                        {
-                            CurrentMap.AddEntity(gameObject);
-                        }
-                    }
-                }
-            }
-        }
-    }
 
     private async Task GenerateContainerAsync(MapGeneratorObject mapGenerator)
     {
@@ -262,7 +185,22 @@ public class MapGenService : IMapGenService
             {
                 var fabricObject = GetFabric(fabric.Id);
 
-                GenerateFabric(fabricObject, CurrentMap, (wallGlyph, wallTile), (floorGlyph, floorTile));
+                var result = GenerateFabricAsync(fabricObject, (wallGlyph, wallTile), (floorGlyph, floorTile));
+
+                foreach (var layer in result.Keys)
+                {
+                    foreach (var gameObject in result[layer])
+                    {
+                        if (gameObject is TerrainGameObject)
+                        {
+                            CurrentMap.SetTerrain(gameObject);
+                        }
+                        else
+                        {
+                            CurrentMap.AddEntity(gameObject);
+                        }
+                    }
+                }
             }
         }
     }

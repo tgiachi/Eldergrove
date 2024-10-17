@@ -8,7 +8,7 @@ local keybinding = require "seed.keybindings"
 set_game_config({
     title_name = "Eldergrove",
     map = {
-        generator_id = "start_town",
+        generator_id = "default",
         width = 400,
         height = 400
     },
