@@ -13,7 +13,7 @@ public class KeybindingActionAttribute : Attribute
         Key = key;
 
 
-        
+
     }
 
 }
