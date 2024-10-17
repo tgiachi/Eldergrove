@@ -103,6 +103,7 @@ public class MapGenService : IMapGenService
         _logger.LogDebug("Map fabric {Fabric} added", fabric.Id);
     }
 
+
     public async Task<GameMap> GenerateMapAsync()
     {
         _gameConfig = _scriptEngineService.GetContextVariable<GameConfig>("game_config");
@@ -120,26 +121,29 @@ public class MapGenService : IMapGenService
         var stopWatch = Stopwatch.StartNew();
 
 
+        GameMap map;
+
         if (mapGenerator.GeneratorType == MapGeneratorType.Town)
         {
             throw new NotImplementedException();
         }
         else
         {
-            await GenerateContainerAsync(mapGenerator);
+            map = await GenerateContainerAsync(mapGenerator);
         }
 
 
-        _messageBusService.Publish(new MapGeneratedEvent(CurrentMap));
+        _messageBusService.Publish(new MapGeneratedEvent(map));
+
 
         stopWatch.Stop();
         _logger.LogDebug("Map generated in {Elapsed}ms", stopWatch.ElapsedMilliseconds);
 
-        return CurrentMap;
+        return map;
     }
 
 
-    private async Task GenerateContainerAsync(MapGeneratorObject mapGenerator)
+    private async Task<GameMap> GenerateContainerAsync(MapGeneratorObject mapGenerator)
     {
         var generator = new Generator(_gameConfig.Map.Width, _gameConfig.Map.Height)
             .ConfigAndGenerateSafe(
@@ -158,16 +162,16 @@ public class MapGenService : IMapGenService
         var (floorGlyph, floorTile) = _tileService.GetTileWithEntry(mapGenerator.Floor);
 
 
-        CurrentMap = new GameMap(_gameConfig.Map.Width, _gameConfig.Map.Height, null);
+        var map = new GameMap(_gameConfig.Map.Width, _gameConfig.Map.Height, null);
 
-        CurrentMap.AllComponents.Add(new TerrainFOVVisibilityHandler());
+        map.AllComponents.Add(new TerrainFOVVisibilityHandler());
 
         var generatedMap = generator.Context.GetFirst<ISettableGridView<bool>>("WallFloor");
 
-        CurrentMap.ObjectAdded += OnEntityAdded;
-        CurrentMap.ObjectRemoved += OnEntityRemoved;
+        map.ObjectAdded += OnEntityAdded;
+        map.ObjectRemoved += OnEntityRemoved;
 
-        CurrentMap.ApplyTerrainOverlay(
+        map.ApplyTerrainOverlay(
             generatedMap,
             (pos, val) =>
                 val
@@ -185,7 +189,7 @@ public class MapGenService : IMapGenService
             {
                 var fabricObject = GetFabric(fabric.Id);
 
-                var result = GenerateFabricAsync(fabricObject, (wallGlyph, wallTile), (floorGlyph, floorTile));
+                var result = GenerateFabricAsync(fabricObject, (wallGlyph, wallTile), (floorGlyph, floorTile), map);
 
                 foreach (var layer in result.Keys)
                 {
@@ -193,16 +197,23 @@ public class MapGenService : IMapGenService
                     {
                         if (gameObject is TerrainGameObject)
                         {
-                            CurrentMap.SetTerrain(gameObject);
+                            map.SetTerrain(gameObject);
                         }
                         else
                         {
-                            CurrentMap.AddEntity(gameObject);
+                            map.AddEntity(gameObject);
                         }
                     }
                 }
             }
         }
+
+        if (CurrentMap == null)
+        {
+            CurrentMap = map;
+        }
+
+        return map;
     }
 
     private void OnEntityRemoved(object? sender, ItemEventArgs<IGameObject> e)
@@ -271,7 +282,8 @@ public class MapGenService : IMapGenService
     }
 
     private Dictionary<MapLayerType, List<IGameObject>> GenerateFabricAsync(
-        MapFabricObject fabric, (ColoredGlyph, TileEntry) wall, (ColoredGlyph, TileEntry) floor, Point? startingPoint = null
+        MapFabricObject fabric, (ColoredGlyph, TileEntry) wall, (ColoredGlyph, TileEntry) floor, GameMap map,
+        Point? startingPoint = null
     )
     {
         var result = Enum.GetValues<MapLayerType>().ToDictionary(mapLayer => mapLayer, _ => new List<IGameObject>());
@@ -280,7 +292,7 @@ public class MapGenService : IMapGenService
 
         if (startingPoint == null)
         {
-            points.AddRange(CurrentMap.FindFreeArea(fabric.Width, fabric.Height));
+            points.AddRange(map.FindFreeArea(fabric.Width, fabric.Height));
         }
         else
         {
@@ -325,70 +337,6 @@ public class MapGenService : IMapGenService
         return result;
     }
 
-
-    private void GenerateFabric(
-        MapFabricObject fabric, GameMap map, (ColoredGlyph, TileEntry) wall, (ColoredGlyph, TileEntry) floor
-    )
-    {
-        _logger.LogTrace(
-            "Finding free area for fabric {Fabric} area: {Area} (W: {W} H: {H})",
-            fabric.Id,
-            fabric.Area,
-            fabric.Width,
-            fabric.Height
-        );
-
-        var freeArea = map.FindFreeArea(fabric.Width, fabric.Height);
-
-        if (freeArea == null)
-        {
-            _logger.LogWarning("No free area found for fabric {Fabric}", fabric.Id);
-            return;
-        }
-
-        _logger.LogDebug(
-            "Free area found for fabric {Fabric} in {Point} - (Area: {Area} - W: {W} H: {H})",
-            fabric.Id,
-            freeArea[0],
-            fabric.Area,
-            fabric.Width,
-            fabric.Height
-        );
-
-        var fabricArray = fabric.ToArray;
-
-        for (int x = 0; x < fabric.Width; x++)
-        {
-            for (int y = 0; y < fabric.Height; y++)
-            {
-                var realX = freeArea[0].X + x;
-                var realY = freeArea[0].Y + y;
-
-                var tile = fabricArray[y][x].ToString();
-
-                var isWall = tile == fabric.Wall.Symbol;
-
-                var (glyph, tileEntry) = isWall ? wall : floor;
-
-                var terrain = new TerrainGameObject(new Point(realX, realY), glyph, tileEntry.Id, !isWall, !isWall);
-
-                map.SetTerrain(terrain);
-
-                foreach (var layer in fabric.Layers.Keys)
-                {
-                    if (fabric.Layers[layer].TryGetValue(tile, out var id))
-                    {
-                        var gameObject = CreateGameObject(layer, id, new Point(realX, realY));
-                        if (gameObject != null)
-                        {
-                            _logger.LogDebug("Adding {GameObject} to map", gameObject);
-                            map.AddEntity(gameObject);
-                        }
-                    }
-                }
-            }
-        }
-    }
 
     private IGameObject? CreateGameObject(MapLayerType layer, string id, Point position)
     {
