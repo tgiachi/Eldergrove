@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+<a name="0.2.0"></a>
+## [0.2.0](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.2.0) (2024-10-17)
+
+### Features
+
+* **DoorComponent.cs:** add message logging for door open/close events to enhance user feedback ([c2de00a](https://www.github.com/tgiachi/Eldergrove/commit/c2de00ae8a08d08866c6d3ea1db19aafdb31b4aa))
+* **logging:** implement message logging system with MessageLogEvent and MessageLogData ([d63202f](https://www.github.com/tgiachi/Eldergrove/commit/d63202fbc5223479382e4d287f3678f2515caaad))
+* **MapExtension:** add PreAllocatePoints method to generate a list of points based on width, height, and starting point for better area management ([dba3bd9](https://www.github.com/tgiachi/Eldergrove/commit/dba3bd942ddf3058bc4cbcc74da1d3ac8450b188))
+* **MapGenService:** implement town generation logic in MapGenService to support new map type ([c1e619d](https://www.github.com/tgiachi/Eldergrove/commit/c1e619d53678771d43fd597f0f873318a2109410))
+
+### Bug Fixes
+
+* **MapFabricObject:** update Width and Height properties to use ToArray for accurate dimensions ([ad312de](https://www.github.com/tgiachi/Eldergrove/commit/ad312debd771903fc3e25d2695ef28d8277aea24))
+
 <a name="0.2.0-alpha.5"></a>
 ## [0.2.0-alpha.5](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.2.0-alpha.5) (2024-10-16)
 
