@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+<a name="0.3.0-alpha.0"></a>
+## [0.3.0-alpha.0](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.3.0-alpha.0) (2024-10-17)
+
+### Features
+
+* **components:** add DestroyComponent and PropHealthComponent to manage destruction and health of props ([6fd5bb0](https://www.github.com/tgiachi/Eldergrove/commit/6fd5bb011691ad06617ad9ef489762ee4e460454))
+* **InventoryComponent:** add InventoryComponent to manage items for game objects ([f9508bd](https://www.github.com/tgiachi/Eldergrove/commit/f9508bdb45acf8aa1e39e2cee6595bc98e766f21))
+* **JsonPortalObject:** add JsonPortalObject class to represent portal data in JSON format ([6fba208](https://www.github.com/tgiachi/Eldergrove/commit/6fba20803114ee25bcc41ff89d3882e4f561d1ef))
+
 <a name="0.2.0"></a>
 ## [0.2.0](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.2.0) (2024-10-17)
 
