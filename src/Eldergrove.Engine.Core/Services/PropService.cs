@@ -116,7 +116,6 @@ public class PropService : IPropService
             gameObject.GoRogueComponents.Add(new DestroyComponent(_itemService.GetRandomItems(prop.OnDestroy).ToList()));
         }
 
-
         _tileService.BuildTileAnimation(gameObject, tile);
 
 

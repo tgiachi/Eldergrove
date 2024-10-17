@@ -82,7 +82,7 @@ public class ItemService : IItemService
 
         foreach (var random in randomBag)
         {
-            var count = RandomUtils.RandomRange(random.Min, random.Max);
+            var count = random.GetRandomValue();
 
             for (var i = 0; i < count; i++)
             {
