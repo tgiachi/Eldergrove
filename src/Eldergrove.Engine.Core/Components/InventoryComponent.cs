@@ -1,13 +1,14 @@
 using Eldergrove.Engine.Core.GameObject;
+using GoRogue.GameFramework;
 using SadRogue.Integration.Components;
 
 namespace Eldergrove.Engine.Core.Components;
 
-public class ItemsContainerComponent : RogueLikeComponentBase<PropGameObject>
+public class InventoryComponent : RogueLikeComponentBase<IGameObject>
 {
     public List<ItemGameObject> Items { get; set; }
 
-    public ItemsContainerComponent(List<ItemGameObject> items) : base(false, false, false, false)
+    public InventoryComponent(List<ItemGameObject> items) : base(false, false, false, false)
     {
         Items = items;
     }

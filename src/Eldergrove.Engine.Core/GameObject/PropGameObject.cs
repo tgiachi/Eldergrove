@@ -12,8 +12,8 @@ public class PropGameObject : RogueLikeEntity, INamedComponent
     public bool CanDestroy { get; set; }
 
     public string Name { get; set; }
-    public bool IsContainer => GoRogueComponents.Contains<ItemsContainerComponent>();
-    public ItemsContainerComponent ItemsContainer => GoRogueComponents.GetFirst<ItemsContainerComponent>();
+    public bool IsContainer => GoRogueComponents.Contains<InventoryComponent>();
+    public InventoryComponent Inventory => GoRogueComponents.GetFirst<InventoryComponent>();
     public bool IsDoor => GoRogueComponents.Contains<DoorComponent>();
 
     public DoorComponent Door => GoRogueComponents.GetFirst<DoorComponent>();

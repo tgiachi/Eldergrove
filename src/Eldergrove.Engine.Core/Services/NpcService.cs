@@ -120,7 +120,7 @@ public class NpcService : INpcService
 
         if (npc.Container != null)
         {
-            gameObject.GoRogueComponents.Add(new ItemsContainerComponent(_itemService.GetRandomItems(npc.Container)));
+            gameObject.GoRogueComponents.Add(new InventoryComponent(_itemService.GetRandomItems(npc.Container)));
         }
 
 

@@ -12,6 +12,10 @@ return function()
             health = {
                 min = 10,
                 max = 20
+            },
+            gold = {
+                min = 100,
+                max = 10000
             }
         }
     })
@@ -28,7 +32,11 @@ return function()
         skills = {
             health = {
                 min = 10,
-                max = 20
+                max = 20,
+            },
+            gold = {
+                min = 100,
+                max = 10000
             }
         }
     })

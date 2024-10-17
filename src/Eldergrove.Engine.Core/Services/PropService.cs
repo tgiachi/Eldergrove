@@ -106,7 +106,7 @@ public class PropService : IPropService
         if (prop.Container != null)
         {
             var items = _itemService.GetRandomItems(prop.Container);
-            gameObject.GoRogueComponents.Add(new ItemsContainerComponent(items.ToList()));
+            gameObject.GoRogueComponents.Add(new InventoryComponent(items.ToList()));
         }
 
 

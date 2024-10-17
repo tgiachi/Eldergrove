@@ -31,8 +31,6 @@ public class SkillsComponent : RogueLikeComponentBase<NpcGameObject>
 
     public int Gold { get; set; }
 
-
-
     public void TakeDamage(int damage)
     {
 
