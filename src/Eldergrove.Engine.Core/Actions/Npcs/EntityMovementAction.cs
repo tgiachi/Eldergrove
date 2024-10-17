@@ -41,7 +41,7 @@ public class EntityMovementAction : AbstractSchedulerAction
 
         if (npc != null)
         {
-            return ActionResult.Fail(new EntityAttackAction(_entity, npc));
+            return ActionResult.Fail(new EntityNpcAttackAction(_entity, npc));
         }
 
 

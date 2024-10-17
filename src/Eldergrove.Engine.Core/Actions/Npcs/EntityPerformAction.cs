@@ -37,6 +37,11 @@ public class EntityPerformAction : AbstractSchedulerAction
             return ActionResult.Succeed();
         }
 
+        if (entity.CanDestroy)
+        {
+            return ActionResult.Fail(new EntityPropAttackAction(_entity, entity));
+        }
+
         return ActionResult.Fail();
     }
 }

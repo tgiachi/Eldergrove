@@ -1,4 +1,5 @@
 ﻿using Eldergrove.Engine.Core.Actions.Base;
+using Eldergrove.Engine.Core.Attributes.Actions;
 using Eldergrove.Engine.Core.Data.Action;
 using Eldergrove.Engine.Core.Data.Events;
 using Eldergrove.Engine.Core.Data.Json.Random;
@@ -11,7 +12,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Eldergrove.Engine.Core.Actions.Npcs;
 
-public class EntityAttackAction : AbstractSchedulerAction
+
+[SchedulerAction("entity_npc_attack")]
+public class EntityNpcAttackAction : AbstractSchedulerAction
 {
     private readonly NpcGameObject _source;
 
@@ -19,12 +22,12 @@ public class EntityAttackAction : AbstractSchedulerAction
 
     private readonly ILogger _logger;
 
-    public EntityAttackAction(NpcGameObject source, NpcGameObject target)
+    public EntityNpcAttackAction(NpcGameObject source, NpcGameObject target)
     {
         _source = source;
         _target = target;
 
-        _logger = EldergroveState.Engine.GetLogger<EntityAttackAction>();
+        _logger = EldergroveState.Engine.GetLogger<EntityNpcAttackAction>();
     }
 
     public override async Task<ActionResult> ExecuteAsync()

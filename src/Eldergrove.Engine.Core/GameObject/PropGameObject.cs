@@ -18,6 +18,9 @@ public class PropGameObject : RogueLikeEntity, INamedComponent
     public InventoryComponent Inventory => GoRogueComponents.GetFirst<InventoryComponent>();
     public bool IsDoor => GoRogueComponents.Contains<DoorComponent>();
 
+
+    public PropHealthComponent? Health => GoRogueComponents.GetFirstOrDefault<PropHealthComponent>();
+
     public DoorComponent Door => GoRogueComponents.GetFirst<DoorComponent>();
 
     public PropGameObject(
