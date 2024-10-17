@@ -29,6 +29,8 @@ public class PropHealthComponent : RogueLikeComponentBase<PropGameObject>
         if (Health <= 0)
         {
             Parent.Destroy();
+            Parent.CanDestroy = false;
+            Parent.CurrentMap.RemoveEntity(Parent);
         }
     }
 }

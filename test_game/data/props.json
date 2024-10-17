@@ -33,7 +33,13 @@
         "category": "torches",
         "symbol": "t_flame",
         "is_blocking": true,
-        "is_transparent": false
+        "is_transparent": false,
+        "is_destructible": true,
+        "destroy_health": {
+            "dice": "1d4"
+        },
+        "on_destroy": []
+
     },
     {
         "$type": "prop",
