@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+<a name="0.2.0-alpha.5"></a>
+## [0.2.0-alpha.5](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.2.0-alpha.5) (2024-10-16)
+
+### Features
+
+* **dialogs:** implement dialog system with nested options for NPC interactions ([e1c57fb](https://www.github.com/tgiachi/Eldergrove/commit/e1c57fb35fe1f9ef10b5b3ecbec377a7ba6c34e7))
+* **EntityAttackAction.cs:** add new class EntityAttackAction to handle NPC attacks ([a1c1086](https://www.github.com/tgiachi/Eldergrove/commit/a1c108620ca0cdd9828d1c4c4d9d2ff0343fc09f))
+* **GameConfig:** add SchedulerConfig to manage game scheduling settings ([a2194d3](https://www.github.com/tgiachi/Eldergrove/commit/a2194d3f57bd5c7f486a9dc5a411ba8456b467cb))
+* **JsonSkillsObject:** add Gold property to JsonSkillsObject for better resource management ([e238ee1](https://www.github.com/tgiachi/Eldergrove/commit/e238ee1418e732332d24654ba12c032e2d684636))
+* **npc-actions:** implement entity movement, perform actions, and search for entities to enhance NPC behavior ([4b404a1](https://www.github.com/tgiachi/Eldergrove/commit/4b404a14885eaa2b9bff1225764d7f19d876af76))
+* **NpcDieComponent:** add NpcDieComponent to handle NPC death and blood effects ([755f271](https://www.github.com/tgiachi/Eldergrove/commit/755f271ff19b65c3d7d895ae791f675a2aa1a10c))
+* **NpcDieComponent:** add random blood position generation within a radius to enhance visual effects on NPC death ([130a16b](https://www.github.com/tgiachi/Eldergrove/commit/130a16b1246567a10f1a4e7388c4db7d3cd82602))
+* **PlayerFOVController:** refactor OnAdded method to use block syntax for clarity ([1ffa117](https://www.github.com/tgiachi/Eldergrove/commit/1ffa1171345011306ac57d262a0b833664be7ec4))
+* **props.json:** add door properties to window object to define door states and their attributes ([4657f01](https://www.github.com/tgiachi/Eldergrove/commit/4657f0157edba16240e1de067b68117a7565d97b))
+* **SkillsComponent:** add new attributes for character skills and alignment type to enhance gameplay mechanics ([a59aaf1](https://www.github.com/tgiachi/Eldergrove/commit/a59aaf148d048e85c1f6fcd57f45bf05cf339823))
+* **TileAnimationComponent:** enhance tile animation with color transition support for foreground and background colors ([5957b86](https://www.github.com/tgiachi/Eldergrove/commit/5957b866450a4c44123a6f2eb378331cd817e628))
+* **TileService:** add handling for tile symbols starting with "!!" and "##" to enhance tile processing logic ([c37e503](https://www.github.com/tgiachi/Eldergrove/commit/c37e50397a61845982391f5decfdc830662a740f))
+* **TimedRemoveComponent:** add TimedRemoveComponent to handle timed entity removal in the game ([159d27e](https://www.github.com/tgiachi/Eldergrove/commit/159d27e4a8577fc37bfadb39405269b89bc45be1))
+
 <a name="0.2.0-alpha.4"></a>
 ## [0.2.0-alpha.4](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.2.0-alpha.4) (2024-10-14)
 

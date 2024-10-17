@@ -1,14 +1,15 @@
 using SadConsole;
+using SadRogue.Integration;
 using SadRogue.Integration.Components;
 
 namespace Eldergrove.Engine.Core.Components;
 
-public class TimedRemoveComponent : RogueLikeComponentBase<GoRogue.GameFramework.GameObject>
+public class TimedRemoveComponent : RogueLikeComponentBase<RogueLikeEntity>
 {
     private TimeSpan _timeToLive;
 
 
-    protected TimedRemoveComponent(TimeSpan timeToLive) : base(true, false, false, false)
+    public TimedRemoveComponent(TimeSpan timeToLive) : base(true, false, false, false)
     {
         _timeToLive = timeToLive;
     }

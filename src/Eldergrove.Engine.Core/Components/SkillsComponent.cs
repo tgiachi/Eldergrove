@@ -6,6 +6,9 @@ namespace Eldergrove.Engine.Core.Components;
 
 public class SkillsComponent : RogueLikeComponentBase<NpcGameObject>
 {
+
+    public bool IsAlive => Health > 0;
+
     public int Health { get; set; }
 
     public int Strength { get; set; }
@@ -32,6 +35,7 @@ public class SkillsComponent : RogueLikeComponentBase<NpcGameObject>
 
     public void TakeDamage(int damage)
     {
+
         Health -= damage;
 
         if (Health <= 0)

@@ -16,6 +16,7 @@ using GoRogue.GameFramework;
 using GoRogue.MapGeneration;
 using Microsoft.Extensions.Logging;
 using SadConsole;
+using SadRogue.Integration;
 using SadRogue.Primitives;
 using SadRogue.Primitives.GridViews;
 using SadRogue.Primitives.SpatialMaps;
@@ -119,17 +120,111 @@ public class MapGenService : IMapGenService
         var stopWatch = Stopwatch.StartNew();
 
 
+        if (mapGenerator.GeneratorType == MapGeneratorType.Town)
+        {
+            await GenerateTownAsync(mapGenerator);
+        }
+        else
+        {
+            await GenerateContainerAsync(mapGenerator);
+        }
+
+
+        _messageBusService.Publish(new MapGeneratedEvent(CurrentMap));
+
+        stopWatch.Stop();
+        _logger.LogDebug("Map generated in {Elapsed}ms", stopWatch.ElapsedMilliseconds);
+
+        return CurrentMap;
+    }
+
+
+    private async Task GenerateTownAsync(MapGeneratorObject mapGenerator)
+    {
         var generator = new Generator(_gameConfig.Map.Width, _gameConfig.Map.Height)
             .ConfigAndGenerateSafe(
                 gen =>
                 {
-                    if (mapGenerator.GeneratorType == MapGeneratorType.Container)
+                    gen.AddSteps(
+                        DefaultAlgorithms.RectangleMapSteps()
+                    );
+                }
+            );
+
+        generator.Generate();
+
+
+        var (wallGlyph, wallTile) = _tileService.GetTileWithEntry(mapGenerator.Wall);
+        var (floorGlyph, floorTile) = _tileService.GetTileWithEntry(mapGenerator.Floor);
+
+        CurrentMap = new GameMap(_gameConfig.Map.Width, _gameConfig.Map.Height, null);
+
+        CurrentMap.AllComponents.Add(new TerrainFOVVisibilityHandler());
+
+        var generatedMap = generator.Context.GetFirst<ISettableGridView<bool>>("WallFloor");
+
+        CurrentMap.ObjectAdded += OnEntityAdded;
+        CurrentMap.ObjectRemoved += OnEntityRemoved;
+
+        CurrentMap.ApplyTerrainOverlay(
+            generatedMap,
+            (pos, val) =>
+                val
+                    ? new TerrainGameObject(pos, floorGlyph, floorTile.Id)
+                    : new TerrainGameObject(pos, wallGlyph, wallTile.Id, false)
+        );
+
+        var centerOnMap = new Point(1, CurrentMap.Height / 2);
+
+
+        foreach (var fabric in mapGenerator.Fabrics)
+        {
+            var fabricCount = fabric.GetRandomValue();
+
+            _logger.LogDebug("Generating fabric {Fabric} {Count} times", fabric.Id, fabricCount);
+            foreach (var _ in Enumerable.Range(0, fabricCount))
+            {
+                var fabricObject = GetFabric(fabric.Id);
+
+                centerOnMap += new Point(fabricObject.Height + 10, 0);
+
+                _logger.LogDebug("Creating fabric on position {Center} {Witdh}", centerOnMap, fabricObject.Width);
+
+
+                var fabricResult = GenerateFabricAsync(
+                    fabricObject,
+                    (wallGlyph, wallTile),
+                    (floorGlyph, floorTile),
+                    centerOnMap
+                );
+
+                foreach (var layer in fabricResult.Keys)
+                {
+                    foreach (var gameObject in fabricResult[layer])
                     {
-                        _logger.LogDebug("Using container generator");
-                        gen.AddSteps(
-                            DefaultAlgorithms.RectangleMapSteps()
-                        );
+                        if (gameObject is TerrainGameObject)
+                        {
+                            CurrentMap.SetTerrain(gameObject);
+                        }
+                        else
+                        {
+                            CurrentMap.AddEntity(gameObject);
+                        }
                     }
+                }
+            }
+        }
+    }
+
+    private async Task GenerateContainerAsync(MapGeneratorObject mapGenerator)
+    {
+        var generator = new Generator(_gameConfig.Map.Width, _gameConfig.Map.Height)
+            .ConfigAndGenerateSafe(
+                gen =>
+                {
+                    gen.AddSteps(
+                        DefaultAlgorithms.RectangleMapSteps()
+                    );
                 }
             );
 
@@ -170,13 +265,6 @@ public class MapGenService : IMapGenService
                 GenerateFabric(fabricObject, CurrentMap, (wallGlyph, wallTile), (floorGlyph, floorTile));
             }
         }
-
-        _messageBusService.Publish(new MapGeneratedEvent(CurrentMap));
-
-        stopWatch.Stop();
-        _logger.LogDebug("Map generated in {Elapsed}ms", stopWatch.ElapsedMilliseconds);
-
-        return CurrentMap;
     }
 
     private void OnEntityRemoved(object? sender, ItemEventArgs<IGameObject> e)
@@ -235,13 +323,68 @@ public class MapGenService : IMapGenService
             throw new InvalidOperationException("Fabric not found named " + idOrCategory);
         }
 
-        if (fabric.CanRotate)
+        if (fabric.CanRotate && fabric.Area >= 16)
         {
             fabric.Fabric = fabric.Fabric.RandomRotateFabric();
         }
 
 
         return fabric;
+    }
+
+    private Dictionary<MapLayerType, List<IGameObject>> GenerateFabricAsync(
+        MapFabricObject fabric, (ColoredGlyph, TileEntry) wall, (ColoredGlyph, TileEntry) floor, Point? startingPoint = null
+    )
+    {
+        var result = Enum.GetValues<MapLayerType>().ToDictionary(mapLayer => mapLayer, _ => new List<IGameObject>());
+
+        var points = new List<Point>();
+
+        if (startingPoint == null)
+        {
+            points.AddRange(CurrentMap.FindFreeArea(fabric.Width, fabric.Height));
+        }
+        else
+        {
+            points.AddRange(MapExtension.PreAllocatePoints(fabric.Width, fabric.Height, startingPoint.Value));
+        }
+
+        var fabricArray = fabric.ToArray;
+
+        for (int x = 0; x < fabric.Width; x++)
+        {
+            for (int y = 0; y < fabric.Height; y++)
+            {
+                var realX = points[0].X + x;
+                var realY = points[0].Y + y;
+
+                var tile = fabricArray[y][x].ToString();
+
+                var isWall = tile == fabric.Wall.Symbol;
+
+                var (glyph, tileEntry) = isWall ? wall : floor;
+
+                var terrain = new TerrainGameObject(new Point(realX, realY), glyph, tileEntry.Id, !isWall, !isWall);
+
+                result[MapLayerType.Terrain].Add(terrain);
+
+
+                foreach (var layer in fabric.Layers.Keys)
+                {
+                    if (fabric.Layers[layer].TryGetValue(tile, out var id))
+                    {
+                        var gameObject = CreateGameObject(layer, id, new Point(realX, realY));
+                        if (gameObject != null)
+                        {
+                            _logger.LogDebug("Creating {GameObject}", gameObject);
+                            result[layer].Add(gameObject);
+                        }
+                    }
+                }
+            }
+        }
+
+        return result;
     }
 
 

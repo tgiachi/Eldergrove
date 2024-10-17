@@ -1,19 +1,46 @@
+using Eldergrove.Engine.Core.Data.Events;
+using Eldergrove.Engine.Core.Data.MessageLog;
+using Eldergrove.Engine.Core.Interfaces.Services;
+using Eldergrove.Engine.Core.State;
+using Eldergrove.Engine.Core.Types;
+using GoRogue.Messaging;
 using SadConsole;
+using SadRogue.Primitives;
 using Console = SadConsole.Console;
 
 namespace Eldergrove.Ui.Core.Controls;
 
-public class MessageLogControl : Console
+public class MessageLogControl : Console, ISubscriber<MessageLogEvent>
 {
+    private readonly List<MessageLogData> _messages = new();
+
+    private int _currentIndex;
+
+    protected int visibleLines => Height - 2;
+
     public MessageLogControl(int width, int height) : base(width, height)
     {
-        Draw();
+        DrawBorder();
+        EldergroveState.Engine.GetService<IMessageBusService>().Subscribe(this);
     }
 
     public void Draw()
     {
-        this.Clear();
-        DrawBorder();
+        var messagesToShow = _messages.Skip(_currentIndex).Take(visibleLines).ToList();
+
+        for (int i = 0; i < messagesToShow.Count; i++)
+        {
+            var message = messagesToShow[i];
+            var messageColor = message.Type switch
+            {
+                MessageLogType.Info     => Color.White,
+                MessageLogType.Attack   => Color.Yellow,
+                MessageLogType.Critical => Color.Red,
+                _                       => Color.White
+            };
+
+            this.Print(1, i + 1, message.Message, messageColor);
+        }
     }
 
     private void DrawBorder()
@@ -41,5 +68,17 @@ public class MessageLogControl : Console
             this.SetGlyph(0, y, vertical);         // Left border
             this.SetGlyph(Width - 1, y, vertical); // Right border
         }
+    }
+
+    public void Handle(MessageLogEvent message)
+    {
+        _messages.Add(message.Data);
+
+        if (_messages.Count > visibleLines)
+        {
+            _currentIndex = _messages.Count - visibleLines;
+        }
+
+        Draw();
     }
 }
