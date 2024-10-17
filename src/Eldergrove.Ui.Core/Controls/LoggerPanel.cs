@@ -15,7 +15,7 @@ public class LoggerPanel : Console, ISubscriber<LoggerEvent>
 
     private readonly List<LoggerEvent> _events = new();
 
-        //kdprivate int _startingIndex = 0;
+        private int _startingIndex = 0;
 
 
     public LoggerPanel(int width, int height) : base(width, height)
