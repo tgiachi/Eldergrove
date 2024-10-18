@@ -1,4 +1,5 @@
-﻿using Eldergrove.Engine.Core.Data.Game;
+﻿using Eldergrove.Engine.Core.Data.Events;
+using Eldergrove.Engine.Core.Data.Game;
 using Eldergrove.Engine.Core.Data.Internal;
 using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.Interfaces.Services;
@@ -93,6 +94,21 @@ async void Game_Started(object? sender, GameHost host)
                 Game.Instance.StartingConsole.Children.Add(sideControl);
                 Game.Instance.StartingConsole.Children.Add(messageLogControl);
                 Game.Instance.StartingConsole.Children.Add(map);
+            }
+        );
+
+    engine.GetService<IEventDispatcherService>()
+        .SubscribeToEvent(
+            "gui_pick_up_request",
+            o =>
+            {
+                var message = o as GuiPickUpRequestEvent;
+
+                var pickUp = new PickUpControl(30, 40, message.Player, message.Items);
+
+                pickUp.Position = new Point(host.ScreenCellsX / 2 - 40, host.ScreenCellsY / 2 - 30);
+
+                Game.Instance.StartingConsole.Children.Add(pickUp);
             }
         );
 
