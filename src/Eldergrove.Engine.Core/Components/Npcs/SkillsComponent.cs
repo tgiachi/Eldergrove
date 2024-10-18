@@ -2,7 +2,7 @@ using Eldergrove.Engine.Core.GameObject;
 using Eldergrove.Engine.Core.Types;
 using SadRogue.Integration.Components;
 
-namespace Eldergrove.Engine.Core.Components;
+namespace Eldergrove.Engine.Core.Components.Npcs;
 
 public class SkillsComponent : RogueLikeComponentBase<NpcGameObject>
 {

@@ -2,7 +2,7 @@ using Eldergrove.Engine.Core.GameObject;
 using GoRogue.GameFramework;
 using SadRogue.Integration.Components;
 
-namespace Eldergrove.Engine.Core.Components;
+namespace Eldergrove.Engine.Core.Components.Common;
 
 public class InventoryComponent : RogueLikeComponentBase<IGameObject>
 {

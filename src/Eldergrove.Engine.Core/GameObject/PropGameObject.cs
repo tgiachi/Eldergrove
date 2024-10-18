@@ -1,4 +1,6 @@
 using Eldergrove.Engine.Core.Components;
+using Eldergrove.Engine.Core.Components.Common;
+using Eldergrove.Engine.Core.Components.Props;
 using Eldergrove.Engine.Core.Interfaces.Components;
 using Eldergrove.Engine.Core.Types;
 using SadConsole;

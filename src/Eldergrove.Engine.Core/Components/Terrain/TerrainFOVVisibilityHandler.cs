@@ -1,7 +1,7 @@
 using Eldergrove.Engine.Core.GameObject;
 using SadRogue.Integration.FieldOfView.Memory;
 
-namespace Eldergrove.Engine.Core.Components;
+namespace Eldergrove.Engine.Core.Components.Terrain;
 
 public class TerrainFOVVisibilityHandler : MemoryFieldOfViewHandlerBase
 {

@@ -8,7 +8,7 @@ using Eldergrove.Engine.Core.Types;
 using SadConsole;
 using SadRogue.Integration.Components;
 
-namespace Eldergrove.Engine.Core.Components;
+namespace Eldergrove.Engine.Core.Components.Props;
 
 public class DoorComponent : RogueLikeComponentBase<PropGameObject>, IActionableComponent
 {

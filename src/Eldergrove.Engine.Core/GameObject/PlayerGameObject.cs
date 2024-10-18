@@ -1,4 +1,5 @@
 using Eldergrove.Engine.Core.Components;
+using Eldergrove.Engine.Core.Components.Npcs;
 using SadConsole;
 using SadRogue.Primitives;
 

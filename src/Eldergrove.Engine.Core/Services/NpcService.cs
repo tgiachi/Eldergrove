@@ -1,5 +1,8 @@
 using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Components;
+using Eldergrove.Engine.Core.Components.Ai;
+using Eldergrove.Engine.Core.Components.Common;
+using Eldergrove.Engine.Core.Components.Npcs;
 using Eldergrove.Engine.Core.Contexts;
 using Eldergrove.Engine.Core.Data.Events;
 using Eldergrove.Engine.Core.Data.Game;

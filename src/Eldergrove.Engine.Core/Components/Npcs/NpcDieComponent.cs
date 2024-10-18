@@ -1,3 +1,4 @@
+using Eldergrove.Engine.Core.Components.Common;
 using Eldergrove.Engine.Core.Data.Json.Random;
 using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.GameObject;
@@ -8,7 +9,7 @@ using SadConsole;
 using SadRogue.Integration.Components;
 using SadRogue.Primitives;
 
-namespace Eldergrove.Engine.Core.Components;
+namespace Eldergrove.Engine.Core.Components.Npcs;
 
 public class NpcDieComponent : RogueLikeComponentBase<NpcGameObject>
 {

@@ -1,4 +1,5 @@
 using Eldergrove.Engine.Core.Components;
+using Eldergrove.Engine.Core.Components.Npcs;
 using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.GameObject;
 using Eldergrove.Engine.Core.Interfaces.Manager;

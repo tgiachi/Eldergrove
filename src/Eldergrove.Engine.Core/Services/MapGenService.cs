@@ -1,6 +1,8 @@
 using System.Diagnostics;
 using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Components;
+using Eldergrove.Engine.Core.Components.Npcs;
+using Eldergrove.Engine.Core.Components.Terrain;
 using Eldergrove.Engine.Core.Data.Events;
 using Eldergrove.Engine.Core.Data.Game;
 using Eldergrove.Engine.Core.Data.Json.Maps;

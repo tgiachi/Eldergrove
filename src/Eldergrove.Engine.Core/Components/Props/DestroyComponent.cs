@@ -3,7 +3,7 @@ using Eldergrove.Engine.Core.GameObject;
 using SadRogue.Integration.Components;
 using SadRogue.Primitives;
 
-namespace Eldergrove.Engine.Core.Components;
+namespace Eldergrove.Engine.Core.Components.Props;
 
 public class DestroyComponent : RogueLikeComponentBase<PropGameObject>
 {
@@ -14,7 +14,7 @@ public class DestroyComponent : RogueLikeComponentBase<PropGameObject>
         Items = items;
 
 
-       Added += ParentOnAdded;
+        Added += ParentOnAdded;
     }
 
     private void ParentOnAdded(object? sender, EventArgs e)
@@ -24,10 +24,14 @@ public class DestroyComponent : RogueLikeComponentBase<PropGameObject>
 
     private void ParentOnDestroyed(object? sender, object e)
     {
-        var radiusPos = Radius.Circle.PositionsInRadius(Parent.Position, 2);
+        var radiusPos = Radius.Circle.PositionsInRadius(Parent.Position, 2).RandomElements(Items.Count).ToList();
 
+        for (int i = 0; i < Items.Count; i++)
+        {
+            var item = Items[i];
+            item.Position = radiusPos[i];
 
-      radiusPos.RandomElements()
-
+            Parent.CurrentMap.AddEntity(item);
+        }
     }
 }

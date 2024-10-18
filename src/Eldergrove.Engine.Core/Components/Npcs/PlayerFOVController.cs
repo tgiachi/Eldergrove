@@ -3,7 +3,7 @@ using SadRogue.Integration;
 using SadRogue.Integration.Components;
 using SadRogue.Primitives;
 
-namespace Eldergrove.Engine.Core.Components;
+namespace Eldergrove.Engine.Core.Components.Npcs;
 
 public class PlayerFOVController : RogueLikeComponentBase<RogueLikeEntity>
 {

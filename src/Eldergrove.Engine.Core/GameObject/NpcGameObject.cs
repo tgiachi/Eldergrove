@@ -1,4 +1,6 @@
 using Eldergrove.Engine.Core.Components;
+using Eldergrove.Engine.Core.Components.Ai;
+using Eldergrove.Engine.Core.Components.Npcs;
 using Eldergrove.Engine.Core.Interfaces.Actions;
 using Eldergrove.Engine.Core.Interfaces.Components;
 using Eldergrove.Engine.Core.Types;

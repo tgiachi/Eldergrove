@@ -2,7 +2,7 @@ using SadConsole;
 using SadRogue.Integration;
 using SadRogue.Integration.Components;
 
-namespace Eldergrove.Engine.Core.Components;
+namespace Eldergrove.Engine.Core.Components.Common;
 
 public class TimedRemoveComponent : RogueLikeComponentBase<RogueLikeEntity>
 {

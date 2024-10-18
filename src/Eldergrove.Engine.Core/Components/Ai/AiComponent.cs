@@ -5,7 +5,7 @@ using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Maps;
 using SadRogue.Integration.Components;
 
-namespace Eldergrove.Engine.Core.Components;
+namespace Eldergrove.Engine.Core.Components.Ai;
 
 public class AiComponent : RogueLikeComponentBase<NpcGameObject>
 {

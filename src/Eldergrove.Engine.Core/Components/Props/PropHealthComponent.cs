@@ -1,7 +1,7 @@
 using Eldergrove.Engine.Core.GameObject;
 using SadRogue.Integration.Components;
 
-namespace Eldergrove.Engine.Core.Components;
+namespace Eldergrove.Engine.Core.Components.Props;
 
 public class PropHealthComponent : RogueLikeComponentBase<PropGameObject>
 {

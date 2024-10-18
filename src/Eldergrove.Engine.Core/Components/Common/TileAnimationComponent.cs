@@ -2,9 +2,8 @@ using SadConsole;
 using SadRogue.Integration;
 using SadRogue.Integration.Components;
 using SadRogue.Primitives;
-using Serilog;
 
-namespace Eldergrove.Engine.Core.Components;
+namespace Eldergrove.Engine.Core.Components.Common;
 
 public class TileAnimationComponent : RogueLikeComponentBase<RogueLikeEntity>
 {
