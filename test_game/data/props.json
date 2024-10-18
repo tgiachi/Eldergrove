@@ -38,6 +38,7 @@
         "destroy_health": {
             "dice": "1d4"
         },
+        "container": [],
         "on_destroy": []
 
     },

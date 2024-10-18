@@ -7,6 +7,7 @@ return function ()
 
     register_keybinding("map", "F1", "toggle_debug")
 
+    register_keybinding("map", "P", "player_pickup")
 
     register_keybinding("map", "Space", "player_search")
 
