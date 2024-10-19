@@ -1,4 +1,5 @@
 using Eldergrove.Engine.Core.GameObject;
+using Eldergrove.Ui.Core.Controls.Base;
 using SadConsole;
 using SadConsole.Input;
 using SadConsole.UI;
@@ -7,7 +8,7 @@ using SadRogue.Primitives;
 
 namespace Eldergrove.Ui.Core.Controls;
 
-public class PickUpControl : ControlsConsole
+public class PickUpControl : BaseGuiControl
 {
     private readonly PlayerGameObject _playerGameObject;
 
@@ -60,6 +61,8 @@ public class PickUpControl : ControlsConsole
         Controls.Add(_leftListBox);
         Controls.Add(_rightListBox);
 
+
+        ToCenter();
         PopulateListBoxes();
     }
 

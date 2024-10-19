@@ -57,6 +57,8 @@ async void Game_Started(object? sender, GameHost host)
     //Game.Instance.StartingConsole.Font = host.Fonts["C64"];
 
 
+    EldergroveState.ScreenSize = new Point(host.ScreenCellsX, host.ScreenCellsY);
+
     engine.GetService<IEventDispatcherService>()
         .SubscribeToEvent(
             "map_generated",
