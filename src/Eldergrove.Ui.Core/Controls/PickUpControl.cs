@@ -27,17 +27,13 @@ public class PickUpControl : ControlsConsole
         _playerGameObject = playerGameObject;
         _items = items;
 
-        _window = new Window(width, height)
-        {
-            Position = new Point(0, 0),
-            Title = "Pick Up",
-            UseMouse = true,
-            UseKeyboard = true,
-            IsVisible = true,
-            IsEnabled = true,
-        };
+        //Center of screen
 
 
+        this.DrawBox(
+            new Rectangle(2, 2, Width, Height),
+            ShapeParameters.CreateStyledBoxThin(Color.Aqua)
+        );
 
 
         _leftListBox = new ListBox(width / 2, height)
@@ -60,10 +56,9 @@ public class PickUpControl : ControlsConsole
             IsEnabled = true,
         };
 
-        Children.Add(_window);
 
-        _window.Controls.Add(_leftListBox);
-        _window.Controls.Add(_rightListBox);
+        Controls.Add(_leftListBox);
+        Controls.Add(_rightListBox);
 
         PopulateListBoxes();
     }

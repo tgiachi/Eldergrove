@@ -106,7 +106,11 @@ async void Game_Started(object? sender, GameHost host)
 
                 var pickUp = new PickUpControl(30, 40, message.Player, message.Items);
 
-                pickUp.Position = new Point(host.ScreenCellsX / 2 - 40, host.ScreenCellsY / 2 - 30);
+                // Center of screen
+                pickUp.Position = new Point(
+                    (host.ScreenCellsX / 2) - (pickUp.Width / 2),
+                    (host.ScreenCellsY / 2) - (pickUp.Height / 2)
+                );
 
                 Game.Instance.StartingConsole.Children.Add(pickUp);
             }
