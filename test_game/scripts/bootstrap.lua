@@ -5,7 +5,7 @@ local npc_seed = require "seed.npcs"
 local brain_seed = require "seed.brains"
 local keybinding = require "seed.keybindings"
 
-set_game_config({
+game_config({
     title_name = "Eldergrove",
     map = {
         generator_id = "default",
