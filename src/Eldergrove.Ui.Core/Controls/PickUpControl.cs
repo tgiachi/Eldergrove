@@ -32,8 +32,8 @@ public class PickUpControl : BaseGuiControl
 
 
         this.DrawBox(
-            new Rectangle(2, 2, Width, Height),
-            ShapeParameters.CreateStyledBoxThin(Color.Aqua)
+            new Rectangle(0, 0, Width, Height),
+            ShapeParameters.CreateBorder(new ColoredGlyph(Color.White, Color.Black, 205), true)
         );
 
 

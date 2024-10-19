@@ -106,7 +106,7 @@ async void Game_Started(object? sender, GameHost host)
             {
                 var message = o as GuiPickUpRequestEvent;
 
-                var pickUp = new PickUpControl(30, 40, message.Player, message.Items);
+                var pickUp = new PickUpControl(15, 15, message.Player, message.Items);
 
                 // Center of screen
                 pickUp.Position = new Point(
