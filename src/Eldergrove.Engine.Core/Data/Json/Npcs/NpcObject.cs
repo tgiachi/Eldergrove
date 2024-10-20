@@ -36,5 +36,7 @@ public class NpcObject
 
     public JsonSkillsObject Skills { get; set; }
 
+    public List<JsonRandomObject>? SellableItems { get; set; }
+
     public List<JsonRandomObject>? Container { get; set; }
 }

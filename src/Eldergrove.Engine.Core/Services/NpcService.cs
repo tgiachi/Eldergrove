@@ -127,6 +127,12 @@ public class NpcService : INpcService
         }
 
 
+        if (npc.SellableItems != null)
+        {
+            gameObject.GoRogueComponents.Add(new ShopComponent(_itemService.GetRandomItems(npc.SellableItems)));
+        }
+
+
         var skills = new SkillsComponent
         {
             Health = npc.Skills.Health.GetRandomValue(),
