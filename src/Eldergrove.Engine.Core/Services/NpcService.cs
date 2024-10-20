@@ -106,7 +106,7 @@ public class NpcService : INpcService
 
         var name = npc.Name;
 
-        if (name.StartsWith("@"))
+        if (name.StartsWith('@'))
         {
             name = _nameGeneratorService.GenerateName(name[1..]);
         }

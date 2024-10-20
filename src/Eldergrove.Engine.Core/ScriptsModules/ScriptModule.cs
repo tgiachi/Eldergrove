@@ -44,7 +44,7 @@ public class ScriptModule
     }
 
 
-    [ScriptFunction("set_game_config", "Set game config")]
+    [ScriptFunction("game_config", "Set game config")]
     public void SetGameConfig(object value)
     {
         _scriptEngineService.AddContextVariable("game_config", value);

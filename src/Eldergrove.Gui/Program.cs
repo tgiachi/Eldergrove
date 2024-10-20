@@ -118,6 +118,8 @@ async void Game_Started(object? sender, GameHost host)
             }
         );
 
+    EldergroveState.DefaultUiFont = host.Fonts["C64"];
+
     Game.Instance.StartingConsole.Clear();
 
     Game.Instance.StartingConsole.Children.Add(new LoadingPanel(host.ScreenCellsX, host.ScreenCellsY));

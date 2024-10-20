@@ -1,4 +1,5 @@
 using Eldergrove.Engine.Core.State;
+using SadConsole;
 using SadConsole.UI;
 using SadRogue.Primitives;
 
@@ -10,6 +11,7 @@ public class BaseGuiControl : ControlsConsole
 {
     public BaseGuiControl(int width, int height) : base(width, height)
     {
+        Font = EldergroveState.DefaultUiFont;
     }
 
 

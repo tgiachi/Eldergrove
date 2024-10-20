@@ -8,11 +8,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="SadConsole" Version="10.4.1" />
+        <PackageReference Include="SadConsole" Version="10.4.1"/>
+      
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Eldergrove.Engine.Core\Eldergrove.Engine.Core.csproj" />
+        <ProjectReference Include="..\Eldergrove.Engine.Core\Eldergrove.Engine.Core.csproj"/>
     </ItemGroup>
 
 </Project>
