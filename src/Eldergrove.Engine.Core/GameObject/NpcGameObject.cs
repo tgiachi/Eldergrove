@@ -14,6 +14,7 @@ public class NpcGameObject : RogueLikeEntity, INamedComponent, IActionableEntity
 {
     public string Name { get; set; }
 
+    public bool IsDead { get; set; }
 
     public event EventHandler<object> Die;
 

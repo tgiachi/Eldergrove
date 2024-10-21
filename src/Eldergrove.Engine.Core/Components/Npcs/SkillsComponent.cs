@@ -39,6 +39,7 @@ public class SkillsComponent : RogueLikeComponentBase<NpcGameObject>
         if (Health <= 0)
         {
             Parent.OnDie();
+            Parent.IsDead = true;
         }
     }
 

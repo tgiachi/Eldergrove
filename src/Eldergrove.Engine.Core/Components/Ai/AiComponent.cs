@@ -32,6 +32,12 @@ public class AiComponent : RogueLikeComponentBase<NpcGameObject>
             return null;
         }
 
+
+        if (Parent.IsDead)
+        {
+            return null;
+        }
+
         _context.Map = (GameMap)Parent.CurrentMap;
         _context.Player = _npcService.Player;
         _context.Entity = Parent;
