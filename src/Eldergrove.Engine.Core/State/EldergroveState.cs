@@ -1,3 +1,4 @@
+using Eldergrove.Engine.Core.Data.Game;
 using Eldergrove.Engine.Core.Interfaces.Manager;
 using SadConsole;
 using SadRogue.Primitives;
@@ -8,6 +9,8 @@ public static class EldergroveState
 {
     public static IEldergroveEngine? Engine { get; set; } = null!;
 
+
+    public static GameConfig GameConfig { get; set; }
 
     public static IFont DefaultUiFont { get; set; } = null!;
 

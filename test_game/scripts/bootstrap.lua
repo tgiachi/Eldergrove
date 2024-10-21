@@ -21,6 +21,9 @@ game_config({
     scheduler = {
         is_turn_based = true
 
+    },
+    fonts = {
+        gui_font = "Fonts/Cheepicus12.font"
     }
 })
 

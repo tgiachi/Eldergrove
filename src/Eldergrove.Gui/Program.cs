@@ -59,6 +59,7 @@ async void Game_Started(object? sender, GameHost host)
 
     EldergroveState.ScreenSize = new Point(host.ScreenCellsX, host.ScreenCellsY);
 
+
     engine.GetService<IEventDispatcherService>()
         .SubscribeToEvent(
             "map_generated",
@@ -118,7 +119,6 @@ async void Game_Started(object? sender, GameHost host)
             }
         );
 
-    EldergroveState.DefaultUiFont = host.Fonts["C64"];
 
     Game.Instance.StartingConsole.Clear();
 
@@ -128,7 +128,11 @@ async void Game_Started(object? sender, GameHost host)
 
     await engine.InitializeAsync();
 
-    Settings.WindowTitle = EldergroveState.Engine.GetService<IScriptEngineService>()
-        .GetContextVariable<GameConfig>("game_config")
-        .TitleName;
+    EldergroveState.GameConfig = EldergroveState.Engine.GetService<IScriptEngineService>()
+        .GetContextVariable<GameConfig>("game_config");
+
+
+    Settings.WindowTitle = EldergroveState.GameConfig.TitleName;
+
+    EldergroveState.DefaultUiFont = host.LoadFont(EldergroveState.GameConfig.Fonts.GuiFont);
 }

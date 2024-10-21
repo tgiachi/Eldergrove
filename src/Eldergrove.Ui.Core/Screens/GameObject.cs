@@ -32,7 +32,6 @@ public class GameObject : ScreenObject
 
     public GameObject(IEldergroveEngine eldergroveEngine, int width, int height)
     {
-
         _eldergroveEngine = eldergroveEngine;
 
         _mapGenService = _eldergroveEngine.GetService<IMapGenService>();
@@ -57,7 +56,6 @@ public class GameObject : ScreenObject
         _currentMap.AddEntity(_npcService.Player);
 
 
-
         IsFocused = true;
         UseKeyboard = true;
 
@@ -73,39 +71,5 @@ public class GameObject : ScreenObject
     public override bool ProcessKeyboard(Keyboard keyboard)
     {
         return _keyActionCommandService.ExecuteKeybinding("map", keyboard.ToKeybindingData());
-
-        // if (keyboard.IsKeyPressed(Keys.Up))
-        // {
-        //     _schedulerService.AddAction(new EntityMovementAction(Direction.Up, _npcService.Player));
-        //     _schedulerService.TickAsync();
-        //
-        //     return true;
-        // }
-        //
-        // if (keyboard.IsKeyPressed(Keys.Down))
-        // {
-        //     _schedulerService.AddAction(new EntityMovementAction(Direction.Down, _npcService.Player));
-        //     _schedulerService.TickAsync();
-        //
-        //     return true;
-        // }
-        //
-        // if (keyboard.IsKeyPressed(Keys.Left))
-        // {
-        //     _schedulerService.AddAction(new EntityMovementAction(Direction.Left, _npcService.Player));
-        //     _schedulerService.TickAsync();
-        //
-        //     return true;
-        // }
-        //
-        // if (keyboard.IsKeyPressed(Keys.Right))
-        // {
-        //     _schedulerService.AddAction(new EntityMovementAction(Direction.Right, _npcService.Player));
-        //     _schedulerService.TickAsync();
-        //
-        //     return true;
-        // }
-        //
-        // return false;
     }
 }
