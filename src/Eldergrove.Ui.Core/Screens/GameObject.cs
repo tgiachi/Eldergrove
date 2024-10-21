@@ -52,7 +52,10 @@ public class GameObject : ScreenObject
             EldergroveState.DefaultMapFont.GlyphHeight
         );
 
+        viewPort = new(viewPort.X, viewPort.Y - 1);
+
         _currentMap.DefaultRenderer = _currentMap.CreateRenderer(viewPort, EldergroveState.DefaultMapFont);
+        Position = new Point(0, 1);
 
 
         Children.Add(_currentMap);
