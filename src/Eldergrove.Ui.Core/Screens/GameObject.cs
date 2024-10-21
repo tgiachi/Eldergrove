@@ -1,4 +1,3 @@
-using Eldergrove.Engine.Core.Components;
 using Eldergrove.Engine.Core.Components.Npcs;
 using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.GameObject;
@@ -7,6 +6,7 @@ using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Maps;
 using Eldergrove.Engine.Core.State;
 using Eldergrove.Engine.Core.Types;
+using Eldergrove.Engine.Core.Utils;
 using SadConsole;
 using SadConsole.Components;
 using SadConsole.Input;
@@ -44,7 +44,15 @@ public class GameObject : ScreenObject
         _schedulerService = _eldergroveEngine.GetService<ISchedulerService>();
 
 
-        _currentMap.DefaultRenderer = _currentMap.CreateRenderer((width, height), font: EldergroveState.DefaultMapFont);
+        var viewPort = ViewportUtils.CalculateViewport(
+            new Point(width, height),
+            EldergroveState.DefaultUiFont.GlyphWidth,
+            EldergroveState.DefaultUiFont.GlyphHeight,
+            EldergroveState.DefaultMapFont.GlyphWidth,
+            EldergroveState.DefaultMapFont.GlyphHeight
+        );
+
+        _currentMap.DefaultRenderer = _currentMap.CreateRenderer(viewPort, EldergroveState.DefaultMapFont);
 
 
         Children.Add(_currentMap);

@@ -138,6 +138,10 @@ async void Game_Started(object? sender, GameHost host)
     {
         EldergroveState.DefaultUiFont = host.LoadFont(EldergroveState.GameConfig.Fonts.GuiFont);
     }
+    else
+    {
+        EldergroveState.DefaultUiFont = Game.Instance.StartingConsole.Font;
+    }
 
     if (EldergroveState.GameConfig.Fonts.MapFont != null)
 
