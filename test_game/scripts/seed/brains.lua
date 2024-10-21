@@ -3,12 +3,18 @@ local function dummy_brain(ctx)
 end
 
 local function empty_brain(ctx)
-    return ctx:EmptyActionList()
+
 end
 
 
 local function goblin_brain(ctx)
-    return ctx:DoMovement(ctx:GoRandom())
+
+    if (ctx:IsPlayerInRange(50)) then
+        return ctx:DoMovement(ctx:GoRandom())
+    end
+
+    return ctx:EmptyActionList()
+
 end
 
 

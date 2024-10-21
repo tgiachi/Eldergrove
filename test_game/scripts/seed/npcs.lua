@@ -9,7 +9,7 @@ return function()
         background = "green",
         category = "monsters",
         sub_category = "goblins",
-        brain_ai = "empty",
+        brain_ai = "goblin",
         skills = {
             health = {
                 min = 10,

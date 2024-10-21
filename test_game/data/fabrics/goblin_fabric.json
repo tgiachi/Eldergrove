@@ -1,0 +1,25 @@
+[
+    {
+        "$type": "map_fabric",
+        "id": "f_goblins",
+        "category": "monsters",
+        "name": "Goblins",
+        "fabric": [
+            "c"
+        ],
+        "wall": {
+            "symbol": "#"
+        },
+        "floor": {
+            "symbol": " "
+        },
+        "layers": {
+            "props": {
+                "d": "door"
+            },
+            "npc": {
+                "c": "monsters"
+            }
+        }
+    }
+]
