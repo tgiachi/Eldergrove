@@ -23,7 +23,7 @@ game_config({
 
     },
     fonts = {
-        --gui_font = "Fonts/mdcurses16.font",
+       -- gui_font = "Fonts/mdcurses16.font",
         --map_font = "Fonts/Curses.font"
         map_font = "Fonts/mdcurses16.font"
 
