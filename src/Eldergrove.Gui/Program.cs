@@ -134,5 +134,16 @@ async void Game_Started(object? sender, GameHost host)
 
     Settings.WindowTitle = EldergroveState.GameConfig.TitleName;
 
-    EldergroveState.DefaultUiFont = host.LoadFont(EldergroveState.GameConfig.Fonts.GuiFont);
+    if (EldergroveState.GameConfig.Fonts.GuiFont != null)
+    {
+        EldergroveState.DefaultUiFont = host.LoadFont(EldergroveState.GameConfig.Fonts.GuiFont);
+    }
+
+    if (EldergroveState.GameConfig.Fonts.MapFont != null)
+
+    {
+        EldergroveState.DefaultMapFont = host.LoadFont(EldergroveState.GameConfig.Fonts.MapFont);
+    }
+
+    engine.SendEngineReady();
 }

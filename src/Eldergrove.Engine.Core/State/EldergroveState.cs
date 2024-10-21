@@ -9,10 +9,11 @@ public static class EldergroveState
 {
     public static IEldergroveEngine? Engine { get; set; } = null!;
 
-
     public static GameConfig GameConfig { get; set; }
 
     public static IFont DefaultUiFont { get; set; } = null!;
+
+    public static IFont DefaultMapFont { get; set; } = null!;
 
     public static Point ScreenSize { get; set; }
 }

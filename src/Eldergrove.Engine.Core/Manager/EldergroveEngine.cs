@@ -182,7 +182,7 @@ public class EldergroveEngine : IEldergroveEngine
         }
 
 
-        GetService<IMessageBusService>().Publish(new EngineReadyEvent());
+
     }
 
     public Task StartAsync()
@@ -196,6 +196,10 @@ public class EldergroveEngine : IEldergroveEngine
     public TService GetService<TService>() where TService : class => _serviceProvider.GetService<TService>();
 
     public INpcService GetNpcService() => GetService<INpcService>();
+    public void SendEngineReady()
+    {
+        GetService<IMessageBusService>().Publish(new EngineReadyEvent());
+    }
 
     public void AddOnEngineStart(Action action)
     {

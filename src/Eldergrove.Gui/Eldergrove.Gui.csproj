@@ -11,6 +11,10 @@
 
     <ItemGroup>
         <None Include="Fonts\**" LinkBase="Fonts\" CopyToOutputDirectory="Always" />
+        <None Update="Fonts\Curses.font">
+          <LinkBase>Fonts/</LinkBase>
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     <ItemGroup>

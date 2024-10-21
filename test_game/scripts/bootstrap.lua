@@ -23,7 +23,10 @@ game_config({
 
     },
     fonts = {
-        gui_font = "Fonts/Cheepicus12.font"
+        gui_font = "Fonts/Cheepicus12.font",
+        --map_font = "Fonts/Curses.font"
+        map_font = nil
+
     }
 })
 

@@ -17,6 +17,7 @@ public interface IEldergroveEngine
 
     INpcService GetNpcService();
 
+    void SendEngineReady();
 
     void AddOnEngineStart(Action action);
 }
