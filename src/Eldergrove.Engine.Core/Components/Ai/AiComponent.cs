@@ -42,6 +42,11 @@ public class AiComponent : RogueLikeComponentBase<NpcGameObject>
         _context.Player = _npcService.Player;
         _context.Entity = Parent;
 
+        if (!_context.IsPlayerInRange(10))
+        {
+            return null;
+        }
+
         return _npcService.InvokeBrain(BrainId, _context);
     }
 }

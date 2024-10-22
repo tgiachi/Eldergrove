@@ -2,6 +2,7 @@ using Eldergrove.Engine.Core.Actions.Npcs;
 using Eldergrove.Engine.Core.GameObject;
 using Eldergrove.Engine.Core.Interfaces.Actions;
 using Eldergrove.Engine.Core.Maps;
+using Eldergrove.Engine.Core.Utils;
 using GoRogue.GameFramework;
 using GoRogue.Pathing;
 using SadRogue.Primitives;
@@ -88,7 +89,7 @@ public class AiContext
 
     public Direction GoRandom()
     {
-        var newDirection = Direction.GetDirection(Random.Shared.Next(0, 4), Random.Shared.Next(0, 4));
+        var newDirection = Direction.GetDirection(RandomUtils.RandomRange(-1, 1), RandomUtils.RandomRange(-1, 1));
 
         return newDirection;
     }
