@@ -82,6 +82,7 @@ public class TileService : ITileService
 
         if (tile.Symbol.StartsWith("##"))
         {
+
             return new ColoredGlyph(foreground, background, tile.Symbol[2]);
         }
 
