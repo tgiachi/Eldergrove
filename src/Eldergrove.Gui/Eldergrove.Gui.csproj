@@ -15,6 +15,10 @@
           <LinkBase>Fonts/</LinkBase>
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
+        <None Update="Fonts\Tangaria32.font">
+          <LinkBase>Fonts\</LinkBase>
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
     <ItemGroup>
