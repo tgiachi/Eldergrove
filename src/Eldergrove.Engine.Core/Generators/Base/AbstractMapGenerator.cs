@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Eldergrove.Engine.Core.Data.Internal;
 using Eldergrove.Engine.Core.Data.Json.Maps;
+using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.GameObject;
 using Eldergrove.Engine.Core.Interfaces.Map;
 using Eldergrove.Engine.Core.Interfaces.Services;
@@ -45,6 +46,7 @@ public abstract class AbstractMapGenerator : IMapGenerator
         MapGeneratorObject generatorObject, Point mapSize, MapGeneratorType generatorType
     )
     {
+        _mapGeneratorObject = generatorObject;
         _wallTile = _tileService.GetTileEntry(generatorObject.Wall);
         _floorTile = _tileService.GetTileEntry(generatorObject.Floor);
 
@@ -133,15 +135,39 @@ public abstract class AbstractMapGenerator : IMapGenerator
     {
         foreach (var fab in _mapGeneratorObject.Fabrics)
         {
-            var listOfFabricObjects = fab.GetRandomValueAsRange()
-                .Select(_ => _mapGenService.BuildGameObject(fab.Id, Point.None))
-                .Select(fabric => _mapGenService.GenerateFabricAsync(fabric, _wallTile, _floorTile, map))
-                .ToList();
+            _logger.LogDebug("Placing object with strategy {Strategy}", fab.Placement);
 
-            _logger.LogDebug("Generated {Count} fabric objects for {FabricId}", listOfFabricObjects.Count, fab.Id);
+            switch (fab.Placement)
+            {
+                case MapPlacementStrategyType.Random:
+                    PlaceFabricRandomly(map, fab);
+                    break;
+                case MapPlacementStrategyType.FreeSpace:
+                    break;
+                case MapPlacementStrategyType.Adjacent:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
 
         return Task.CompletedTask;
+    }
+
+    private void PlaceFabricRandomly(GameMap map, FabricPlaceDataObject fabricPlace)
+    {
+        var listOfFabricObjects = fabricPlace.GetRandomValueAsRange()
+            .Select(_ => _mapGenService.BuildGameObject(fabricPlace.Id, Point.None))
+            .Select(fabric => _mapGenService.GenerateFabricAsync(fabric, _wallTile, _floorTile, map))
+            .ToList();
+
+        _logger.LogDebug("Generated {Count} fabric objects for {FabricId}", listOfFabricObjects.Count, fabricPlace.Id);
+
+
+        foreach (var generatedFabric in listOfFabricObjects)
+        {
+            map.AddGeneratedFabricLayersData(generatedFabric);
+        }
     }
 }

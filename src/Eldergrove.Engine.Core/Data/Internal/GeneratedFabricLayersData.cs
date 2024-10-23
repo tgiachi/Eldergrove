@@ -18,8 +18,9 @@ public class GeneratedFabricLayersData
     public int Area => Fabric.Area;
 
 
-    public GeneratedFabricLayersData()
+    public GeneratedFabricLayersData(MapFabricObject fabric)
     {
+        Fabric = fabric;
         foreach (var layerType in Enum.GetValues<MapLayerType>())
         {
             Layers.Add(layerType, []);

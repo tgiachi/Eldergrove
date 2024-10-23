@@ -314,7 +314,7 @@ public class MapGenService : IMapGenService
         Point? startingPoint = null
     )
     {
-        var result = new GeneratedFabricLayersData();
+        var result = new GeneratedFabricLayersData(fabric);
 
         var points = new List<Point>();
 
