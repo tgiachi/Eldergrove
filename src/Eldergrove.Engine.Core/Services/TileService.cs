@@ -3,6 +3,7 @@ using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Components;
 using Eldergrove.Engine.Core.Components.Common;
 using Eldergrove.Engine.Core.Data.Json.TileSet;
+using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.Interfaces.Json;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using GoRogue.GameFramework;
@@ -68,34 +69,15 @@ public class TileService : ITileService
             foreground = GetColor(tileData.Foreground);
         }
 
-        if (tileData.Symbol.StartsWith("##"))
+        if (tileData.Symbol.StartsWith("##") || tileData.Symbol.StartsWith("!!"))
         {
-            return new ColoredGlyph(foreground, background, tileData.Symbol[2]);
-        }
-
-        if (tileData.Symbol.StartsWith("!!"))
-        {
-            return new ColoredGlyph(foreground, background, int.Parse(tileData.Symbol[2].ToString()));
+            return new ColoredGlyph(foreground, background, tileData.Symbol.ParseTileSymbol());
         }
 
         TileEntry tile = _tiles[tileData.Symbol];
 
-        if (tile.Symbol.StartsWith("##"))
-        {
 
-            return new ColoredGlyph(foreground, background, tile.Symbol[2]);
-        }
-
-        if (tile.Symbol.StartsWith("!!"))
-        {
-            return new ColoredGlyph(foreground, background, int.Parse(tile.Symbol[2..]));
-        }
-
-
-        var colored = new ColoredGlyph(foreground, background, tile.Symbol[0]);
-
-
-        return colored;
+        return new ColoredGlyph(foreground, background, tile.Symbol.ParseTileSymbol());
     }
 
     public (ColoredGlyph glyph, TileEntry tile) GetTileWithEntry(IJsonSymbolDataObject tileData) =>
@@ -151,7 +133,7 @@ public class TileService : ITileService
 
     private Color GetColor(string colorName)
     {
-        if (colorName.StartsWith("#"))
+        if (colorName.StartsWith('#'))
         {
             var r = byte.Parse(colorName.Substring(1, 2), NumberStyles.HexNumber);
             var g = byte.Parse(colorName.Substring(3, 2), NumberStyles.HexNumber);

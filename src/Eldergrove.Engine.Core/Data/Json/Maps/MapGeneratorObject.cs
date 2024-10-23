@@ -16,8 +16,9 @@ public class MapGeneratorObject : IJsonDataObject
     public List<JsonRandomObject> Fabrics { get; set; }
 
 
+    public MapGridObject? Grid { get; set; }
+
     public JsonSymbolDataObject Wall { get; set; }
 
     public JsonSymbolDataObject Floor { get; set; }
-
 }

@@ -5,5 +5,6 @@ public enum MapGeneratorType
     Container,
     Rooms,
     Dungeon,
-    Town
+    Town,
+    Grid
 }
