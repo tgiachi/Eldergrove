@@ -1,14 +1,12 @@
 using System.Diagnostics;
 using Eldergrove.Engine.Core.Data.Internal;
 using Eldergrove.Engine.Core.Data.Json.Maps;
-using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.GameObject;
 using Eldergrove.Engine.Core.Interfaces.Map;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Maps;
 using Eldergrove.Engine.Core.Types;
 using Eldergrove.Engine.Core.Utils;
-using GoRogue.GameFramework;
 using GoRogue.MapGeneration;
 using Microsoft.Extensions.Logging;
 using SadRogue.Primitives;
@@ -72,8 +70,6 @@ public abstract class AbstractMapGenerator : IMapGenerator
     }
 
 
-
-
     /// <summary>
     ///  Gets the first component of the specified type from the generator context
     /// </summary>
@@ -131,7 +127,6 @@ public abstract class AbstractMapGenerator : IMapGenerator
     }
 
 
-
     public virtual Task PopulateMapAsync(GameMap map)
     {
         var generatedFabricLayersData = new List<GeneratedFabricLayersData>();
@@ -159,7 +154,7 @@ public abstract class AbstractMapGenerator : IMapGenerator
         return Task.CompletedTask;
     }
 
-    private IEnumerable<GeneratedFabricLayersData> PlaceFabricRandomly(GameMap map, FabricPlaceDataObject fabricPlace)
+    private List<GeneratedFabricLayersData> PlaceFabricRandomly(GameMap map, FabricPlaceDataObject fabricPlace)
     {
         var listOfFabricObjects = fabricPlace.GetRandomValueAsRange()
             .Select(_ => _mapGenService.BuildGameObject(fabricPlace.Id, Point.None))

@@ -1,13 +1,11 @@
 using System.Diagnostics;
 using Eldergrove.Engine.Core.Attributes.Services;
-using Eldergrove.Engine.Core.Components;
 using Eldergrove.Engine.Core.Components.Npcs;
 using Eldergrove.Engine.Core.Components.Terrain;
 using Eldergrove.Engine.Core.Data.Events;
 using Eldergrove.Engine.Core.Data.Game;
 using Eldergrove.Engine.Core.Data.Internal;
 using Eldergrove.Engine.Core.Data.Json.Maps;
-using Eldergrove.Engine.Core.Data.Json.TileSet;
 using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.GameObject;
 using Eldergrove.Engine.Core.Interfaces.Actions;
@@ -15,12 +13,9 @@ using Eldergrove.Engine.Core.Interfaces.Map;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Maps;
 using Eldergrove.Engine.Core.Types;
-using Eldergrove.Engine.Core.Utils;
 using GoRogue.GameFramework;
-using GoRogue.MapGeneration;
 using Microsoft.Extensions.Logging;
 using SadRogue.Primitives;
-using SadRogue.Primitives.GridViews;
 using SadRogue.Primitives.SpatialMaps;
 
 namespace Eldergrove.Engine.Core.Services;
@@ -159,17 +154,6 @@ public class MapGenService : IMapGenService
         {
             CurrentMap = map;
         }
-        //
-
-        //
-        // if (mapGenerator.GeneratorType == MapGeneratorType.Town)
-        // {
-        //     throw new NotImplementedException();
-        // }
-        // else
-        // {
-        //     map = await GenerateContainerAsync(mapGenerator);
-        // }
 
 
         _messageBusService.Publish(new MapGeneratedEvent(map));
@@ -181,79 +165,6 @@ public class MapGenService : IMapGenService
         return map;
     }
 
-
-    private async Task<GameMap> GenerateContainerAsync(MapGeneratorObject mapGenerator)
-    {
-        // var generator = new Generator(_gameConfig.Map.Width, _gameConfig.Map.Height)
-        //     .ConfigAndGenerateSafe(
-        //         gen =>
-        //         {
-        //             gen.AddSteps(
-        //                 DefaultAlgorithms.RectangleMapSteps()
-        //             );
-        //         }
-        //     );
-        //
-        // generator.Generate();
-
-
-        // var (wallGlyph, wallTile) = _tileService.GetTileWithEntry(mapGenerator.Wall);
-        // var (floorGlyph, floorTile) = _tileService.GetTileWithEntry(mapGenerator.Floor);
-        //
-        //
-        // var map = new GameMap(_gameConfig.Map.Width, _gameConfig.Map.Height, null);
-
-        // map.AllComponents.Add(new TerrainFOVVisibilityHandler());
-        //
-        // var generatedMap = generator.Context.GetFirst<ISettableGridView<bool>>("WallFloor");
-        //
-        // map.ObjectAdded += OnEntityAdded;
-        // map.ObjectRemoved += OnEntityRemoved;
-        //
-        // map.ApplyTerrainOverlay(
-        //     generatedMap,
-        //     (pos, val) =>
-        //         val
-        //             ? new TerrainGameObject(pos, floorGlyph, floorTile.Id)
-        //             : new TerrainGameObject(pos, wallGlyph, wallTile.Id, false)
-        // );
-        //
-        //
-        // foreach (var fabric in mapGenerator.Fabrics)
-        // {
-        //     var fabricCount = fabric.GetRandomValue();
-        //
-        //     _logger.LogDebug("Generating fabric {Fabric} {Count} times", fabric.Id, fabricCount);
-        //     foreach (var _ in Enumerable.Range(0, fabricCount))
-        //     {
-        //         var fabricObject = GetFabric(fabric.Id);
-        //
-        //         var result = GenerateFabricAsync(fabricObject, new(wallGlyph, wallTile), new(floorGlyph, floorTile), map);
-        //
-        //         foreach (var layer in Enum.GetValues<MapLayerType>())
-        //         {
-        //             foreach (var gameObject in result[layer])
-        //             {
-        //                 if (gameObject is TerrainGameObject)
-        //                 {
-        //                     map.SetTerrain(gameObject);
-        //                 }
-        //                 else
-        //                 {
-        //                     map.AddEntity(gameObject);
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
-        //
-        // if (CurrentMap == null)
-        // {
-        //     CurrentMap = map;
-        // }
-
-        return null!;
-    }
 
     private void OnEntityRemoved(object? sender, ItemEventArgs<IGameObject> e)
     {
