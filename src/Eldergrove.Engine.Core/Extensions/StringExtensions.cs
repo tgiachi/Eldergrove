@@ -30,7 +30,7 @@ public static class StringExtensions
                 return RandomUtils.RandomRange(firstPart, secondPart);
             }
 
-            return int.Parse(str[2].ToString());
+            return int.Parse(symbol);
         }
 
         return str[0];
