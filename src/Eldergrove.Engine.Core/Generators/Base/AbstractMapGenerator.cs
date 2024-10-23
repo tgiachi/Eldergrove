@@ -133,6 +133,8 @@ public abstract class AbstractMapGenerator : IMapGenerator
 
     protected virtual Task PopulateMapAsync(GameMap map)
     {
+        var generatedFabricLayersData = new List<GeneratedFabricLayersData>();
+
         foreach (var fab in _mapGeneratorObject.Fabrics)
         {
             _logger.LogDebug("Placing object with strategy {Strategy}", fab.Placement);
@@ -140,7 +142,7 @@ public abstract class AbstractMapGenerator : IMapGenerator
             switch (fab.Placement)
             {
                 case MapPlacementStrategyType.Random:
-                    PlaceFabricRandomly(map, fab);
+                    generatedFabricLayersData.AddRange(PlaceFabricRandomly(map, fab));
                     break;
                 case MapPlacementStrategyType.FreeSpace:
                     break;
@@ -151,11 +153,12 @@ public abstract class AbstractMapGenerator : IMapGenerator
             }
         }
 
+        map.AddGeneratedFabricLayersData(generatedFabricLayersData.ToArray());
 
         return Task.CompletedTask;
     }
 
-    private void PlaceFabricRandomly(GameMap map, FabricPlaceDataObject fabricPlace)
+    private IEnumerable<GeneratedFabricLayersData> PlaceFabricRandomly(GameMap map, FabricPlaceDataObject fabricPlace)
     {
         var listOfFabricObjects = fabricPlace.GetRandomValueAsRange()
             .Select(_ => _mapGenService.BuildGameObject(fabricPlace.Id, Point.None))
@@ -165,9 +168,6 @@ public abstract class AbstractMapGenerator : IMapGenerator
         _logger.LogDebug("Generated {Count} fabric objects for {FabricId}", listOfFabricObjects.Count, fabricPlace.Id);
 
 
-        foreach (var generatedFabric in listOfFabricObjects)
-        {
-            map.AddGeneratedFabricLayersData(generatedFabric);
-        }
+        return listOfFabricObjects;
     }
 }

@@ -15,6 +15,13 @@ public class GameMap : RogueLikeMap
     {
     }
 
+    public void AddGeneratedFabricLayersData(params GeneratedFabricLayersData[] data)
+    {
+        foreach (var generatedFabricLayersData in data)
+        {
+            AddGeneratedFabricLayersData(generatedFabricLayersData);
+        }
+    }
 
     public void AddGeneratedFabricLayersData(GeneratedFabricLayersData data)
     {
