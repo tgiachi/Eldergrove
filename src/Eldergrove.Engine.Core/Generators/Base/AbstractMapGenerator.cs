@@ -68,11 +68,10 @@ public abstract class AbstractMapGenerator : IMapGenerator
         await BuildWallsIfExistsAsync(map);
         await PostGenerationAsync(map);
 
-        await PopulateMapAsync(map);
-
-
         return map;
     }
+
+
 
 
     /// <summary>
@@ -109,7 +108,7 @@ public abstract class AbstractMapGenerator : IMapGenerator
                 wallFloors,
                 (pos, val) =>
                     val
-                        ? new TerrainGameObject(pos, _floorTile.ColoredGlyph, _floorTile.Tile.Id, false)
+                        ? new TerrainGameObject(pos, _floorTile.ColoredGlyph, _floorTile.Tile.Id)
                         : new TerrainGameObject(pos, _wallTile.ColoredGlyph, _wallTile.Tile.Id, false)
             );
         }
@@ -131,7 +130,9 @@ public abstract class AbstractMapGenerator : IMapGenerator
         return [];
     }
 
-    protected virtual Task PopulateMapAsync(GameMap map)
+
+
+    public virtual Task PopulateMapAsync(GameMap map)
     {
         var generatedFabricLayersData = new List<GeneratedFabricLayersData>();
 

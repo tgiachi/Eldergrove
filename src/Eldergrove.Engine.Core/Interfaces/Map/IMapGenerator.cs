@@ -9,4 +9,6 @@ namespace Eldergrove.Engine.Core.Interfaces.Map;
 public interface IMapGenerator
 {
     Task<GameMap> GenerateMapAsync(MapGeneratorObject generatorObject, Point mapSize, MapGeneratorType generatorType);
+
+    Task PopulateMapAsync(GameMap map);
 }

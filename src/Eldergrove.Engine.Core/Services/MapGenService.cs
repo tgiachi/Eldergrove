@@ -19,8 +19,6 @@ using Eldergrove.Engine.Core.Utils;
 using GoRogue.GameFramework;
 using GoRogue.MapGeneration;
 using Microsoft.Extensions.Logging;
-using SadConsole;
-using SadRogue.Integration;
 using SadRogue.Primitives;
 using SadRogue.Primitives.GridViews;
 using SadRogue.Primitives.SpatialMaps;
@@ -150,15 +148,28 @@ public class MapGenService : IMapGenService
             mapGenData.Type
         );
 
+        map.AllComponents.Add(new TerrainFOVVisibilityHandler());
 
-        if (mapGenerator.GeneratorType == MapGeneratorType.Town)
+        map.ObjectAdded += OnEntityAdded;
+        map.ObjectRemoved += OnEntityRemoved;
+
+        await mapGenType.PopulateMapAsync(map);
+
+        if (CurrentMap == null)
         {
-            throw new NotImplementedException();
+            CurrentMap = map;
         }
-        else
-        {
-            map = await GenerateContainerAsync(mapGenerator);
-        }
+        //
+
+        //
+        // if (mapGenerator.GeneratorType == MapGeneratorType.Town)
+        // {
+        //     throw new NotImplementedException();
+        // }
+        // else
+        // {
+        //     map = await GenerateContainerAsync(mapGenerator);
+        // }
 
 
         _messageBusService.Publish(new MapGeneratedEvent(map));
@@ -173,75 +184,75 @@ public class MapGenService : IMapGenService
 
     private async Task<GameMap> GenerateContainerAsync(MapGeneratorObject mapGenerator)
     {
-        var generator = new Generator(_gameConfig.Map.Width, _gameConfig.Map.Height)
-            .ConfigAndGenerateSafe(
-                gen =>
-                {
-                    gen.AddSteps(
-                        DefaultAlgorithms.RectangleMapSteps()
-                    );
-                }
-            );
-
-        generator.Generate();
-
-
-        var (wallGlyph, wallTile) = _tileService.GetTileWithEntry(mapGenerator.Wall);
-        var (floorGlyph, floorTile) = _tileService.GetTileWithEntry(mapGenerator.Floor);
+        // var generator = new Generator(_gameConfig.Map.Width, _gameConfig.Map.Height)
+        //     .ConfigAndGenerateSafe(
+        //         gen =>
+        //         {
+        //             gen.AddSteps(
+        //                 DefaultAlgorithms.RectangleMapSteps()
+        //             );
+        //         }
+        //     );
+        //
+        // generator.Generate();
 
 
-        var map = new GameMap(_gameConfig.Map.Width, _gameConfig.Map.Height, null);
+        // var (wallGlyph, wallTile) = _tileService.GetTileWithEntry(mapGenerator.Wall);
+        // var (floorGlyph, floorTile) = _tileService.GetTileWithEntry(mapGenerator.Floor);
+        //
+        //
+        // var map = new GameMap(_gameConfig.Map.Width, _gameConfig.Map.Height, null);
 
-        map.AllComponents.Add(new TerrainFOVVisibilityHandler());
+        // map.AllComponents.Add(new TerrainFOVVisibilityHandler());
+        //
+        // var generatedMap = generator.Context.GetFirst<ISettableGridView<bool>>("WallFloor");
+        //
+        // map.ObjectAdded += OnEntityAdded;
+        // map.ObjectRemoved += OnEntityRemoved;
+        //
+        // map.ApplyTerrainOverlay(
+        //     generatedMap,
+        //     (pos, val) =>
+        //         val
+        //             ? new TerrainGameObject(pos, floorGlyph, floorTile.Id)
+        //             : new TerrainGameObject(pos, wallGlyph, wallTile.Id, false)
+        // );
+        //
+        //
+        // foreach (var fabric in mapGenerator.Fabrics)
+        // {
+        //     var fabricCount = fabric.GetRandomValue();
+        //
+        //     _logger.LogDebug("Generating fabric {Fabric} {Count} times", fabric.Id, fabricCount);
+        //     foreach (var _ in Enumerable.Range(0, fabricCount))
+        //     {
+        //         var fabricObject = GetFabric(fabric.Id);
+        //
+        //         var result = GenerateFabricAsync(fabricObject, new(wallGlyph, wallTile), new(floorGlyph, floorTile), map);
+        //
+        //         foreach (var layer in Enum.GetValues<MapLayerType>())
+        //         {
+        //             foreach (var gameObject in result[layer])
+        //             {
+        //                 if (gameObject is TerrainGameObject)
+        //                 {
+        //                     map.SetTerrain(gameObject);
+        //                 }
+        //                 else
+        //                 {
+        //                     map.AddEntity(gameObject);
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+        //
+        // if (CurrentMap == null)
+        // {
+        //     CurrentMap = map;
+        // }
 
-        var generatedMap = generator.Context.GetFirst<ISettableGridView<bool>>("WallFloor");
-
-        map.ObjectAdded += OnEntityAdded;
-        map.ObjectRemoved += OnEntityRemoved;
-
-        map.ApplyTerrainOverlay(
-            generatedMap,
-            (pos, val) =>
-                val
-                    ? new TerrainGameObject(pos, floorGlyph, floorTile.Id)
-                    : new TerrainGameObject(pos, wallGlyph, wallTile.Id, false)
-        );
-
-
-        foreach (var fabric in mapGenerator.Fabrics)
-        {
-            var fabricCount = fabric.GetRandomValue();
-
-            _logger.LogDebug("Generating fabric {Fabric} {Count} times", fabric.Id, fabricCount);
-            foreach (var _ in Enumerable.Range(0, fabricCount))
-            {
-                var fabricObject = GetFabric(fabric.Id);
-
-                var result = GenerateFabricAsync(fabricObject, new(wallGlyph, wallTile), new(floorGlyph, floorTile), map);
-
-                foreach (var layer in Enum.GetValues<MapLayerType>())
-                {
-                    foreach (var gameObject in result[layer])
-                    {
-                        if (gameObject is TerrainGameObject)
-                        {
-                            map.SetTerrain(gameObject);
-                        }
-                        else
-                        {
-                            map.AddEntity(gameObject);
-                        }
-                    }
-                }
-            }
-        }
-
-        if (CurrentMap == null)
-        {
-            CurrentMap = map;
-        }
-
-        return map;
+        return null!;
     }
 
     private void OnEntityRemoved(object? sender, ItemEventArgs<IGameObject> e)
