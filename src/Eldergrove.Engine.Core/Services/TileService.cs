@@ -2,6 +2,7 @@ using System.Globalization;
 using Eldergrove.Engine.Core.Attributes.Services;
 using Eldergrove.Engine.Core.Components;
 using Eldergrove.Engine.Core.Components.Common;
+using Eldergrove.Engine.Core.Data.Internal;
 using Eldergrove.Engine.Core.Data.Json.TileSet;
 using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.Interfaces.Json;
@@ -82,6 +83,12 @@ public class TileService : ITileService
 
     public (ColoredGlyph glyph, TileEntry tile) GetTileWithEntry(IJsonSymbolDataObject tileData) =>
         _tiles.TryGetValue(tileData.Symbol, out var tile) ? (GetTile(tileData), tile) : (GetTile(tileData), new TileEntry());
+
+    public GlyphTileEntry GetTileEntry(IJsonSymbolDataObject tileData)
+    {
+        var (c, t) = GetTileWithEntry(tileData);
+        return new GlyphTileEntry(c, t);
+    }
 
     //_logger.LogWarning("Tile {TileId} not found", tileData.Symbol);
     //throw new KeyNotFoundException($"Tile {tileData.Symbol} not found");

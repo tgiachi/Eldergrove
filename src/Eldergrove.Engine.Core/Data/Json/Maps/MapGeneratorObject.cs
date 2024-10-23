@@ -13,7 +13,7 @@ public class MapGeneratorObject : IJsonDataObject
 
     public MapGeneratorType GeneratorType { get; set; }
 
-    public List<JsonRandomObject> Fabrics { get; set; }
+    public List<FabricPlaceDataObject> Fabrics { get; set; }
 
 
     public MapGridObject? Grid { get; set; }

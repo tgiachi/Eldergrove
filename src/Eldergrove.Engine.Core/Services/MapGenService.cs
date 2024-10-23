@@ -11,6 +11,7 @@ using Eldergrove.Engine.Core.Data.Json.TileSet;
 using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.GameObject;
 using Eldergrove.Engine.Core.Interfaces.Actions;
+using Eldergrove.Engine.Core.Interfaces.Map;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Maps;
 using Eldergrove.Engine.Core.Types;
@@ -133,6 +134,23 @@ public class MapGenService : IMapGenService
 
         GameMap map;
 
+        var mapGenData = _generators.FirstOrDefault(s => s.Type == mapGenerator.GeneratorType);
+
+        if (mapGenData == null)
+        {
+            _logger.LogError("Map generator with type {GeneratorType} not found", mapGenerator.GeneratorType);
+            throw new InvalidOperationException("Map generator not found named " + mapGenerator.GeneratorType);
+        }
+
+        var mapGenType = _serviceProvider.GetService(mapGenData.ImplementationType) as IMapGenerator;
+
+        map = await mapGenType.GenerateMapAsync(
+            mapGenerator,
+            new Point(_gameConfig.Map.Width, _gameConfig.Map.Height),
+            mapGenData.Type
+        );
+
+
         if (mapGenerator.GeneratorType == MapGeneratorType.Town)
         {
             throw new NotImplementedException();
@@ -199,9 +217,9 @@ public class MapGenService : IMapGenService
             {
                 var fabricObject = GetFabric(fabric.Id);
 
-                var result = GenerateFabricAsync(fabricObject, (wallGlyph, wallTile), (floorGlyph, floorTile), map);
+                var result = GenerateFabricAsync(fabricObject, new(wallGlyph, wallTile), new(floorGlyph, floorTile), map);
 
-                foreach (var layer in result.Keys)
+                foreach (var layer in Enum.GetValues<MapLayerType>())
                 {
                     foreach (var gameObject in result[layer])
                     {
@@ -259,7 +277,7 @@ public class MapGenService : IMapGenService
         }
     }
 
-    private MapFabricObject GetFabric(string idOrCategory)
+    public MapFabricObject GetFabric(string idOrCategory)
     {
         MapFabricObject fabric = null;
 
@@ -291,12 +309,12 @@ public class MapGenService : IMapGenService
         return fabric;
     }
 
-    private Dictionary<MapLayerType, List<IGameObject>> GenerateFabricAsync(
-        MapFabricObject fabric, (ColoredGlyph, TileEntry) wall, (ColoredGlyph, TileEntry) floor, GameMap map,
+    public GeneratedFabricLayersData GenerateFabricAsync(
+        MapFabricObject fabric, GlyphTileEntry wall, GlyphTileEntry floor, GameMap map,
         Point? startingPoint = null
     )
     {
-        var result = Enum.GetValues<MapLayerType>().ToDictionary(mapLayer => mapLayer, _ => new List<IGameObject>());
+        var result = new GeneratedFabricLayersData();
 
         var points = new List<Point>();
 
@@ -326,7 +344,7 @@ public class MapGenService : IMapGenService
 
                 var terrain = new TerrainGameObject(new Point(realX, realY), glyph, tileEntry.Id, !isWall, !isWall);
 
-                result[MapLayerType.Terrain].Add(terrain);
+                result.AddLayer(MapLayerType.Terrain, terrain);
 
 
                 foreach (var layer in fabric.Layers.Keys)
@@ -337,7 +355,7 @@ public class MapGenService : IMapGenService
                         if (gameObject != null)
                         {
                             _logger.LogDebug("Creating {GameObject}", gameObject);
-                            result[layer].Add(gameObject);
+                            result.AddLayer(layer, gameObject);
                         }
                     }
                 }
@@ -367,4 +385,6 @@ public class MapGenService : IMapGenService
 
         throw new InvalidOperationException("Unknown layer type " + layer);
     }
+
+    public MapFabricObject BuildGameObject(string idOrCategory, Point position) => GetFabric(idOrCategory);
 }

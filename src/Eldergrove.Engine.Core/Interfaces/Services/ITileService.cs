@@ -1,3 +1,5 @@
+using Eldergrove.Engine.Core.Data.Internal;
+using Eldergrove.Engine.Core.Data.Json.Maps;
 using Eldergrove.Engine.Core.Data.Json.TileSet;
 using Eldergrove.Engine.Core.Interfaces.Json;
 using Eldergrove.Engine.Core.Interfaces.Services.Base;
@@ -13,6 +15,8 @@ public interface ITileService : IEldergroveService
     ColoredGlyph GetTile(IJsonSymbolDataObject tileData);
 
     (ColoredGlyph glyph, TileEntry tile) GetTileWithEntry(IJsonSymbolDataObject tileData);
+
+    GlyphTileEntry GetTileEntry(IJsonSymbolDataObject tileData);
 
     void AddTile(TileEntry tileEntry);
 

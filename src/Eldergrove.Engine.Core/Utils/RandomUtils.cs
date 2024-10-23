@@ -27,4 +27,6 @@ public static class RandomUtils
 
         throw new ArgumentException("Random object must have a Min/Max or Dice value");
     }
+
+    public static IEnumerable<int> GetRandomValueAsRange(this IJsonRandomObject randomObject) => Enumerable.Range( 0, GetRandomValue(randomObject));
 }

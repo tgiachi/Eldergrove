@@ -3,7 +3,7 @@ using SadRogue.Primitives;
 
 namespace Eldergrove.Engine.Core.Interfaces.GameObjects;
 
-public interface IGameObjectFactory<out TGameObject> where TGameObject : IGameObject
+public interface IGameObjectFactory<out TFactoryItem> where TFactoryItem : class
 {
-    TGameObject BuildGameObject(string idOrCategory, Point position);
+    TFactoryItem BuildGameObject(string idOrCategory, Point position);
 }
