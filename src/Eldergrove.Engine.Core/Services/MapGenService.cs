@@ -5,6 +5,7 @@ using Eldergrove.Engine.Core.Components.Npcs;
 using Eldergrove.Engine.Core.Components.Terrain;
 using Eldergrove.Engine.Core.Data.Events;
 using Eldergrove.Engine.Core.Data.Game;
+using Eldergrove.Engine.Core.Data.Internal;
 using Eldergrove.Engine.Core.Data.Json.Maps;
 using Eldergrove.Engine.Core.Data.Json.TileSet;
 using Eldergrove.Engine.Core.Extensions;
@@ -40,6 +41,10 @@ public class MapGenService : IMapGenService
 
     private readonly Dictionary<MapLayerType, List<IGameObject>> _layeredObjects = new();
 
+    private readonly List<MapGeneratorData> _generators;
+
+    private readonly IServiceProvider _serviceProvider;
+
     private readonly IMessageBusService _messageBusService;
     private readonly IScriptEngineService _scriptEngineService;
     private readonly ISchedulerService _schedulerService;
@@ -54,7 +59,8 @@ public class MapGenService : IMapGenService
     public MapGenService(
         ILogger<MapGenService> logger, IDataLoaderService dataLoaderService, IScriptEngineService scriptEngineService,
         IMessageBusService messageBusService, ITileService tileService, IPropService propService, INpcService npcService,
-        IItemService itemService, ISchedulerService schedulerService
+        IItemService itemService, ISchedulerService schedulerService, List<MapGeneratorData> generators,
+        IServiceProvider serviceProvider
     )
     {
         _logger = logger;
@@ -65,6 +71,8 @@ public class MapGenService : IMapGenService
         _npcService = npcService;
         _itemService = itemService;
         _schedulerService = schedulerService;
+        _generators = generators;
+        _serviceProvider = serviceProvider;
 
 
         dataLoaderService.SubscribeData<MapFabricObject>(OnMapFabric);

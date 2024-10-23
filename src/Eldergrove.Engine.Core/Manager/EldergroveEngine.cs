@@ -12,12 +12,14 @@ using Eldergrove.Engine.Core.Data.Json.Props;
 using Eldergrove.Engine.Core.Data.Json.Texts;
 using Eldergrove.Engine.Core.Data.Json.TileSet;
 using Eldergrove.Engine.Core.Extensions;
+using Eldergrove.Engine.Core.Generators;
 using Eldergrove.Engine.Core.Interfaces.Manager;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Interfaces.Services.Base;
 using Eldergrove.Engine.Core.KeybindingActions;
 using Eldergrove.Engine.Core.ScriptsModules;
 using Eldergrove.Engine.Core.Services;
+using Eldergrove.Engine.Core.Types;
 using Eldergrove.Engine.Core.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -58,6 +60,8 @@ public class EldergroveEngine : IEldergroveEngine
         RegisterServices();
         RegisterScriptModules();
         RegisterDataLoaders();
+
+        RegisterMapGenerators();
 
         _serviceCollectionDelegate?.Invoke(_serviceCollection);
     }
@@ -149,6 +153,12 @@ public class EldergroveEngine : IEldergroveEngine
             ;
     }
 
+    private void RegisterMapGenerators()
+    {
+        _serviceCollection.RegisterMapGeneratorType<ContainerMapGenerator>(MapGeneratorType.Container)
+            ;
+    }
+
 
     public async Task InitializeAsync()
     {
@@ -180,9 +190,6 @@ public class EldergroveEngine : IEldergroveEngine
         {
             action();
         }
-
-
-
     }
 
     public Task StartAsync()
@@ -196,6 +203,7 @@ public class EldergroveEngine : IEldergroveEngine
     public TService GetService<TService>() where TService : class => _serviceProvider.GetService<TService>();
 
     public INpcService GetNpcService() => GetService<INpcService>();
+
     public void SendEngineReady()
     {
         GetService<IMessageBusService>().Publish(new EngineReadyEvent());
