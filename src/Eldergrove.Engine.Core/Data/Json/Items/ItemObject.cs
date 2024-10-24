@@ -18,4 +18,6 @@ public class ItemObject : IJsonDataObject, IJsonSymbolDataObject, IJsonTagsDataO
 
     public string? SubCategory { get; set; }
     public string Name { get; set; }
+
+    public List<ItemFeatureObject>? Features { get; set; }
 }

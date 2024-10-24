@@ -149,6 +149,8 @@ public class SchedulerService : ISchedulerService, ISubscriber<AddActionToSchedu
         _actionableEntities.Add(entity);
     }
 
+
+
     public void RemoveActionableEntity(IActionableEntity entity)
     {
         _actionableEntities.Remove(entity);

@@ -17,8 +17,5 @@ public class HttpRequestModule
     }
 
     [ScriptFunction("from_json", "Converts a JSON string to an object.")]
-    public object JsonToObject(string json)
-    {
-        return JsonSerializer.Deserialize<object>(json);
-    }
+    public object JsonToObject(string json) => JsonSerializer.Deserialize<object>(json);
 }

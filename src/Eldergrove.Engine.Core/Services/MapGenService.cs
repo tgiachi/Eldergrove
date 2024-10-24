@@ -175,9 +175,17 @@ public class MapGenService : IMapGenService
 
     private void OnEntityAdded(object? sender, ItemEventArgs<IGameObject> e)
     {
-        if (e.Item is IActionableEntity actionableEntity)
+        if (e.Item is NpcGameObject actionableEntity)
         {
             _schedulerService.AddActionableEntity(actionableEntity);
+        }
+
+        if (e.Item is ItemGameObject itemActionableEntity)
+        {
+            if (itemActionableEntity.CanTakeItemAction())
+            {
+                _schedulerService.AddActionableEntity(itemActionableEntity);
+            }
         }
 
         if (e.Item.Layer > 0)

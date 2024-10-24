@@ -1,3 +1,4 @@
+using Eldergrove.Engine.Core.Interfaces.Actions;
 using Eldergrove.Engine.Core.Interfaces.Components;
 using Eldergrove.Engine.Core.Types;
 using SadConsole;
@@ -6,7 +7,7 @@ using SadRogue.Primitives;
 
 namespace Eldergrove.Engine.Core.GameObject;
 
-public class ItemGameObject : RogueLikeEntity, INamedComponent
+public class ItemGameObject : RogueLikeEntity, INamedComponent, IItemActionableEntity
 {
     public string ItemId { get; set; }
     public string Name { get; set; }
@@ -19,5 +20,6 @@ public class ItemGameObject : RogueLikeEntity, INamedComponent
     }
 
     public override string ToString() => $"Item: {ItemId}";
-
+    public IEnumerable<ISchedulerAction> TakeTurn() => new List<ISchedulerAction>();
+    public bool CanTakeItemAction() => false;
 }
