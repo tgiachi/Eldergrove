@@ -156,7 +156,10 @@ public class EldergroveEngine : IEldergroveEngine
 
     private void RegisterMapGenerators()
     {
-        _serviceCollection.RegisterMapGeneratorType<ContainerMapGenerator>(MapGeneratorType.Container)
+        _serviceCollection
+            .RegisterMapGeneratorType<ContainerMapGenerator>(MapGeneratorType.Container)
+            .RegisterMapGeneratorType<RoomMapGenerator>(MapGeneratorType.Rooms)
+            .RegisterMapGeneratorType<DungeonMapGenerator>(MapGeneratorType.Dungeon)
             ;
     }
 

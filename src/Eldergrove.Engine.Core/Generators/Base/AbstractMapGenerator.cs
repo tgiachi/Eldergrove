@@ -22,7 +22,6 @@ public abstract class AbstractMapGenerator : IMapGenerator
 
     private readonly IMapGenService _mapGenService;
 
-
     private GlyphTileEntry _wallTile;
 
     private GlyphTileEntry _floorTile;
@@ -31,6 +30,10 @@ public abstract class AbstractMapGenerator : IMapGenerator
 
     private MapGeneratorObject _mapGeneratorObject;
 
+
+    protected Point MapSize { get; private set; }
+
+    protected int MapArea => MapSize.X * MapSize.Y;
 
     protected AbstractMapGenerator(ILogger logger, ITileService tileService, IMapGenService mapGenService)
     {
@@ -44,6 +47,7 @@ public abstract class AbstractMapGenerator : IMapGenerator
         MapGeneratorObject generatorObject, Point mapSize, MapGeneratorType generatorType
     )
     {
+        MapSize = mapSize;
         _mapGeneratorObject = generatorObject;
         _wallTile = _tileService.GetTileEntry(generatorObject.Wall);
         _floorTile = _tileService.GetTileEntry(generatorObject.Floor);
@@ -75,8 +79,8 @@ public abstract class AbstractMapGenerator : IMapGenerator
     /// </summary>
     /// <typeparam name="TComponent"></typeparam>
     /// <returns></returns>
-    protected TComponent GetGeneratorContext<TComponent>() where TComponent : class =>
-        _generator.Context.GetFirst<TComponent>();
+    protected TComponent GetGeneratorContext<TComponent>(string tag) where TComponent : class =>
+        _generator.Context.GetFirst<TComponent>(tag);
 
 
     /// <summary>

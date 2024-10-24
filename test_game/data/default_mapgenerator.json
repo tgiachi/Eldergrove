@@ -27,19 +27,10 @@
     },
     {
         "$type": "map_generator",
-        "id": "start_town",
-        "generator_type": "town",
+        "id": "rooms",
+        "generator_type": "rooms",
         "fabrics": [
-            {
-                "id": "houses",
-                "min": 10,
-                "max": 10
-            },
-            {
-                "id": "f_goblins",
-                "min": 10,
-                "max": 600
-            }
+
         ],
         "wall": {
             "symbol": "t_wall"

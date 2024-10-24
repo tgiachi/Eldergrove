@@ -165,7 +165,6 @@ public class MapGenService : IMapGenService
         return map;
     }
 
-
     private void OnEntityRemoved(object? sender, ItemEventArgs<IGameObject> e)
     {
         if (e.Item is IActionableEntity actionableEntity)
