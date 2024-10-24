@@ -17,7 +17,7 @@ public class DoorComponent : RogueLikeComponentBase<PropGameObject>, IActionable
 
     public bool IsOpen { get; private set; }
 
-    public DoorComponent(ColoredGlyph openDoor, ColoredGlyph coloredGlyph, bool isOpen = false) : base(
+    public DoorComponent(ColoredGlyph openDoor, ColoredGlyph closedDoor, bool isOpen = false) : base(
         false,
         false,
         false,
@@ -25,8 +25,24 @@ public class DoorComponent : RogueLikeComponentBase<PropGameObject>, IActionable
     )
     {
         _openDoor = openDoor;
-        _closedDoor = coloredGlyph;
+        _closedDoor = closedDoor;
         IsOpen = isOpen;
+
+        Added += OnAdded;
+    }
+
+    private void OnAdded(object? sender, EventArgs e)
+    {
+        if (IsOpen)
+        {
+            Parent.IsTransparent = true;
+            Parent.IsWalkable = true;
+        }
+        else
+        {
+            Parent.IsTransparent = false;
+            Parent.IsWalkable = false;
+        }
     }
 
     public void Action()
