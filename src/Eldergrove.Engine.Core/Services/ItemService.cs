@@ -66,7 +66,7 @@ public class ItemService : IItemService
 
         var (glyph, tile) = _tileService.GetTileWithEntry(item);
 
-        itemGameObject = new ItemGameObject(position, glyph, item.IsBlocking, item.IsTransparent)
+        itemGameObject = new ItemGameObject(position, glyph, true, true)
         {
             ItemId = item.Id,
             Name = item.Name

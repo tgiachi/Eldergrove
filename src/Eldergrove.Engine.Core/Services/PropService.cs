@@ -84,7 +84,7 @@ public class PropService : IPropService
         var (glyph, tile) = _tileService.GetTileWithEntry(prop);
 
 
-        gameObject = new PropGameObject(position, glyph, false, prop.IsTransparent)
+        gameObject = new PropGameObject(position, glyph)
         {
             CanDestroy = prop.IsDestructible
         };

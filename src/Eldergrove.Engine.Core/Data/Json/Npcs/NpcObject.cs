@@ -25,9 +25,6 @@ public class NpcObject
     public string? Foreground { get; set; }
     public string? Background { get; set; }
 
-    public bool IsBlocking { get; set; } = true;
-
-    public bool IsTransparent { get; set; } = false;
     public string Category { get; set; }
 
     public string? SubCategory { get; set; }

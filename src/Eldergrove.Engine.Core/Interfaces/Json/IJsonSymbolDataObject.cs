@@ -8,7 +8,4 @@ public interface IJsonSymbolDataObject
 
     string? Background { get; set; }
 
-    bool IsBlocking { get; set; }
-
-    bool IsTransparent { get; set; }
 }

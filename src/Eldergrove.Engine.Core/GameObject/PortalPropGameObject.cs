@@ -11,6 +11,6 @@ public class PortalPropGameObject : PropGameObject
 
     public PortalPropGameObject(Point position, ColoredGlyph appearance) : base(position, appearance, true)
     {
-        
+
     }
 }
