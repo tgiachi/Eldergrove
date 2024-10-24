@@ -2,7 +2,9 @@ namespace Eldergrove.Engine.Core.Data.Json.Maps;
 
 public class MapGridObject
 {
-    public int Width { get; set; }
+    public int Columns { get; set; }
 
-    public int Height { get; set; }
+    public int Rows { get; set; }
+
+    public int Spacing { get; set; } = 2;
 }

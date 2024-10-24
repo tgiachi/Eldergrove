@@ -4,5 +4,5 @@ public enum MapPlacementStrategyType
 {
     Random,
     FreeSpace,
-    Adjacent
+    Grid
 }

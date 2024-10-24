@@ -142,7 +142,8 @@ public abstract class AbstractMapGenerator : IMapGenerator
                     break;
                 case MapPlacementStrategyType.FreeSpace:
                     break;
-                case MapPlacementStrategyType.Adjacent:
+                case MapPlacementStrategyType.Grid:
+                    generatedFabricLayersData.AddRange(PlaceFabricGrid(map, fab));
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -162,6 +163,63 @@ public abstract class AbstractMapGenerator : IMapGenerator
             .ToList();
 
         _logger.LogDebug("Generated {Count} fabric objects for {FabricId}", listOfFabricObjects.Count, fabricPlace.Id);
+
+
+        return listOfFabricObjects;
+    }
+
+    private List<GeneratedFabricLayersData> PlaceFabricGrid(GameMap map, FabricPlaceDataObject fabricPlace)
+    {
+        var listOfFabricObjects = new List<GeneratedFabricLayersData>();
+
+
+        if (fabricPlace.Grid == null)
+        {
+            throw new InvalidOperationException("Grid must be defined for adjacent placement");
+        }
+
+        // TODO: Find better starting point
+        var startingPoint = new Point(5, 5);
+
+        var columns = fabricPlace.Grid.Columns;
+        var rows = fabricPlace.Grid.Rows;
+
+        var currentX = startingPoint.X;
+        var currentY = startingPoint.Y;
+
+        for (int row = 0; row < rows; row++)
+        {
+            var fabricHeight = 0;
+
+            for (int col = 0; col < columns; col++)
+            {
+                var fabric = _mapGenService.BuildGameObject(fabricPlace.Id, new Point(currentX, currentY));
+
+
+                var fabricResult = _mapGenService.GenerateFabricAsync(
+                    fabric,
+                    _wallTile,
+                    _floorTile,
+                    map,
+                    new Point(currentX, currentY)
+                );
+
+                listOfFabricObjects.Add(fabricResult);
+
+                currentX += fabric.Width + fabricPlace.Grid.Spacing;
+
+                if (fabric.Height > fabricHeight)
+                {
+                    fabricHeight = fabric.Height;
+                }
+
+                _logger.LogDebug("Generated fabric object {FabricId} at {X},{Y}", fabric.Id, currentX, currentY);
+            }
+
+
+            currentX = startingPoint.X;
+            currentY += fabricHeight + fabricPlace.Grid.Spacing;
+        }
 
 
         return listOfFabricObjects;

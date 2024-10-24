@@ -6,4 +6,8 @@ namespace Eldergrove.Engine.Core.Data.Json.Maps;
 public class FabricPlaceDataObject : JsonRandomObject
 {
     public MapPlacementStrategyType Placement { get; set; } = MapPlacementStrategyType.Random;
+
+    public MapGridObject? Grid { get; set; }
+
+
 }

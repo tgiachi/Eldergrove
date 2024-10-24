@@ -6,8 +6,11 @@
         "fabrics": [
             {
                 "id": "houses",
-                "min": 1,
-                "max": 10
+                "placement": "grid",
+                "grid": {
+                    "columns": 5,
+                    "rows": 5
+                }
             },
             {
                 "id": "f_goblins",
