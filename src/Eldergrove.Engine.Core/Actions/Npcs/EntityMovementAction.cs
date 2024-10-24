@@ -39,7 +39,7 @@ public class EntityMovementAction : AbstractSchedulerAction
 
         var npc = _entity.CurrentMap.GetEntityAt<NpcGameObject>(newPosition);
 
-        if (npc != null)
+        if (npc != null && npc != _entity)
         {
             return ActionResult.Fail(new EntityNpcAttackAction(_entity, npc));
         }

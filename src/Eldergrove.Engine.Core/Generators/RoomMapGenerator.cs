@@ -32,7 +32,7 @@ public class RoomMapGenerator : AbstractMapGenerator
 
 
     protected override IEnumerable<GenerationStep> GetGeneratorSteps() =>
-        DefaultAlgorithms.BasicRandomRoomsMapSteps();
+        DefaultAlgorithms.BasicRandomRoomsMapSteps(minRooms: 50, maxRooms: 100, roomMinSize: 10, roomMaxSize: 50);
 
 
     protected override Task PostGenerationAsync(GameMap map)
