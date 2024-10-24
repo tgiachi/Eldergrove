@@ -26,7 +26,9 @@ public class PlayerFOVController : RogueLikeComponentBase<RogueLikeEntity>
     /// Calculate player FOV if the parent is part of a map.
     /// </summary>
     public void CalculateFOV()
-        => Parent?.CurrentMap?.PlayerFOV.Calculate(Parent.Position, FOVRadius, Parent.CurrentMap.DistanceMeasurement);
+    {
+        Parent?.CurrentMap?.PlayerFOV.Calculate(Parent.Position, FOVRadius, Parent.CurrentMap.DistanceMeasurement);
+    }
 
     private void OnAdded(object? s, EventArgs e)
     {

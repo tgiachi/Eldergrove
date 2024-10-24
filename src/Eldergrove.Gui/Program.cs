@@ -10,6 +10,7 @@ using Eldergrove.Ui.Core.Controls;
 using Eldergrove.Ui.Core.Interfaces;
 using Eldergrove.Ui.Core.Screens;
 using Eldergrove.Ui.Core.Services;
+using Microsoft.Xna.Framework.Media;
 using SadConsole;
 using SadConsole.Configuration;
 using SadRogue.Primitives;
@@ -55,7 +56,6 @@ Game.Instance.Dispose();
 async void Game_Started(object? sender, GameHost host)
 {
     //Game.Instance.StartingConsole.Font = host.Fonts["C64"];
-
 
     EldergroveState.ScreenSize = new Point(host.ScreenCellsX, host.ScreenCellsY);
 

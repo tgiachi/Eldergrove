@@ -26,11 +26,10 @@ public class PropGameObject : RogueLikeEntity, INamedComponent
     public DoorComponent Door => GoRogueComponents.GetFirst<DoorComponent>();
 
     public PropGameObject(
-        Point position, ColoredGlyph appearance, bool walkable = true, bool transparent = true
+        Point position, ColoredGlyph appearance, bool walkable = false, bool transparent = false
     ) : base(appearance, walkable, transparent, (int)MapLayerType.Props)
     {
         Position = position;
-
     }
 
     public void Destroy()

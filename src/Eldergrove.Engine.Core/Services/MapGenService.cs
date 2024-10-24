@@ -180,9 +180,9 @@ public class MapGenService : IMapGenService
             _schedulerService.AddActionableEntity(actionableEntity);
         }
 
-        if (e.Item.Layer > 1)
+        if (e.Item.Layer > 0)
         {
-            _logger.LogDebug("Entity added {Entity} in position: {Pos}", e.Item.GetType(), e.Position);
+            _logger.LogDebug("Entity added {Entity} in position: {Pos}", e.Item, e.Position);
 
             if (!_layeredObjects.TryGetValue((MapLayerType)e.Item.Layer, out var layer))
             {
