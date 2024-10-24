@@ -40,10 +40,6 @@ public class NpcModule
     [ScriptFunction("add_brain", "Adds a brain to an npc")]
     public void AddBrain(string id, LuaFunction brain)
     {
-        _npcService.AddBrain(id, ctx =>
-        {
-            return (List<ISchedulerAction>)brain.Call(ctx)[0];
-
-        });
+        _npcService.AddBrain(id, ctx => (List<ISchedulerAction>)brain.Call(ctx)[0]);
     }
 }

@@ -1,4 +1,5 @@
 using Eldergrove.Engine.Core.Attributes.Services;
+using Eldergrove.Engine.Core.Contexts;
 using Eldergrove.Engine.Core.Data.Json.Items;
 using Eldergrove.Engine.Core.Data.Json.Random;
 using Eldergrove.Engine.Core.Extensions;
@@ -20,6 +21,8 @@ public class ItemService : IItemService
     private readonly Dictionary<string, ItemObject> _items = new();
 
     private readonly ITileService _tileService;
+
+    private readonly Dictionary<string, Action<ItemFeatureContext>> _itemFeatures = new();
 
 
     public ItemService(ILogger<ItemService> logger, IDataLoaderService dataLoaderService, ITileService tileService)
@@ -101,5 +104,10 @@ public class ItemService : IItemService
     {
         _logger.LogDebug("Adding item {ItemId}", item.Id);
         _items.Add(item.Id, item);
+    }
+
+    public void AddItemFeature(string id, Action<ItemFeatureContext> feature)
+    {
+        _itemFeatures.Add(id, feature);
     }
 }

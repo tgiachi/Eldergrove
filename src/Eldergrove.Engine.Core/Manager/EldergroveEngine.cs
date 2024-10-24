@@ -96,6 +96,7 @@ public class EldergroveEngine : IEldergroveEngine
             .RegisterScriptModule<VariablesModule>()
             .RegisterScriptModule<TextServiceModule>()
             .RegisterScriptModule<HttpRequestModule>()
+            .RegisterScriptModule<ItemModule>()
             ;
     }
 
