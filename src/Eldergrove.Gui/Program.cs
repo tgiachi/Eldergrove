@@ -108,12 +108,10 @@ async void Game_Started(object? sender, GameHost host)
             {
                 var message = o as GuiPickUpRequestEvent;
 
-                var pickUp = new PickUpControl(15, 15, message.Player, message.Items);
-
-                // Center of screen
-                pickUp.Position = new Point(
-                    (host.ScreenCellsX / 2) - (pickUp.Width / 2),
-                    (host.ScreenCellsY / 2) - (pickUp.Height / 2)
+                var pickUp = new PickUpControl(
+                    EldergroveState.ScreenSize.ToPercengatePoint(30),
+                    message.Player,
+                    message.Items
                 );
 
                 Game.Instance.StartingConsole.Children.Add(pickUp);

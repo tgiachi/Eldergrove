@@ -1,20 +1,60 @@
+using Eldergrove.Engine.Core.Extensions;
+using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.State;
 using SadConsole;
 using SadConsole.Input;
 using SadConsole.UI;
 using SadRogue.Primitives;
+using Serilog;
 
 namespace Eldergrove.Ui.Core.Controls.Base;
 
-using Console = SadConsole.Console;
-
 public class BaseGuiControl : ControlsConsole
 {
-    public bool EscToClose { get; set; } = true;
+    public bool EscToCloseEnabled { get; set; } = true;
+    public bool DrawBorderEnabled { get; set; } = true;
+    public bool FocusOnShowEnabled { get; set; }
 
-    public BaseGuiControl(int width, int height) : base(width, height)
+    public bool CenterOnShowEnabled { get; set; } = false;
+
+
+    private readonly string? _keyBindingName;
+
+    public BaseGuiControl(Point size, string keyBindingName = null) : base(size.X, size.Y)
     {
         Font = EldergroveState.DefaultUiFont;
+        _keyBindingName = keyBindingName;
+
+        if (DrawBorderEnabled)
+        {
+            DrawBorder();
+        }
+
+        ParentChanged += (sender, args) =>
+        {
+            if (args.OldValue == null && args.NewValue != null)
+            {
+                OnShown();
+
+                if (CenterOnShowEnabled)
+                {
+                    ToCenter();
+                }
+
+                if (FocusOnShowEnabled)
+                {
+                    IsFocused = true;
+                }
+
+                return;
+            }
+
+            if (args.OldValue != null && args.NewValue == null)
+            {
+                IsFocused = false;
+                OnClosed();
+            }
+        };
     }
 
 
@@ -30,7 +70,18 @@ public class BaseGuiControl : ControlsConsole
 
     public override bool ProcessKeyboard(Keyboard keyboard)
     {
-        if (keyboard.IsKeyPressed(Keys.Escape) && EscToClose)
+        if (_keyBindingName != null)
+        {
+            var result = EldergroveState.Engine.GetService<IKeyActionCommandService>()
+                .ExecuteKeybinding(_keyBindingName, keyboard.ToKeybindingData());
+
+            if (result)
+            {
+                return true;
+            }
+        }
+
+        if (keyboard.IsKeyPressed(Keys.Escape) && EscToCloseEnabled)
         {
             IsEnabled = false;
             IsVisible = false;
@@ -41,5 +92,42 @@ public class BaseGuiControl : ControlsConsole
         }
 
         return base.ProcessKeyboard(keyboard);
+    }
+
+    protected void DrawBorder()
+    {
+        var horizontal = 196;
+        var vertical = 179;    // │ (ASCII 179 o Unicode '\u2502')
+        var topLeft = 218;     // ┌ (ASCII 218 o Unicode '\u250C')
+        var topRight = 191;    // ┐ (ASCII 191 o Unicode '\u2510')
+        var bottomLeft = 192;  // └ (ASCII 192 o Unicode '\u2514')
+        var bottomRight = 217; // ┘ (ASCII 217 o Unicode '\u2518')
+
+        this.SetGlyph(0, 0, topLeft);
+        this.SetGlyph(Width - 1, 0, topRight);
+        this.SetGlyph(0, Height - 1, bottomLeft);
+        this.SetGlyph(Width - 1, Height - 1, bottomRight);
+
+        for (int x = 1; x < Width - 1; x++)
+        {
+            this.SetGlyph(x, 0, horizontal);          // Top border
+            this.SetGlyph(x, Height - 1, horizontal); // Bottom border
+        }
+
+        for (int y = 1; y < Height - 1; y++)
+        {
+            this.SetGlyph(0, y, vertical);         // Left border
+            this.SetGlyph(Width - 1, y, vertical); // Right border
+        }
+    }
+
+    protected virtual void OnShown()
+    {
+        Log.Logger.Information("Control shown");
+    }
+
+    protected virtual void OnClosed()
+    {
+        Log.Logger.Information("Control closed");
     }
 }

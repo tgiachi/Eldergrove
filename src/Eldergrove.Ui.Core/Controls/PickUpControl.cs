@@ -20,10 +20,7 @@ public class PickUpControl : BaseGuiControl
 
     private readonly Window _window;
 
-    public PickUpControl(int width, int height, PlayerGameObject playerGameObject, List<ItemGameObject> items) : base(
-        width,
-        height
-    )
+    public PickUpControl(Point size, PlayerGameObject playerGameObject, List<ItemGameObject> items) : base(size)
     {
         _playerGameObject = playerGameObject;
         _items = items;
@@ -37,7 +34,7 @@ public class PickUpControl : BaseGuiControl
         );
 
 
-        _leftListBox = new ListBox(width / 2, height)
+        _leftListBox = new ListBox(Width / 2, Height)
         {
             Position = new Point(0, 0),
             UseMouse = true,
@@ -47,9 +44,9 @@ public class PickUpControl : BaseGuiControl
             IsEnabled = true,
         };
 
-        _rightListBox = new ListBox(width / 2, height)
+        _rightListBox = new ListBox(Width / 2, Height)
         {
-            Position = new Point(width / 2, 0),
+            Position = new Point(Width / 2, 0),
             UseMouse = true,
             UseKeyboard = true,
             CanFocus = true,
