@@ -8,7 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="SadConsole" Version="10.4.1"/>
+        <PackageReference Include="SadConsole" Version="10.4.2" />
       
     </ItemGroup>
 

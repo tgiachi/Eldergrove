@@ -108,11 +108,9 @@ public class MapGenService : IMapGenService
     }
 
 
-    public async Task<GameMap> GenerateMapAsync()
+    public async Task<GameMap> GenerateMap(string mapGeneratorId, Point mapSize)
     {
-        _gameConfig = _scriptEngineService.GetContextVariable<GameConfig>("game_config");
-
-        _mapGenerators.TryGetValue(_gameConfig.Map.GeneratorId, out var mapGenerator);
+        _mapGenerators.TryGetValue(mapGeneratorId, out var mapGenerator);
 
 
         if (mapGenerator == null)
@@ -139,7 +137,7 @@ public class MapGenService : IMapGenService
 
         map = await mapGenType.GenerateMapAsync(
             mapGenerator,
-            new Point(_gameConfig.Map.Width, _gameConfig.Map.Height),
+            new Point(mapSize.X, mapSize.Y),
             mapGenData.Type
         );
 
@@ -150,17 +148,28 @@ public class MapGenService : IMapGenService
 
         await mapGenType.PopulateMapAsync(map);
 
-        if (CurrentMap == null)
-        {
-            CurrentMap = map;
-        }
-
 
         _messageBusService.Publish(new MapGeneratedEvent(map));
 
 
         stopWatch.Stop();
         _logger.LogDebug("Map generated in {Elapsed}ms", stopWatch.ElapsedMilliseconds);
+
+        return map;
+    }
+
+    public async Task<GameMap> GenerateMapAsync()
+    {
+        _gameConfig = _scriptEngineService.GetContextVariable<GameConfig>("game_config");
+
+
+        var map = await GenerateMap(_gameConfig.Map.GeneratorId, new Point(_gameConfig.Map.Width, _gameConfig.Map.Height));
+
+        if (CurrentMap == null)
+        {
+            CurrentMap = map;
+        }
+
 
         return map;
     }
