@@ -149,26 +149,40 @@ public class MapGenService : IMapGenService
         await mapGenType.PopulateMapAsync(map);
 
 
-        _messageBusService.Publish(new MapGeneratedEvent(map));
-
-
         stopWatch.Stop();
         _logger.LogDebug("Map generated in {Elapsed}ms", stopWatch.ElapsedMilliseconds);
 
         return map;
     }
 
-    public async Task<GameMap> GenerateMapAsync()
+    public async Task<GameMap> GenerateMainMapAsync()
     {
         _gameConfig = _scriptEngineService.GetContextVariable<GameConfig>("game_config");
 
 
         var map = await GenerateMap(_gameConfig.Map.GeneratorId, new Point(_gameConfig.Map.Width, _gameConfig.Map.Height));
 
+
+        var mapsToGenerate = map.Entities[MapLayerType.Props];
+
+        foreach (var mapToGenerate in mapsToGenerate)
+        {
+            if (mapToGenerate is PortalPropGameObject portalPropGameObject)
+            {
+                portalPropGameObject.DestinationMapId = Guid.NewGuid().ToString();
+                var generateMap = await GenerateMap(portalPropGameObject.MapGeneratorId, portalPropGameObject.Size);
+
+                _maps.Add(portalPropGameObject.DestinationMapId, generateMap);
+            }
+        }
+
+
         if (CurrentMap == null)
         {
             CurrentMap = map;
         }
+
+        _messageBusService.Publish(new MapGeneratedEvent(map));
 
 
         return map;

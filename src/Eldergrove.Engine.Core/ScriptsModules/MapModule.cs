@@ -17,6 +17,6 @@ public class MapModule
     [ScriptFunction("generate_map")]
     public async void GenerateMap()
     {
-        await _mapGenService.GenerateMapAsync();
+        await _mapGenService.GenerateMainMapAsync();
     }
 }

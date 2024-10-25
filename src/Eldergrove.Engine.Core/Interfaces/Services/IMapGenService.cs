@@ -23,5 +23,5 @@ public interface IMapGenService :  IGameObjectFactory<MapFabricObject>
 
     void AddFabric(MapFabricObject fabric);
 
-    Task<GameMap> GenerateMapAsync();
+    Task<GameMap> GenerateMainMapAsync();
 }
