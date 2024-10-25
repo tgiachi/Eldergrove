@@ -75,19 +75,4 @@ public class PickUpControl : BaseGuiControl
         _rightListBox.Items.Add("Test");
         _rightListBox.Items.Add("Test");
     }
-
-    public override bool ProcessKeyboard(Keyboard keyboard)
-    {
-        if (keyboard.IsKeyPressed(Keys.Escape))
-        {
-            IsEnabled = false;
-            IsVisible = false;
-            UseKeyboard = false;
-            UseMouse = false;
-            Parent.Children.Remove(this);
-            return true;
-        }
-
-        return base.ProcessKeyboard(keyboard);
-    }
 }

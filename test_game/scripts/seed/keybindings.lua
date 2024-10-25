@@ -11,6 +11,10 @@ return function ()
 
     register_keybinding("map", "Space", "player_search")
 
+
+    register_keybinding("map", "I", "player_inventory")
+
+
     action_register_cmd("toggle_debug", function(ctx)
          ctx:GetEngine():GetNpcService():GetPlayer():ShowAllMap()
     end)

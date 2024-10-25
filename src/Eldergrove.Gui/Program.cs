@@ -2,6 +2,7 @@
 using Eldergrove.Engine.Core.Data.Game;
 using Eldergrove.Engine.Core.Data.Internal;
 using Eldergrove.Engine.Core.Extensions;
+using Eldergrove.Engine.Core.GameObject;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Manager;
 using Eldergrove.Engine.Core.State;
@@ -19,7 +20,7 @@ Settings.WindowTitle = "";
 
 
 var rootDirectory = Environment.GetEnvironmentVariable("ELDERGROVE_ROOT_DIRECTORY") ??
-                    Path.Join(Directory.GetCurrentDirectory(), "Eldergrove");
+                    Path.Join(Directory.GetCurrentDirectory(), "test_game");
 
 var engine = new EldergroveEngine(
     new EldergroveOptions() { RootDirectory = rootDirectory, },
@@ -116,6 +117,20 @@ async void Game_Started(object? sender, GameHost host)
                 );
 
                 Game.Instance.StartingConsole.Children.Add(pickUp);
+            }
+        );
+
+
+    engine.GetService<IEventDispatcherService>()
+        .SubscribeToEvent(
+            "gui_player_inventory",
+            o =>
+            {
+                var message = o as PlayerGameObject;
+
+                Game.Instance.StartingConsole.Children.Add(
+                    new InventoryPanel(EldergroveState.ScreenSize.ToPercengatePoint(80), message)
+                );
             }
         );
 

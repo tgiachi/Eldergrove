@@ -152,6 +152,7 @@ public class EldergroveEngine : IEldergroveEngine
             .AddKeybindingAction<PlayerMoveRight>()
             .AddKeybindingAction<PlayerExecuteSearch>()
             .AddKeybindingAction<PlayerPickup>()
+            .AddKeybindingAction<PlayerInventory>()
             ;
     }
 
