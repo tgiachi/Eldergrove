@@ -84,6 +84,18 @@ public class PropService : IPropService
         var (glyph, tile) = _tileService.GetTileWithEntry(prop);
 
 
+        if (prop.Portal != null)
+        {
+            return new PortalPropGameObject(position, glyph)
+            {
+                MapGeneratorId = prop.Portal.MapGeneratorId,
+                Size = prop.Portal.Size,
+                Name = prop.Name,
+            };
+        }
+
+
+
         gameObject = new PropGameObject(position, glyph)
         {
             CanDestroy = prop.IsDestructible

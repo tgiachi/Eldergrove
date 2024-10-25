@@ -5,6 +5,8 @@ namespace Eldergrove.Engine.Core.GameObject;
 
 public class PortalPropGameObject : PropGameObject
 {
+    public string Name { get; set; }
+
     public string MapGeneratorId { get; set; }
 
     public Point Size { get; set; }
