@@ -24,7 +24,6 @@ public class ItemService : IItemService
 
     private readonly Dictionary<string, Action<ItemFeatureContext>> _itemFeatures = new();
 
-
     public ItemService(ILogger<ItemService> logger, IDataLoaderService dataLoaderService, ITileService tileService)
     {
         _logger = logger;
