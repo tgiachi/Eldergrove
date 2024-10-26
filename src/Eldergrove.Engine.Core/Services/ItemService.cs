@@ -1,4 +1,6 @@
+using System.Diagnostics;
 using Eldergrove.Engine.Core.Attributes.Services;
+using Eldergrove.Engine.Core.Components.Items;
 using Eldergrove.Engine.Core.Contexts;
 using Eldergrove.Engine.Core.Data.Json.Items;
 using Eldergrove.Engine.Core.Data.Json.Random;
@@ -59,6 +61,8 @@ public class ItemService : IItemService
 
         ItemGameObject itemGameObject = null;
 
+        var featureComponent = new ItemFeaturesComponent(this);
+
         if (item == null)
         {
             _logger.LogError("Item not found for id or category {Id}", id);
@@ -73,6 +77,23 @@ public class ItemService : IItemService
             ItemId = item.Id,
             Name = item.Name
         };
+
+        itemGameObject.AllComponents.Add(featureComponent);
+
+        if (item.Features != null)
+        {
+            foreach (var feature in item.Features)
+            {
+                var featureId = _itemFeatures.GetValueOrDefault(feature.Id);
+
+                if (featureId == null)
+                {
+                    throw new InvalidOperationException($"Feature not found for id {feature.Id}");
+                }
+
+                featureComponent.AddFeature(feature.Id, feature.Id, feature.Params);
+            }
+        }
 
 
         return itemGameObject;
@@ -108,5 +129,17 @@ public class ItemService : IItemService
     public void AddItemFeature(string id, Action<ItemFeatureContext> feature)
     {
         _itemFeatures.Add(id, feature);
+    }
+
+    public void ExecuteFeature(string id, ItemFeatureContext context)
+    {
+        var stopWatch = Stopwatch.StartNew();
+
+
+        _itemFeatures.GetValueOrDefault(id)?.Invoke(context);
+
+        stopWatch.Stop();
+
+        _logger.LogDebug("Feature {FeatureId} executed in {ElapsedMilliseconds}ms", id, stopWatch.ElapsedMilliseconds);
     }
 }

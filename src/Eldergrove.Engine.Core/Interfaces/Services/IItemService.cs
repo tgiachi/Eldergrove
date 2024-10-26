@@ -14,4 +14,6 @@ public interface IItemService : IGameObjectFactory<ItemGameObject>
     void AddItem(ItemObject item);
 
     void AddItemFeature(string id, Action<ItemFeatureContext> feature);
+
+    void ExecuteFeature(string id, ItemFeatureContext context);
 }
