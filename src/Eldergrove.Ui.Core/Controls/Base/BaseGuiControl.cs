@@ -14,20 +14,29 @@ public class BaseGuiControl : ControlsConsole
     public bool EscToCloseEnabled { get; set; } = true;
     public bool DrawBorderEnabled { get; set; } = true;
     public bool FocusOnShowEnabled { get; set; }
-
     public bool CenterOnShowEnabled { get; set; } = false;
+
+    public string? Title { get; set; }
 
 
     private readonly string? _keyBindingName;
 
-    public BaseGuiControl(Point size, string keyBindingName = null) : base(size.X, size.Y)
+
+    public BaseGuiControl(Point size, string keyBindingName = null, string title = null) : base(size.X, size.Y)
     {
         Font = EldergroveState.DefaultUiFont;
         _keyBindingName = keyBindingName;
 
+        Title = title;
+
         if (DrawBorderEnabled)
         {
             DrawBorder();
+        }
+
+        if (!string.IsNullOrEmpty(Title))
+        {
+            DrawTitle();
         }
 
         ParentChanged += (sender, args) =>
@@ -119,6 +128,24 @@ public class BaseGuiControl : ControlsConsole
             this.SetGlyph(0, y, vertical);         // Left border
             this.SetGlyph(Width - 1, y, vertical); // Right border
         }
+    }
+
+    private void DrawTitle()
+    {
+        if (string.IsNullOrEmpty(Title))
+        {
+            return;
+        }
+
+        var titleText = Title;
+
+        if (titleText.Length > Width - 2)
+        {
+            titleText = titleText[..(Width - 2)];
+        }
+
+        var titleX = (Width - titleText.Length) / 2;
+        this.Print(titleX, 0, titleText);
     }
 
     protected virtual void OnShown()
