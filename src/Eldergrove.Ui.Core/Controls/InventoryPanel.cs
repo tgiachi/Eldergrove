@@ -14,6 +14,8 @@ public class InventoryPanel : BaseGuiControl
 
     private IconListBox<InventoryListItem> _iconListBox;
 
+    private TextControl _descriptionTextControl;
+
 
     public InventoryPanel(Point size, PlayerGameObject playerGameObject) : base(size, title: "Inventory")
     {
@@ -22,20 +24,29 @@ public class InventoryPanel : BaseGuiControl
 
         _playerGameObject = playerGameObject;
 
-        _iconListBox = new IconListBox<InventoryListItem>(FullWithoutBorderSize, EldergroveState.DefaultUiFont);
+
+        _iconListBox = new IconListBox<InventoryListItem>(new Point(Width - 20, Height), EldergroveState.DefaultUiFont);
+        _descriptionTextControl = new TextControl(new Point(Width - _iconListBox.Width - 1, Height));
+        _descriptionTextControl.Background = Color.Blue;
 
         _iconListBox.Position = new Point(1, 1);
+        _descriptionTextControl.Position = new Point(_iconListBox.Width + 1, 1);
 
         Children.Add(_iconListBox);
+        Children.Add(_descriptionTextControl);
 
         _iconListBox.UseKeyboard = true;
+        //        _descriptionTextControl.FontSize = new Point(2, 2);
 
 
-        _iconListBox.Items.Add(new InventoryListItem(0, "Item 1"));
-        _iconListBox.Items.Add(new InventoryListItem(0, "Item 2"));
-        _iconListBox.Items.Add(new InventoryListItem(0, "Item 3"));
-        _iconListBox.Items.Add(new InventoryListItem(0, "Item 4"));
+        _iconListBox.Items.Add(new InventoryListItem(0, "Item 1", new ItemGameObject(Point.None, new ColoredGlyph())));
+        _iconListBox.Items.Add(new InventoryListItem(0, "Item 2", new ItemGameObject(Point.None, new ColoredGlyph())));
+        _iconListBox.Items.Add(new InventoryListItem(0, "Item 3", new ItemGameObject(Point.None, new ColoredGlyph())));
 
-        _iconListBox.SelectedIndexChanged += item => { Log.Information($"Selected item: {item.Text}"); };
+        _iconListBox.SelectedIndexChanged += item =>
+        {
+            Log.Information($"Selected item: {item.Text}");
+            _descriptionTextControl.Text = "Description: " + item.Text;
+        };
     }
 }
