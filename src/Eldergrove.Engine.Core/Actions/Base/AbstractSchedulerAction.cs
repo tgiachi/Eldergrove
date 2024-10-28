@@ -7,10 +7,7 @@ namespace Eldergrove.Engine.Core.Actions.Base;
 
 public class AbstractSchedulerAction : ISchedulerAction
 {
-    public virtual async Task<ActionResult> ExecuteAsync()
-    {
-        return ActionResult.Succeed();
-    }
+    public virtual async Task<ActionResult> ExecuteAsync() => ActionResult.Succeed();
 
     protected void SendEventMessage<TMessage>(TMessage message) where TMessage : class
     {
