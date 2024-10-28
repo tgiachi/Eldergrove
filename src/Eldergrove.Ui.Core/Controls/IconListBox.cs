@@ -19,6 +19,8 @@ public class IconListBox<TItem> : BaseGuiControl where TItem : IIconListItem
 
     public delegate void SelectedIndexChangedHandler(TItem item);
 
+    private Color SelectedForeground { get; set; } = Color.Yellow;
+
     public event ItemSelectedHandler? ItemSelected;
 
     public event SelectedIndexChangedHandler? SelectedIndexChanged;
@@ -29,15 +31,21 @@ public class IconListBox<TItem> : BaseGuiControl where TItem : IIconListItem
         _symbolFont = symbolFont;
         Items.CollectionChanged += (sender, args) => { Draw(); };
 
-        PropertyChanged += (sender, args) =>
+        PropertyChanged += (_, args) =>
         {
             if (args.PropertyName == nameof(SelectedIndex))
             {
                 SelectedIndexChanged?.Invoke(Items[SelectedIndex]);
+
+                Draw();
             }
         };
     }
 
+
+    public override void Update(TimeSpan delta)
+    {
+    }
 
     private void Draw()
     {

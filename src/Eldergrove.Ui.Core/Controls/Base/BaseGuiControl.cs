@@ -167,4 +167,7 @@ public class BaseGuiControl : ControlsConsole, INotifyPropertyChanged
     {
         Log.Logger.Information("Control closed");
     }
+
+
+    protected Point FullWithoutBorderSize => new(Width - 2, Height - 2);
 }
