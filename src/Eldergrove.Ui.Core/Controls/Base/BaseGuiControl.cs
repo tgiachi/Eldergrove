@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.State;
@@ -9,12 +11,14 @@ using Serilog;
 
 namespace Eldergrove.Ui.Core.Controls.Base;
 
-public class BaseGuiControl : ControlsConsole
+public class BaseGuiControl : ControlsConsole, INotifyPropertyChanged
 {
     public bool EscToCloseEnabled { get; set; } = true;
     public bool DrawBorderEnabled { get; set; } = true;
     public bool FocusOnShowEnabled { get; set; }
     public bool CenterOnShowEnabled { get; set; } = false;
+
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     public string? Title { get; set; }
 
@@ -91,15 +95,22 @@ public class BaseGuiControl : ControlsConsole
 
         if (keyboard.IsKeyPressed(Keys.Escape) && EscToCloseEnabled)
         {
-            IsEnabled = false;
-            IsVisible = false;
-            UseKeyboard = false;
-            UseMouse = false;
-            Parent.Children.Remove(this);
+            Close();
+
             return true;
         }
 
         return base.ProcessKeyboard(keyboard);
+    }
+
+
+    protected void Close()
+    {
+        IsEnabled = false;
+        IsVisible = false;
+        UseKeyboard = false;
+        UseMouse = false;
+        Parent.Children.Remove(this);
     }
 
     protected void DrawBorder()
