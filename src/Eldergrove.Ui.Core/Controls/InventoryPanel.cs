@@ -8,12 +8,14 @@ public class InventoryPanel : BaseGuiControl
 {
     private readonly PlayerGameObject _playerGameObject;
 
+
     public InventoryPanel(Point size, PlayerGameObject playerGameObject) : base(size, title: "Inventory")
     {
         FocusOnShowEnabled = true;
         CenterOnShowEnabled = true;
 
-
         _playerGameObject = playerGameObject;
+
+
     }
 }
