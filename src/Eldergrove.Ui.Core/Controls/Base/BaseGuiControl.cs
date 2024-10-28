@@ -18,7 +18,6 @@ public class BaseGuiControl : ControlsConsole
 
     public string? Title { get; set; }
 
-
     private readonly string? _keyBindingName;
 
 
