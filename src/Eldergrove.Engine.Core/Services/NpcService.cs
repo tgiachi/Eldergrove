@@ -169,13 +169,15 @@ public class NpcService : INpcService
                 .ToList();
 
 
-
-
         var randomStartPlayerPosition = randomStartPlayerPositions.RandomElement();
 
         if (randomStartPlayerPosition == null)
         {
-            throw new InvalidOperationException("No player start found");
+            // throw new InvalidOperationException("No player start found");
+
+            var rndNpc = map.GetEntitiesFromLayer<NpcGameObject>(MapLayerType.Npc).RandomElement();
+            randomStartPlayerPosition =
+                new PlayerStartGameObject(rndNpc.Position + new Point(1, 0));
         }
 
         var gameConfig = _scriptEngineService.GetContextVariable<GameConfig>("game_config");
