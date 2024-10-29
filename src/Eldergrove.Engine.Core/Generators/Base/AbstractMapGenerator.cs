@@ -154,7 +154,15 @@ public abstract class AbstractMapGenerator : IMapGenerator
             }
         }
 
-        map.AddGeneratedFabricLayersData(generatedFabricLayersData.ToArray());
+        foreach (var fabric in generatedFabricLayersData)
+        {
+            foreach (var layer in Enum.GetValues<MapLayerType>())
+            {
+                map.AddEntities(fabric[layer].ToArray());
+            }
+        }
+
+        // map.AddGeneratedFabricLayersData(generatedFabricLayersData.ToArray());
 
         return Task.CompletedTask;
     }

@@ -163,7 +163,7 @@ public class MapGenService : IMapGenService
         var map = await GenerateMap(_gameConfig.Map.GeneratorId, new Point(_gameConfig.Map.Width, _gameConfig.Map.Height));
 
 
-        var mapsToGenerate = map.Entities[MapLayerType.Props];
+        var mapsToGenerate = map.GetEntitiesFromLayer<PropGameObject>(MapLayerType.Props);
 
         foreach (var mapToGenerate in mapsToGenerate)
         {

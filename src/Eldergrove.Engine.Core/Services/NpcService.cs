@@ -8,9 +8,12 @@ using Eldergrove.Engine.Core.Data.Events;
 using Eldergrove.Engine.Core.Data.Game;
 using Eldergrove.Engine.Core.Data.Json.Npcs;
 using Eldergrove.Engine.Core.Data.Json.TileSet;
+using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.GameObject;
 using Eldergrove.Engine.Core.Interfaces.Actions;
 using Eldergrove.Engine.Core.Interfaces.Services;
+using Eldergrove.Engine.Core.Maps;
+using Eldergrove.Engine.Core.Types;
 using Eldergrove.Engine.Core.Utils;
 using Microsoft.Extensions.Logging;
 using SadConsole;
@@ -158,8 +161,23 @@ public class NpcService : INpcService
     }
 
 
-    public void BuildPlayer(Point position)
+    public void BuildPlayer(GameMap map)
     {
+        var randomStartPlayerPositions =
+            map.GetEntitiesFromLayer<PropGameObject>(MapLayerType.Props)
+                .Where(s => s is PlayerStartGameObject)
+                .ToList();
+
+
+
+
+        var randomStartPlayerPosition = randomStartPlayerPositions.RandomElement();
+
+        if (randomStartPlayerPosition == null)
+        {
+            throw new InvalidOperationException("No player start found");
+        }
+
         var gameConfig = _scriptEngineService.GetContextVariable<GameConfig>("game_config");
 
 
@@ -180,7 +198,7 @@ public class NpcService : INpcService
             Gold = gameConfig.Player.StartingGold.GetRandomValue()
         };
 
-        Player = new PlayerGameObject(position, playerEntry);
+        Player = new PlayerGameObject(randomStartPlayerPosition.Position, playerEntry);
         Player.GoRogueComponents.Add(new PlayerFOVController());
         Player.GoRogueComponents.Add(skills);
     }

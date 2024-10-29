@@ -65,7 +65,7 @@ public class GameObject : ScreenObject
 
         var point = randomProp.Position + new Point(1, 0);
 
-        _npcService.BuildPlayer(point);
+        _npcService.BuildPlayer(_currentMap);
         _currentMap.AddEntity(_npcService.Player);
 
 

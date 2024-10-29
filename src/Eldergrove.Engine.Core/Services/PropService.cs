@@ -71,6 +71,12 @@ public class PropService : IPropService
         PropObject prop = null;
         PropGameObject gameObject = null;
 
+        if (idOrCategory.Equals("player_start", StringComparison.CurrentCultureIgnoreCase))
+        {
+            _logger.LogInformation("Found player start game object @ position {Position}", position);
+            return new PlayerStartGameObject(position);
+        }
+
 
         prop = GetPropById(idOrCategory) ?? GetPropByCategory(idOrCategory);
 
@@ -93,7 +99,6 @@ public class PropService : IPropService
                 Name = prop.Name,
             };
         }
-
 
 
         gameObject = new PropGameObject(position, glyph)
