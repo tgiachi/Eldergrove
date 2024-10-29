@@ -2,6 +2,55 @@
 
 All notable changes to this project will be documented in this file.
 
+<a name="0.3.0-alpha.1"></a>
+## [0.3.0-alpha.1](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.3.0-alpha.1) (2024-10-29)
+
+### Features
+
+* add AI, inventory, and animation components to enhance game mechanics ([a0cc561](https://www.github.com/tgiachi/Eldergrove/commit/a0cc561745519b0067d284dc4f41bac544df76a5))
+* add English and Italian versions of the story "Eldergrove: The Ruins of Lost Magic" in separate files to provide multilingual support and enhance user experience ([3ff8b07](https://www.github.com/tgiachi/Eldergrove/commit/3ff8b078883f315a315e58712f2d660e2f2ef6e4))
+* **AiComponent.cs:** add check for Parent.IsDead to prevent AiComponent logic execution if parent is dead ([ab2624f](https://www.github.com/tgiachi/Eldergrove/commit/ab2624f824a2863bb612ec56f4f72a57d33e2feb))
+* **BaseGuiControl:** add Title property to allow custom titles for GUI controls ([c3bbafe](https://www.github.com/tgiachi/Eldergrove/commit/c3bbafe1d3110a7d1ccc36a920daf6753f67cf36))
+* **BaseGuiControl.cs:** add FullWithoutBorderSize property to calculate size without border ([586c360](https://www.github.com/tgiachi/Eldergrove/commit/586c360f3de6e95def91a032691f935900b7b583))
+* **BaseGuiControl.cs:** add virtual method Draw to allow subclasses to implement custom drawing logic ([a61ef24](https://www.github.com/tgiachi/Eldergrove/commit/a61ef24956d6b25cd9a110cb692762f95310e66c))
+* **BaseGuiControl.cs:** implement INotifyPropertyChanged interface to enable property change notifications ([ac5c433](https://www.github.com/tgiachi/Eldergrove/commit/ac5c43324fa769052b514c3e1d952a0f8e011d7f))
+* **core:** add new classes and extensions for map generation and grid handling ([feefbec](https://www.github.com/tgiachi/Eldergrove/commit/feefbec73800272e12130d8bf1a16dfc4f845d5f))
+* **core:** add new classes and interfaces for map generation and data handling ([a1d0924](https://www.github.com/tgiachi/Eldergrove/commit/a1d092435bb218346bee5ca9f7d2c2058595fdab))
+* **core:** add new ItemFeatureActionData record to store item feature action data ([32185b0](https://www.github.com/tgiachi/Eldergrove/commit/32185b020c175f53af7f539ab5c2f505607ca21c))
+* **default_mapgenerator.json:** increase max number of houses and goblins for more diverse maps ([cef50d6](https://www.github.com/tgiachi/Eldergrove/commit/cef50d651d2d41344dd0f2604d5886bab6b4019d))
+* **Eldergrove.Engine.Core:** add GuiShowInventoryEvent to display player inventory in GUI ([585dab5](https://www.github.com/tgiachi/Eldergrove/commit/585dab572d9454e832a3d1455ede275dd94fabed))
+* **Eldergrove.Gui:** add Tangaria32 font file and configuration for SadConsole rendering engine ([7e255ca](https://www.github.com/tgiachi/Eldergrove/commit/7e255cad52cbe5b4b02aa5aec148c58abc2dcfc0))
+* **EldergroveState.cs:** add ScreenSize property to EldergroveState for storing screen dimensions ([2d4b968](https://www.github.com/tgiachi/Eldergrove/commit/2d4b9687aa7aecb9afdb438adc0f5d4eaeda5e6b))
+* **EntityMovementAction:** rename EntityAttackAction to EntityNpcAttackAction for clarity ([2ccbd6f](https://www.github.com/tgiachi/Eldergrove/commit/2ccbd6f7fb0f1e782bb7984ccec46d9d80db310f))
+* **EntityPropAttackAction:** add damage logging and random damage calculation to enhance combat feedback ([f6ddc48](https://www.github.com/tgiachi/Eldergrove/commit/f6ddc4830a35750e75c4bc2888109f7c05c74be4))
+* **FabricPlaceDataObject.cs:** add Grid property to FabricPlaceDataObject for defining grid placement ([474ddf7](https://www.github.com/tgiachi/Eldergrove/commit/474ddf75d62a640c7469c3947cdc724bc406a3e6))
+* **fonts:** add new font files and configurations for Kawaii and MarbleDice16 fonts to enhance UI options ([7ee8093](https://www.github.com/tgiachi/Eldergrove/commit/7ee80939efd919c5dda8a533c6038a71af9d537f))
+* **FontsConfig:** make MapFont and GuiFont nullable to allow for optional font configuration ([99bb708](https://www.github.com/tgiachi/Eldergrove/commit/99bb708820df938c830543f0bf3ff376f870f6f1))
+* **FontsConfig:** rename FontName to MapFont and add GuiFont for better clarity and organization of font configurations ([8178496](https://www.github.com/tgiachi/Eldergrove/commit/8178496df267ca92052e2190b411f9880ce918af))
+* **GeneratedFabricLayersData.cs:** modify constructor to accept MapFabricObject parameter for better initialization ([5f51589](https://www.github.com/tgiachi/Eldergrove/commit/5f51589bb33669d4520933f80f2a699a88370d21))
+* **Generators:** add AbstractMapGenerator and ContainerMapGenerator classes to provide a base for map generation with logging support ([cf93e78](https://www.github.com/tgiachi/Eldergrove/commit/cf93e78c0e7c61297bd87e9e7fd77e1f310cccbf))
+* **Generators:** add DungeonMapGenerator and RoomMapGenerator classes to generate dungeon and room maps respectively ([d7eed3c](https://www.github.com/tgiachi/Eldergrove/commit/d7eed3ca02f1ffe4fdc44af31cb6e50976e69b06))
+* **IconListBox:** add IconListBox control to manage a list of icon items ([14e088b](https://www.github.com/tgiachi/Eldergrove/commit/14e088b235ac3989775d5e12c92cfa873c9a276d))
+* **ItemFeatureObject.cs:** create a new class ItemFeatureObject to represent item features ([60e3e5f](https://www.github.com/tgiachi/Eldergrove/commit/60e3e5fe422ad3d995b188aba14a8fe6395a5606))
+* **ItemFeaturesComponent.cs:** add new component for managing item features ([a2b0a05](https://www.github.com/tgiachi/Eldergrove/commit/a2b0a05c6b86d4ef84e214cb23bf093811d9078f))
+* **JsonPortalObject:** add Size and Name properties to JsonPortalObject for enhanced data representation ([f46b6e2](https://www.github.com/tgiachi/Eldergrove/commit/f46b6e283f44cb27afd8b35e7dbd076f2435aa2b))
+* **MapGenService:** refactor GenerateMapAsync method to accept parameters for map generator ID and size for better flexibility ([76aa444](https://www.github.com/tgiachi/Eldergrove/commit/76aa444b019a8891f53fbfa4fad02d8f036b8c8b))
+* **npcs:** add ShopComponent to NpcGameObject to handle selling items in the game ([0d0e893](https://www.github.com/tgiachi/Eldergrove/commit/0d0e8930a533bb0934e4ccab9e21176d4053d860))
+* **pickup:** implement item pickup action for NPCs and players ([4e6cff1](https://www.github.com/tgiachi/Eldergrove/commit/4e6cff1847cd03579f1698c9c7b0bbeeef820b7a))
+* **PlayerConfig.cs:** add StartingItems property to PlayerConfig class to store a list of starting items for players ([07bc505](https://www.github.com/tgiachi/Eldergrove/commit/07bc505a4953d55b57da0fb081045d7146488434))
+* **PortalPropGameObject:** add MapGeneratorId and Size properties to enhance portal functionality ([c30c37d](https://www.github.com/tgiachi/Eldergrove/commit/c30c37d71c6bf65ffce763d9ee0394b771e8f26a))
+* **PortalPropGameObject.cs:** create a new PortalPropGameObject class to represent portal props in the game engine ([e97722c](https://www.github.com/tgiachi/Eldergrove/commit/e97722c92be613e2c14f7ef81bce6a42dcc259f2))
+* **Program.cs:** center PickUpControl on the screen by adjusting its position based on screen dimensions and control size ([a8e3be8](https://www.github.com/tgiachi/Eldergrove/commit/a8e3be84a0fffd924a9c969a082c29614fbd0381))
+* **Program.cs:** refactor PickUpControl constructor to accept Point size ([6197081](https://www.github.com/tgiachi/Eldergrove/commit/61970811aa79c1af50617537f50a109071934990))
+* **props.json:** add empty container array to props for future use ([ef14684](https://www.github.com/tgiachi/Eldergrove/commit/ef146847ed00b997691e6635f18cc576c48b8b74))
+* **ViewportUtils:** add utility class to calculate viewport dimensions based on font size changes ([5188090](https://www.github.com/tgiachi/Eldergrove/commit/51880906ad25105a97c093296c6f2e5e175e44df))
+
+### Bug Fixes
+
+* **EntityMovementAction.cs:** update condition to check if npc is not equal to ([583bbdf](https://www.github.com/tgiachi/Eldergrove/commit/583bbdf31a9507ee3e89232a394cf2daa90c1ddb))
+* **GameObject.cs:** adjust viewport position to improve rendering alignment ([2c0c8e5](https://www.github.com/tgiachi/Eldergrove/commit/2c0c8e5a4f138d572879eadd3502750bd0d16a71))
+* **RoomMapGenerator:** adjust room generation parameters to allow for fewer rooms and smaller minimum size for better gameplay balance ([2cf4bef](https://www.github.com/tgiachi/Eldergrove/commit/2cf4bef0e4a1b86130bc4f761df469a6d307d72a))
+
 <a name="0.3.0-alpha.0"></a>
 ## [0.3.0-alpha.0](https://www.github.com/tgiachi/Eldergrove/releases/tag/v0.3.0-alpha.0) (2024-10-17)
 
