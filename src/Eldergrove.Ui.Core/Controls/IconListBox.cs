@@ -54,7 +54,7 @@ public class IconListBox<TItem> : BaseGuiControl where TItem : IIconListItem
         {
             var item = Items[i];
             var foreground = i == SelectedIndex ? Color.Yellow : Color.White;
-            ;
+
             this.Print(2, i, item.Text, foreground, Color.Transparent);
         }
     }
