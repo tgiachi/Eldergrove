@@ -1,10 +1,14 @@
+using Eldergrove.Engine.Core.Attributes.Generators;
 using Eldergrove.Engine.Core.Generators.Base;
 using Eldergrove.Engine.Core.Interfaces.Services;
+using Eldergrove.Engine.Core.Types;
 using GoRogue.MapGeneration;
 using Microsoft.Extensions.Logging;
 
 namespace Eldergrove.Engine.Core.Generators;
 
+
+[MapGenerator(MapGeneratorType.Container)]
 public class ContainerMapGenerator : AbstractMapGenerator
 {
     public ContainerMapGenerator(

@@ -1,25 +1,10 @@
 using Eldergrove.Engine.Core.Data.Events;
 using Eldergrove.Engine.Core.Data.Internal;
-using Eldergrove.Engine.Core.Data.Json.Bars;
-using Eldergrove.Engine.Core.Data.Json.Colors;
-using Eldergrove.Engine.Core.Data.Json.Dialogs;
-using Eldergrove.Engine.Core.Data.Json.Items;
-using Eldergrove.Engine.Core.Data.Json.Keybinding;
-using Eldergrove.Engine.Core.Data.Json.Maps;
-using Eldergrove.Engine.Core.Data.Json.Names;
-using Eldergrove.Engine.Core.Data.Json.Npcs;
-using Eldergrove.Engine.Core.Data.Json.Props;
-using Eldergrove.Engine.Core.Data.Json.Texts;
-using Eldergrove.Engine.Core.Data.Json.TileSet;
 using Eldergrove.Engine.Core.Extensions;
-using Eldergrove.Engine.Core.Generators;
 using Eldergrove.Engine.Core.Interfaces.Manager;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Interfaces.Services.Base;
-using Eldergrove.Engine.Core.KeybindingActions;
-using Eldergrove.Engine.Core.ScriptsModules;
 using Eldergrove.Engine.Core.Services;
-using Eldergrove.Engine.Core.Types;
 using Eldergrove.Engine.Core.Utils;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -81,43 +66,30 @@ public class EldergroveEngine : IEldergroveEngine
 
     private void RegisterScriptModules()
     {
-        _serviceCollection
-            .RegisterScriptModule<LoggerModule>()
-            .RegisterScriptModule<ScriptModule>()
-            .RegisterScriptModule<ActionCommandModule>()
-            .RegisterScriptModule<NamesGeneratorModule>()
-            .RegisterScriptModule<ColorsModule>()
-            .RegisterScriptModule<RandomModule>()
-            .RegisterScriptModule<EngineEventModule>()
-            .RegisterScriptModule<EventsModule>()
-            .RegisterScriptModule<TileServiceModule>()
-            .RegisterScriptModule<NpcModule>()
-            .RegisterScriptModule<MapModule>()
-            .RegisterScriptModule<VariablesModule>()
-            .RegisterScriptModule<TextServiceModule>()
-            .RegisterScriptModule<HttpRequestModule>()
-            .RegisterScriptModule<ItemModule>()
-            ;
+        _serviceCollection.ScanForScriptModules();
+
+        // _serviceCollection
+        //     .RegisterScriptModule<LoggerModule>()
+        //     .RegisterScriptModule<ScriptModule>()
+        //     .RegisterScriptModule<ActionCommandModule>()
+        //     .RegisterScriptModule<NamesGeneratorModule>()
+        //     .RegisterScriptModule<ColorsModule>()
+        //     .RegisterScriptModule<RandomModule>()
+        //     .RegisterScriptModule<EngineEventModule>()
+        //     .RegisterScriptModule<EventsModule>()
+        //     .RegisterScriptModule<TileServiceModule>()
+        //     .RegisterScriptModule<NpcModule>()
+        //     .RegisterScriptModule<MapModule>()
+        //     .RegisterScriptModule<VariablesModule>()
+        //     .RegisterScriptModule<TextServiceModule>()
+        //     .RegisterScriptModule<HttpRequestModule>()
+        //     .RegisterScriptModule<ItemModule>()
+        //     ;
     }
 
     private void RegisterDataLoaders()
     {
-        _serviceCollection
-            .AddDataLoaderType<TileSetObject>()
-            .AddDataLoaderType<TileEntry>()
-            .AddDataLoaderType<KeybindingObject>()
-            .AddDataLoaderType<ColorObject>()
-            .AddDataLoaderType<PropObject>()
-            .AddDataLoaderType<NamesObject>()
-            .AddDataLoaderType<ItemObject>()
-            .AddDataLoaderType<NpcObject>()
-            .AddDataLoaderType<MapFabricObject>()
-            .AddDataLoaderType<MapGeneratorObject>()
-            .AddDataLoaderType<DialogObject>()
-            .AddDataLoaderType<BarObject>()
-            .AddDataLoaderType<BarDefinition>()
-            .AddDataLoaderType<TextObject>()
-            ;
+        _serviceCollection.ScanForDataLoaderTypes();
     }
 
     private void RegisterServices()
@@ -145,25 +117,12 @@ public class EldergroveEngine : IEldergroveEngine
             .AddEldergroveService<ITextService, TextService>()
             ;
 
-        // Register default keybinding actions
-        _serviceCollection
-            .AddKeybindingAction<PlayerMoveUp>()
-            .AddKeybindingAction<PlayerMoveDown>()
-            .AddKeybindingAction<PlayerMoveLeft>()
-            .AddKeybindingAction<PlayerMoveRight>()
-            .AddKeybindingAction<PlayerExecuteSearch>()
-            .AddKeybindingAction<PlayerPickup>()
-            .AddKeybindingAction<PlayerInventory>()
-            ;
+        _serviceCollection.ScanForKeybindingActions();
     }
 
     private void RegisterMapGenerators()
     {
-        _serviceCollection
-            .RegisterMapGeneratorType<ContainerMapGenerator>(MapGeneratorType.Container)
-            .RegisterMapGeneratorType<RoomMapGenerator>(MapGeneratorType.Rooms)
-            .RegisterMapGeneratorType<DungeonMapGenerator>(MapGeneratorType.Dungeon)
-            ;
+        _serviceCollection.ScanForMapGenerators();
     }
 
 

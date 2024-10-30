@@ -1,7 +1,9 @@
+using Eldergrove.Engine.Core.Attributes.Generators;
 using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.Generators.Base;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Maps;
+using Eldergrove.Engine.Core.Types;
 using GoRogue.MapGeneration;
 using GoRogue.MapGeneration.ContextComponents;
 using Microsoft.Extensions.Logging;
@@ -9,6 +11,7 @@ using SadRogue.Primitives;
 
 namespace Eldergrove.Engine.Core.Generators;
 
+[MapGenerator(MapGeneratorType.Rooms)]
 public class RoomMapGenerator : AbstractMapGenerator
 {
     private DoorList _doors;

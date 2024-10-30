@@ -12,8 +12,15 @@ public static class AddMapGeneratorExtension
     )
         where TService : class, IMapGenerator
     {
-        services.AddScoped<TService>();
-        services.AddToRegisterTypedList(new MapGeneratorData(type, typeof(TService)));
+        return services.RegisterMapGeneratorType(typeof(TService), type);
+    }
+
+    public static IServiceCollection RegisterMapGeneratorType(
+        this IServiceCollection services, Type serviceType, MapGeneratorType type
+    )
+    {
+        services.AddScoped(serviceType);
+        services.AddToRegisterTypedList(new MapGeneratorData(type, serviceType));
         return services;
     }
 }

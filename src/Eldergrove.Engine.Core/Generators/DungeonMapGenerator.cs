@@ -1,6 +1,8 @@
+using Eldergrove.Engine.Core.Attributes.Generators;
 using Eldergrove.Engine.Core.Generators.Base;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Maps;
+using Eldergrove.Engine.Core.Types;
 using GoRogue.MapGeneration;
 using GoRogue.MapGeneration.ContextComponents;
 using Microsoft.Extensions.Logging;
@@ -9,6 +11,8 @@ using ShaiRandom.Generators;
 
 namespace Eldergrove.Engine.Core.Generators;
 
+
+[MapGenerator(MapGeneratorType.Dungeon)]
 public class DungeonMapGenerator : AbstractMapGenerator
 {
     private readonly INpcService _npcService;
