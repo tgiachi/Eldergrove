@@ -2,7 +2,7 @@ namespace Eldergrove.Engine.Core.Utils;
 
 public static class CSharpJsConverterUtils
 {
-    public static string ConvertCSharpTypeToTypeScript(string csharpType)
+    public static string ConvertCSharpTypeToLuaDef(string csharpType)
     {
         return csharpType switch
         {

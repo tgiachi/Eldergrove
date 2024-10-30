@@ -1,8 +1,6 @@
+local brain_rat = require "ai.rat"
 
 
-
-
-
-return function ()
-
+return function()
+    brain_rat()
 end

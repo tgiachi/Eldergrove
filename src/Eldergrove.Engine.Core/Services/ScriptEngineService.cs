@@ -216,7 +216,7 @@ public class ScriptEngineService : IScriptEngineService
         foreach (var constant in ContextVariables)
         {
             luaDefinitions.AppendLine(
-                $"-- {constant.Key}: {CSharpJsConverterUtils.ConvertCSharpTypeToTypeScript(constant.Value.GetType().Name)}"
+                $"-- {constant.Key}: {CSharpJsConverterUtils.ConvertCSharpTypeToLuaDef(constant.Value.GetType().Name)}"
             );
         }
 
