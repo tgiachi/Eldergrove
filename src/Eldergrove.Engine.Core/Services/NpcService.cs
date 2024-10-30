@@ -6,11 +6,14 @@ using Eldergrove.Engine.Core.Components.Npcs;
 using Eldergrove.Engine.Core.Contexts;
 using Eldergrove.Engine.Core.Data.Events;
 using Eldergrove.Engine.Core.Data.Game;
+using Eldergrove.Engine.Core.Data.Json.Data;
 using Eldergrove.Engine.Core.Data.Json.Npcs;
 using Eldergrove.Engine.Core.Data.Json.TileSet;
 using Eldergrove.Engine.Core.Extensions;
 using Eldergrove.Engine.Core.GameObject;
 using Eldergrove.Engine.Core.Interfaces.Actions;
+using Eldergrove.Engine.Core.Interfaces.GameObjects;
+using Eldergrove.Engine.Core.Interfaces.Json;
 using Eldergrove.Engine.Core.Interfaces.Services;
 using Eldergrove.Engine.Core.Maps;
 using Eldergrove.Engine.Core.Types;
@@ -27,6 +30,8 @@ public class NpcService : INpcService
     private readonly ILogger _logger;
 
     private readonly Dictionary<string, NpcObject> _npcObjects = new();
+
+    private readonly Dictionary<string, JsonSkillsObject> _skills = new();
 
     private readonly ITileService _tileService;
 
@@ -56,8 +61,19 @@ public class NpcService : INpcService
 
         dataLoaderService.SubscribeData<NpcObject>(OnNpcObject);
 
+        dataLoaderService.SubscribeData<JsonSkillsObject>(OnSkillsObject);
+
         messageBusService.Publish(new AddVariableBuilderEvent("player_x", GetPlayerX));
         messageBusService.Publish(new AddVariableBuilderEvent("player_y", GetPlayerY));
+    }
+
+    private Task OnSkillsObject(JsonSkillsObject arg)
+    {
+        _logger.LogDebug("Adding skills {SkillsId}", arg.Id);
+
+        _skills.Add(arg.Id, arg);
+
+        return Task.CompletedTask;
     }
 
     private string GetPlayerX()
@@ -136,13 +152,8 @@ public class NpcService : INpcService
         }
 
 
-        var skills = new SkillsComponent
-        {
-            Health = npc.Skills.Health.GetRandomValue(),
-            Gold = npc.Skills.Gold.GetRandomValue()
-        };
+        gameObject.GoRogueComponents.Add(BuildSkillsComponent(npc.Skills));
 
-        gameObject.GoRogueComponents.Add(skills);
 
         gameObject.GoRogueComponents.Add(
             new AiComponent(this)
@@ -228,5 +239,28 @@ public class NpcService : INpcService
         }
 
         return brain.Invoke(context);
+    }
+
+    public SkillsComponent BuildSkillsComponent(IJsonSkillsObject skillsObject)
+    {
+        if (skillsObject.Id == null)
+        {
+            return new SkillsComponent
+            {
+                Health = skillsObject.Health.GetRandomValue(),
+                Gold = skillsObject.Gold.GetRandomValue()
+            };
+        }
+
+        if (_skills.TryGetValue(skillsObject.Id, out var skills))
+        {
+            return new SkillsComponent
+            {
+                Health = skills.Health.GetRandomValue(),
+                Gold = skills.Gold.GetRandomValue()
+            };
+        }
+
+        throw new InvalidOperationException($"No skills found with id {skillsObject.Id}");
     }
 }

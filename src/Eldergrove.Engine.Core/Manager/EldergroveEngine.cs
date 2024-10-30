@@ -67,24 +67,6 @@ public class EldergroveEngine : IEldergroveEngine
     private void RegisterScriptModules()
     {
         _serviceCollection.ScanForScriptModules();
-
-        // _serviceCollection
-        //     .RegisterScriptModule<LoggerModule>()
-        //     .RegisterScriptModule<ScriptModule>()
-        //     .RegisterScriptModule<ActionCommandModule>()
-        //     .RegisterScriptModule<NamesGeneratorModule>()
-        //     .RegisterScriptModule<ColorsModule>()
-        //     .RegisterScriptModule<RandomModule>()
-        //     .RegisterScriptModule<EngineEventModule>()
-        //     .RegisterScriptModule<EventsModule>()
-        //     .RegisterScriptModule<TileServiceModule>()
-        //     .RegisterScriptModule<NpcModule>()
-        //     .RegisterScriptModule<MapModule>()
-        //     .RegisterScriptModule<VariablesModule>()
-        //     .RegisterScriptModule<TextServiceModule>()
-        //     .RegisterScriptModule<HttpRequestModule>()
-        //     .RegisterScriptModule<ItemModule>()
-        //     ;
     }
 
     private void RegisterDataLoaders()

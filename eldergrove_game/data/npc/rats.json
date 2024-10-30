@@ -1,0 +1,22 @@
+[
+
+    {
+        "$type": "skill_def",
+        "id": "rat",
+        "health": {
+            "dice": "1d4"
+        }
+    },
+    {
+        "$type": "npc",
+        "id": "rat_1",
+        "name": "Rat",
+        "brain_id": "rat",
+        "symbol": "@monster#rats",
+        "category": "monsters",
+        "sub_category": "rats",
+        "skills": {
+            "id": "rat"
+        }
+    }
+]
