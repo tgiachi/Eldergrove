@@ -1,0 +1,16 @@
+[
+    {
+        "$type": "prop",
+        "id": "p_chest_1",
+        "name": "Wooden Chest",
+        "category": "chest",
+        "symbol": "@chest",
+        "container": [
+            {
+                "id": "potions",
+                "min": 1,
+                "max": 1
+            }
+        ]
+    }
+]

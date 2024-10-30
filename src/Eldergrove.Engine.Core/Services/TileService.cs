@@ -21,7 +21,6 @@ public class TileService : ITileService
 
     private readonly IColorService _colorService;
 
-
     private readonly Dictionary<string, TileEntry> _tiles = new();
 
     public TileService(ILogger<TileService> logger, IColorService colorService, IDataLoaderService dataLoaderService)
@@ -62,6 +61,22 @@ public class TileService : ITileService
 
     public ColoredGlyph GetTile(IJsonSymbolDataObject tileData)
     {
+        if (tileData.Symbol.StartsWith('@'))
+        {
+            var symbol = tileData.Symbol[1..];
+
+            var tileCategory = _tiles.Values.Where(s => s.Category.Equals(symbol, StringComparison.CurrentCultureIgnoreCase))
+                .ToList();
+
+            if (tileCategory.Any())
+            {
+                return GetTile(tileCategory.RandomElement());
+            }
+
+            throw new KeyNotFoundException($"Tile category {tileData.Symbol} not found");
+        }
+
+
         Color foreground = Color.White;
         Color background = Color.Black;
         if (tileData.Background != null)
@@ -78,6 +93,7 @@ public class TileService : ITileService
         {
             return new ColoredGlyph(foreground, background, tileData.Symbol.ParseTileSymbol());
         }
+
 
         TileEntry tile = _tiles[tileData.Symbol];
 

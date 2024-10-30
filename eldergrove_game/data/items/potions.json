@@ -1,3 +1,44 @@
 [
-
+    {
+        "$type": "item",
+        "name": "Light potion of Healing",
+        "symbol": "@potions",
+        "category": "potions",
+        "features": [
+            {
+                "id": "healing",
+                "params": [
+                    "1d4"
+                ]
+            }
+        ]
+    },
+    {
+        "$type": "item",
+        "name": "Potion of Healing",
+        "symbol": "@potions",
+        "category": "potions",
+        "features": [
+            {
+                "id": "healing",
+                "params": [
+                    "1d8"
+                ]
+            }
+        ]
+    },
+    {
+        "$type": "item",
+        "name": "Strong potion of Healing",
+        "symbol": "@potions",
+        "category": "potions",
+        "features": [
+            {
+                "id": "healing",
+                "params": [
+                    "2d8"
+                ]
+            }
+        ]
+    }
 ]
