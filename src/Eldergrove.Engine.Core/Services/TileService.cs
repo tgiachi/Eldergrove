@@ -39,6 +39,10 @@ public class TileService : ITileService
                 }
             }
         );
+
+        dataLoaderService.SubscribeData<TileEntry>(
+            async tile => { AddTile(tile); }
+        );
     }
 
     public Task StartAsync() => Task.CompletedTask;

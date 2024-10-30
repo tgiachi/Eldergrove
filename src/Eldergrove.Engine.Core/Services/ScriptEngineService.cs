@@ -28,6 +28,9 @@ public class ScriptEngineService : IScriptEngineService
     private readonly DirectoryConfig _directoryConfig;
     private readonly IServiceProvider _container;
     private const string _fileExtension = "*.lua";
+
+    private const string _prefixToIgnore = "__";
+
     public List<ScriptFunctionDescriptor> Functions { get; } = new();
     public Dictionary<string, object> ContextVariables { get; } = new();
 
@@ -64,7 +67,7 @@ public class ScriptEngineService : IScriptEngineService
         {
             var fileName = Path.GetFileName(script);
 
-            if (!fileName.StartsWith("_"))
+            if (!fileName.StartsWith(_prefixToIgnore))
             {
                 await ExecuteFileAsync(script);
             }

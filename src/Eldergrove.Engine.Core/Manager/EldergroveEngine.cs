@@ -104,6 +104,7 @@ public class EldergroveEngine : IEldergroveEngine
     {
         _serviceCollection
             .AddDataLoaderType<TileSetObject>()
+            .AddDataLoaderType<TileEntry>()
             .AddDataLoaderType<KeybindingObject>()
             .AddDataLoaderType<ColorObject>()
             .AddDataLoaderType<PropObject>()

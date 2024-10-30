@@ -1,0 +1,20 @@
+[
+
+    {
+        "$type":"tile",
+        "id":"t_wall_1",
+        "symbol":"##2857",
+        "is_blocking":true,
+        "is_transparent":false,
+        "category":"walls"
+    },
+    {
+        "$type":"tile",
+        "id":"t_grass_1",
+        "symbol":"##5325",
+        "is_blocking":false,
+        "is_transparent":true,
+        "category":"grass"
+    }
+
+]

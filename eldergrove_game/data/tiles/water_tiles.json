@@ -1,0 +1,40 @@
+[
+    {
+        "$type":"tile",
+        "id":"t_water_1",
+        "symbol":"##15508",
+        "is_blocking":true,
+        "is_transparent":true,
+        "category":"water"
+    },
+    {
+
+        "$type":"tile",
+        "id":"t_water_2",
+        "symbol":"##15509",
+        "is_blocking":true,
+        "is_transparent":true,
+        "category":"water"
+
+    },
+    {
+
+        "$type":"tile",
+        "id":"t_water_3",
+        "symbol":"##15510",
+        "is_blocking":true,
+        "is_transparent":true,
+        "category":"water"
+
+    },
+    {
+
+        "$type":"tile",
+        "id":"t_water_3",
+        "symbol":"##15511",
+        "is_blocking":true,
+        "is_transparent":true,
+        "category":"water"
+
+    }
+]
