@@ -1,0 +1,11 @@
+[
+    {
+        "$type":"tile",
+        "id":"t_npc_1",
+        "symbol":"##2944",
+        "is_blocking":true,
+        "is_transparent":false,
+        "category":"humans",
+        "sub_category":"good"
+    }
+]

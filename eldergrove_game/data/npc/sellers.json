@@ -1,0 +1,21 @@
+[
+    {
+        "$type": "skill_def",
+        "id": "seller",
+        "health": {
+            "dice": "1d12"
+        }
+    },
+    {
+        "$type": "npc",
+        "id": "n_seller_1",
+        "name": "@male",
+        "brain_id": "seller",
+        "symbol": "@humans#good",
+        "category": "humans",
+        "sub_category": "good",
+        "skills": {
+            "id": "seller"
+        }
+    }
+]

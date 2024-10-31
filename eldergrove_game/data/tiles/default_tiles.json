@@ -22,5 +22,21 @@
         "is_blocking": false,
         "is_transparent": true,
         "category": "grass"
+    },
+    {
+        "$type": "tile",
+        "id": "t_door_closed",
+        "symbol": "##3614",
+        "is_blocking": true,
+        "is_transparent": false,
+        "category": "doors"
+    },
+    {
+        "$type": "tile",
+        "id": "t_door_open",
+        "symbol": "##3616",
+        "is_blocking": true,
+        "is_transparent": false,
+        "category": "doors"
     }
 ]

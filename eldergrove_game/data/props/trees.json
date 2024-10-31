@@ -1,0 +1,9 @@
+[
+    {
+        "$type": "prop",
+        "id": "p_tree_1",
+        "name": "Tree",
+        "category": "trees",
+        "symbol": "@trees"
+    }
+]

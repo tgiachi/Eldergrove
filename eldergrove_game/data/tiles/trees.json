@@ -1,0 +1,18 @@
+[
+    {
+        "$type": "tile",
+        "id": "t_tree_1",
+        "symbol": "##4197",
+        "is_blocking": true,
+        "is_transparent": true,
+        "category": "trees"
+    },
+    {
+        "$type": "tile",
+        "id": "t_tree_2",
+        "symbol": "##4198",
+        "is_blocking": true,
+        "is_transparent": true,
+        "category": "trees"
+    }
+]

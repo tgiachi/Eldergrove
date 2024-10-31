@@ -1,0 +1,25 @@
+[
+    {
+        "$type": "prop",
+        "id": "door",
+        "name": "Door",
+        "category": "doors",
+        "symbol": "t_door_closed",
+        "is_blocking": true,
+        "is_transparent": false,
+        "door": {
+            "on": {
+                "symbol": "t_door_opened",
+                "foreground": "yellow",
+                "background": "black",
+                "is_blocking": false,
+                "is_transparent": true
+            },
+            "off": {
+                "symbol": "t_door_closed",
+                "is_blocking": true,
+                "is_transparent": false
+            }
+        }
+    }
+]
