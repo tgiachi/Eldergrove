@@ -1,0 +1,9 @@
+[
+    {
+        "$type": "fabric",
+        "id": "f_potion_shop",
+        "name": "Potion Shop",
+        "category": "shop",
+        "sub_category": "potion"
+    }
+]
