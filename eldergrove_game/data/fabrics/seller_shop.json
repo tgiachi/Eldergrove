@@ -4,6 +4,20 @@
         "id": "f_potion_shop",
         "name": "Potion Shop",
         "category": "shop",
-        "sub_category": "potion"
+        "sub_category": "potion",
+        "wall": {
+            "symbol": "#"
+        },
+        "floor": {
+            "symbol": " "
+        },
+        "fabric" : [
+            "##w#########w###",
+            "#      s       #",
+            "# <         <  #",
+            "#              #",
+            "#              #",
+            "##w####d####w###"
+        ]
     }
 ]
